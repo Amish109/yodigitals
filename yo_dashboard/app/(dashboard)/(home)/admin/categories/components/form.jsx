@@ -6,7 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { FileUploader } from "react-drag-drop-files";
 import { Input } from "@/components/ui/input";
 
-const TransactionAdd = () => {
+const CategoriesAdd = () => {
   const fileTypes = ["JPG", "PNG", "GIF"];
   const [amount, setAmount] = useState("");
   const [transRef, setTransRef] = useState("");
@@ -60,70 +60,27 @@ const TransactionAdd = () => {
     <>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="amount">
-              {("Amount")}
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Input
-              type="number"
-              id="amount"
-              required
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder={("Amount")}
-            />
-            {errors.amount && (
-              <span style={{ color: "red" }}>{errors.amount}</span>
-            )}
-          </div>
+          
 
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="transRef">
-              {("Transaction_Reference_ID")}
+        <div className="flex flex-col gap-2">
+            <Label htmlFor="Title">
+            Title
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
               type="text"
-              id="transRef"
-              required
-              value={transRef}
-              onChange={(e) => setTransRef(e.target.value)}
-              placeholder={("Transaction_Reference_ID")}
+              id="Title"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder={("Title")}
             />
-            {errors.transRef && (
-              <span style={{ color: "red" }}>{errors.transRef}</span>
-            )}
+           
           </div>
 
-          <div className="flex flex-col gap-3 mb-5">
-            <Label>
-              {("Upload_Your_Transaction_Screenshot")}
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <FileUploader
-              handleChange={(image) =>
-                handleImageChange(setscreenShotImg, image)
-              }
-              name="image"
-              types={fileTypes}
-            />
-            {screenShotImg && (
-              <img
-                src={URL.createObjectURL(screenShotImg)}
-                width="100px"
-                style={{
-                  borderRadius: "8px",
-                  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                  border: "1px solid #ccc",
-                }}
-              />
-            )}
-          </div>
 
-          <div className="flex flex-col gap-2 mt-3">
+          <div className="flex flex-col gap-2">
             <Label htmlFor="comment">
-              {("Comment")}
+            Meta description
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
@@ -131,12 +88,149 @@ const TransactionAdd = () => {
               id="comment"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              placeholder={("Comment")}
+              placeholder={("Meta description")}
             />
-            {errors.comment && (
-              <span style={{ color: "red" }}>{errors.comment}</span>
-            )}
+           
           </div>
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Keywords (comma separated values e.g. new,cool,fancy)
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="text"
+              id="comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder={("Aadhar Number")}
+            />
+           
+          </div>
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Meta Author
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="text"
+              id="comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder={("Meta Author")}
+            />
+           
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Meta og title
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="text"
+              id="comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder={("Meta og title")}
+            />
+           
+          </div>
+
+       
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Meta og url
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="tel"
+              id="comment"
+              // value={comment}
+              // onChange={(e) => setComment(e.target.value)}
+              placeholder={("Meta og url")}
+            />
+           
+          </div>
+
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Meta og image (link to src)
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="text"
+              id="comment"
+              // value={comment}
+              // onChange={(e) => setComment(e.target.value)}
+              placeholder={("Meta og image (link to src)")}
+            />
+           
+          </div>
+
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Meta facebook id
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="tel"
+              id="comment"
+              // value={comment}
+              // onChange={(e) => setComment(e.target.value)}
+              placeholder={("Meta facebook id")}
+            />
+           
+          </div>
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Meta site name
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="text"
+              id="comment"
+              // value={comment}
+              // onChange={(e) => setComment(e.target.value)}
+              placeholder={("Meta site name")}
+            />
+           
+          </div>
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Meta post twitter
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="text"
+              id="comment"
+              // value={comment}
+              // onChange={(e) => setComment(e.target.value)}
+              placeholder={("Meta post twitter")}
+            />
+           
+          </div>
+
+
+
+       
+          
+       
+       
+
         </div>
 
         <div
@@ -152,4 +246,4 @@ const TransactionAdd = () => {
   );
 };
 
-export default TransactionAdd;
+export default CategoriesAdd;

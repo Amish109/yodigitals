@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import DueForm from "../components/form";
 
-const AddTransaction = () => {
+const addCategory = () => {
 
 
 
@@ -20,12 +20,12 @@ const AddTransaction = () => {
       <CardHeader>
         <CardTitle>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            Add Transaction
+            Add Categories
             <div className=" w-100 flex justify-between gap-5">
 
               <div>
                 <Button color="primary" >
-                <Link href="/admin/transaction/list" prefetch={true}>{("Transaction List")}</Link>
+                <Link href="/admin/categories/list" prefetch={true}>{("Categories List")}</Link>
                 </Button>
               </div>
             </div>
@@ -47,4 +47,4 @@ const AddTransaction = () => {
   );
 };
 
-export default AddTransaction;
+export default addCategory;

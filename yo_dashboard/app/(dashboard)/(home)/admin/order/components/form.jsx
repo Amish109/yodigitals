@@ -64,7 +64,7 @@ const OrderList = () => {
             <Label htmlFor="amount">
               {("Amount")}
               <span style={{ color: "tomato" }}>*</span>
-            </Label>
+            </Label> 
             <Input
               type="number"
               id="amount"

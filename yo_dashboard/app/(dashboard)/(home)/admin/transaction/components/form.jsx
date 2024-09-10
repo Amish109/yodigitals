@@ -5,6 +5,13 @@ import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FileUploader } from "react-drag-drop-files";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const TransactionAdd = () => {
   const fileTypes = ["JPG", "PNG", "GIF"];
@@ -62,68 +69,80 @@ const TransactionAdd = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="flex flex-col gap-2">
             <Label htmlFor="amount">
-              {("Amount")}
+             Select Dealer
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Select>
+      <SelectTrigger>
+        <SelectValue placeholder="Select a dealer" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="english">English</SelectItem>
+        <SelectItem value="mathmatics">Mathmatics</SelectItem>
+        <SelectItem value="physics">Physics</SelectItem>
+        <SelectItem value="chemistry">Chemistry</SelectItem>
+        <SelectItem value="biology">Biology</SelectItem>
+      </SelectContent>
+    </Select>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="transRef">
+            Select Orders
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Select>
+      <SelectTrigger>
+        <SelectValue placeholder="Select a Orders" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="english">English</SelectItem>
+        <SelectItem value="mathmatics">Mathmatics</SelectItem>
+        <SelectItem value="physics">Physics</SelectItem>
+        <SelectItem value="chemistry">Chemistry</SelectItem>
+        <SelectItem value="biology">Biology</SelectItem>
+      </SelectContent>
+    </Select>
+          
+          </div>
+
+          <div className="flex flex-col gap-2 mt-1">
+            <Label htmlFor="transRef">
+            Type
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Select>
+      <SelectTrigger>
+        <SelectValue placeholder="Select Type" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="english">Credit</SelectItem>
+       
+        <SelectItem value="physics">Debit</SelectItem>
+       
+      </SelectContent>
+    </Select>
+          
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <Label>
+           Amount
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
               type="number"
               id="amount"
               required
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              // value={amount}
+              // onChange={(e) => setAmount(e.target.value)}
               placeholder={("Amount")}
             />
-            {errors.amount && (
-              <span style={{ color: "red" }}>{errors.amount}</span>
-            )}
           </div>
 
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="transRef">
-              {("Transaction_Reference_ID")}
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Input
-              type="text"
-              id="transRef"
-              required
-              value={transRef}
-              onChange={(e) => setTransRef(e.target.value)}
-              placeholder={("Transaction_Reference_ID")}
-            />
-            {errors.transRef && (
-              <span style={{ color: "red" }}>{errors.transRef}</span>
-            )}
-          </div>
-
-          <div className="flex flex-col gap-3 mb-5">
-            <Label>
-              {("Upload_Your_Transaction_Screenshot")}
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <FileUploader
-              handleChange={(image) =>
-                handleImageChange(setscreenShotImg, image)
-              }
-              name="image"
-              types={fileTypes}
-            />
-            {screenShotImg && (
-              <img
-                src={URL.createObjectURL(screenShotImg)}
-                width="100px"
-                style={{
-                  borderRadius: "8px",
-                  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                  border: "1px solid #ccc",
-                }}
-              />
-            )}
-          </div>
-
-          <div className="flex flex-col gap-2 mt-3">
+          <div className="flex flex-col gap-2 mt-1">
             <Label htmlFor="comment">
-              {("Comment")}
+             Remark
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input

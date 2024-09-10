@@ -58,7 +58,7 @@ const steps = [
       },
     ],
     title: "Register your account",
-    text: "Get your Free yodigitals account now.",
+    text: "Get your Free yodigitalsaccount now.",
   },
   {
     id: "intro2",

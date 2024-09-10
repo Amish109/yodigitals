@@ -10,7 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import FooterMenu from "./footer-menu";
 import { SiteLogo } from "@/components/svg";
-import image1 from '../../../../public/logo.svg'
+import image1 from '../../../../public/logo1.ico'
 import { ScrollArea } from "@/components/ui/scroll-area";
 import LogoutFooter from "./logout-footer";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -154,7 +154,7 @@ const ModuleSidebar = () => {
         >
           <div className=" pt-4 ">
             <Link href="/dashboard">
-            <image  className="  md:mx-2" src="https://yodigitals.com/_next/static/media/yo_logoo.95ffa7e61c58c080eed908e433ed63e0.svg" height={80} width={80}></image>
+            <Image className="  md:mx-2" src={image1} height={80} width={80}></Image>
               {/* <SiteLogo className=" mx-auto text-primary h-8 w-8" /> */}
             </Link>
           </div>

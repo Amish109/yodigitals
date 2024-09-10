@@ -68,15 +68,15 @@ const fetchNewsList = async () => {
   const columns = [
     {
       accessorKey: "sn",
-      header: "index",
+      header: "S NO",
       cell: ({ row }) => (
         <div className="whitespace-nowrap">{row?.index + 1}</div>
       ),
     },
 
     {
-      accessorKey: "Date",
-      header: "Date",
+      accessorKey: " Date",
+      header: " Date",
       cell: ({ row }) => {
         const createdAt = new Date(row.original.createdAt);
         return (
@@ -87,75 +87,36 @@ const fetchNewsList = async () => {
       },
     },
 
-    // {
-    //   accessorKey: "Query_Related_To",
-    //   header: "User Name",
-    //   cell: ({ row }) => (
-    //     <div className="whitespace-nowrap">{row?.original?.subject}</div>
-    //   ),
-    // },
-
     {
-      accessorKey: "Amount",
-      header: "Amount",
+      accessorKey: " Time",
+      header: " Time",
+      cell: ({ row }) => {
+        const createdAt = new Date(row.original.createdAt);
+        return (
+          <div className="whitespace-nowrap">
+            {createdAt.toLocaleTimeString()}
+          </div>
+        );
+      },
+    },
+    
+
+   
+    {
+      accessorKey: "Title ",
+      header: "Title",
       cell: ({ row }) => (
         <div className="whitespace-nowrap">{row?.original?.amount}</div>
       ),
     },
-
     {
-        accessorKey: "transaction_type",
-        header: "Transaction Type",
-        cell: ({ row }) => (
-          <Badge
-            variant="soft"
-            color={
-              row?.original?.transaction_type === "debit"
-                ? "warning"
-                : row?.original?.transaction_type === "credit"
-                ? "success"
-                : row?.original?.transaction_type === "debit"
-                ? "success"
-                : "destructive"
-            }
-            className="capitalize"
-          >
-            {row?.original?.transaction_type}
-          </Badge>
-        ),
-      },
-    {
-      accessorKey: "Opening Balance",
-      header: "Opening Balance",
+      accessorKey: "Description ",
+      header: "Description",
       cell: ({ row }) => (
-        <div className="whitespace-nowrap">
-          {row?.original?.opening_balance}
-        </div>
+        <div className="whitespace-nowrap">{row?.original?.amount}</div>
       ),
     },
-
-    {
-      accessorKey: "Closing Balance",
-      header: "Closing Balance",
-      cell: ({ row }) => (
-        <div className="whitespace-nowrap">
-          {row?.original?.closing_balance}
-        </div>
-      ),
-    },
-    {
-        accessorKey: "Description",
-        header: "Description",
-        cell: ({ row }) => {
-          const description = row?.original?.description || "";
-          const firstTwoWords = description.split(" ").slice(0, 2).join(" ");
-          return (
-            <div className="whitespace-nowrap">{firstTwoWords}</div>
-          );
-        },
-      },
-  
-    
+   
 
     {
       accessorKey: "action",

@@ -6,7 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { FileUploader } from "react-drag-drop-files";
 import { Input } from "@/components/ui/input";
 
-const TransactionAdd = () => {
+const UserAdd = () => {
   const fileTypes = ["JPG", "PNG", "GIF"];
   const [amount, setAmount] = useState("");
   const [transRef, setTransRef] = useState("");
@@ -60,45 +60,204 @@ const TransactionAdd = () => {
     <>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="amount">
-              {("Amount")}
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Input
-              type="number"
-              id="amount"
-              required
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder={("Amount")}
-            />
-            {errors.amount && (
-              <span style={{ color: "red" }}>{errors.amount}</span>
-            )}
-          </div>
+          
 
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="transRef">
-              {("Transaction_Reference_ID")}
+        <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            First Name
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
               type="text"
-              id="transRef"
-              required
-              value={transRef}
-              onChange={(e) => setTransRef(e.target.value)}
-              placeholder={("Transaction_Reference_ID")}
+              id="comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder={("First Name")}
             />
-            {errors.transRef && (
-              <span style={{ color: "red" }}>{errors.transRef}</span>
-            )}
+           
           </div>
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Business Name
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="text"
+              id="comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder={("Business Name")}
+            />
+           
+          </div>
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Aadhar Number
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="text"
+              id="comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder={("Aadhar Number")}
+            />
+           
+          </div>
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Last Name
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="text"
+              id="comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder={("Last Name")}
+            />
+           
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Business Address
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="text"
+              id="comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder={("Business Address")}
+            />
+           
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Phone Number
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="tel"
+              id="comment"
+              // value={comment}
+              // onChange={(e) => setComment(e.target.value)}
+              placeholder={("Phone Number")}
+            />
+           
+          </div>
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            CIN
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="tel"
+              id="comment"
+              // value={comment}
+              // onChange={(e) => setComment(e.target.value)}
+              placeholder={("CIN")}
+            />
+           
+          </div>
+
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            E-mail
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="tel"
+              id="comment"
+              // value={comment}
+              // onChange={(e) => setComment(e.target.value)}
+              placeholder={("E-mail")}
+            />
+           
+          </div>
+
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            GSTIN
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="tel"
+              id="comment"
+              // value={comment}
+              // onChange={(e) => setComment(e.target.value)}
+              placeholder={("GSTIN")}
+            />
+           
+          </div>
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Password
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="password"
+              id="comment"
+              // value={comment}
+              // onChange={(e) => setComment(e.target.value)}
+              placeholder={("Password")}
+            />
+           
+          </div>
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Balance
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="password"
+              id="comment"
+              // value={comment}
+              // onChange={(e) => setComment(e.target.value)}
+              placeholder={("Balance")}
+            />
+           
+          </div>
+
+
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="comment">
+            Date
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="date"
+              id="comment"
+              // value={comment}
+              // onChange={(e) => setComment(e.target.value)}
+              placeholder={("Date")}
+            />
+           
+          </div>
+          
 
           <div className="flex flex-col gap-3 mb-5">
             <Label>
-              {("Upload_Your_Transaction_Screenshot")}
+            Aadhar Front
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <FileUploader
@@ -121,22 +280,55 @@ const TransactionAdd = () => {
             )}
           </div>
 
-          <div className="flex flex-col gap-2 mt-3">
-            <Label htmlFor="comment">
-              {("Comment")}
+          <div className="flex flex-col gap-3 mb-5">
+            <Label>
+            Aadhar Back
               <span style={{ color: "tomato" }}>*</span>
             </Label>
-            <Input
-              type="text"
-              id="comment"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder={("Comment")}
+            <FileUploader
+              handleChange={(image) =>
+                handleImageChange(setscreenShotImg, image)
+              }
+              name="image"
+              types={fileTypes}
             />
-            {errors.comment && (
-              <span style={{ color: "red" }}>{errors.comment}</span>
+            {screenShotImg && (
+              <img
+                src={URL.createObjectURL(screenShotImg)}
+                width="100px"
+                style={{
+                  borderRadius: "8px",
+                  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+                  border: "1px solid #ccc",
+                }}
+              />
             )}
           </div>
+          <div className="flex flex-col gap-3 mb-5">
+            <Label>
+            Avatar
+              <span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <FileUploader
+              handleChange={(image) =>
+                handleImageChange(setscreenShotImg, image)
+              }
+              name="image"
+              types={fileTypes}
+            />
+            {screenShotImg && (
+              <img
+                src={URL.createObjectURL(screenShotImg)}
+                width="100px"
+                style={{
+                  borderRadius: "8px",
+                  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+                  border: "1px solid #ccc",
+                }}
+              />
+            )}
+          </div>
+
         </div>
 
         <div
@@ -152,4 +344,4 @@ const TransactionAdd = () => {
   );
 };
 
-export default TransactionAdd;
+export default UserAdd;

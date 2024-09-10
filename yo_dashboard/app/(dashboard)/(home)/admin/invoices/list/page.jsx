@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 const Page = ({ params }) => {
   const check = params.type;
- 
+  
   
   return (
     <div className=" space-y-5">
@@ -16,12 +16,12 @@ const Page = ({ params }) => {
         <div style={{display:"flex", justifyContent:"space-between"}}>
        
           
-            <CardTitle>Transaction</CardTitle>
+            <CardTitle>Invoices</CardTitle>
       
           <div className=" w-100 flex justify-between gap-5">
          <div>
          <Button color="primary">
-            <Link href="/admin/transaction/add" prefetch={true}>Add Transaction</Link>
+            <Link href="/admin/transaction/add" prefetch={true}>Upload Invoice</Link>
           </Button>
          </div>
           </div>

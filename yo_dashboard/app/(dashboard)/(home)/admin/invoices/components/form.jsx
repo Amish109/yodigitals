@@ -5,6 +5,7 @@ import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FileUploader } from "react-drag-drop-files";
 import { Input } from "@/components/ui/input";
+import FileUploaderRestrictions from './FileUploaderRestrictions'
 
 const TransactionAdd = () => {
   const fileTypes = ["JPG", "PNG", "GIF"];
@@ -59,84 +60,20 @@ const TransactionAdd = () => {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="amount">
-              {("Amount")}
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Input
-              type="number"
-              id="amount"
-              required
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder={("Amount")}
-            />
-            {errors.amount && (
-              <span style={{ color: "red" }}>{errors.amount}</span>
-            )}
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
+        
 
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="transRef">
-              {("Transaction_Reference_ID")}
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Input
-              type="text"
-              id="transRef"
-              required
-              value={transRef}
-              onChange={(e) => setTransRef(e.target.value)}
-              placeholder={("Transaction_Reference_ID")}
-            />
-            {errors.transRef && (
-              <span style={{ color: "red" }}>{errors.transRef}</span>
-            )}
-          </div>
+        
 
           <div className="flex flex-col gap-3 mb-5">
             <Label>
-              {("Upload_Your_Transaction_Screenshot")}
+            Select Invoice Files
               <span style={{ color: "tomato" }}>*</span>
             </Label>
-            <FileUploader
-              handleChange={(image) =>
-                handleImageChange(setscreenShotImg, image)
-              }
-              name="image"
-              types={fileTypes}
-            />
-            {screenShotImg && (
-              <img
-                src={URL.createObjectURL(screenShotImg)}
-                width="100px"
-                style={{
-                  borderRadius: "8px",
-                  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                  border: "1px solid #ccc",
-                }}
-              />
-            )}
+           <FileUploaderRestrictions/>
           </div>
 
-          <div className="flex flex-col gap-2 mt-3">
-            <Label htmlFor="comment">
-              {("Comment")}
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Input
-              type="text"
-              id="comment"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder={("Comment")}
-            />
-            {errors.comment && (
-              <span style={{ color: "red" }}>{errors.comment}</span>
-            )}
-          </div>
+         
         </div>
 
         <div

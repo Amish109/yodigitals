@@ -73,7 +73,7 @@ const UiTour = () => {
                           <Image
                             className="w-full h-full"
                             src={tourlogo}
-                            alt=" yodigitals logo"
+                            alt=" yodigitalslogo"
                           />
                         </div>
                       </div>
@@ -108,7 +108,7 @@ const UiTour = () => {
                           Free register
                         </h5>
                         <p className="text-muted-foreground mb-0 text-sm">
-                          Get your Free yodigitals account now.
+                          Get your Free yodigitalsaccount now.
                         </p>
                       </CardContent>
                     </Card>

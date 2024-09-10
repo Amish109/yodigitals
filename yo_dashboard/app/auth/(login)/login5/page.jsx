@@ -76,7 +76,7 @@ const LoginPage = () => {
                       className="text-primary-foreground text-2xl"
                     />
                   </span>
-                  yodigitals is awesome friendly Admin Dashboard Template. If you
+                  yodigitalsis awesome friendly Admin Dashboard Template. If you
                   manage your business in online then “yodigitals” is for you. Buy
                   Now & make user friendly your business today...
                 </div>
@@ -122,7 +122,7 @@ const LoginPage = () => {
                             Prantik Chakraborty <br />
                             <span className="text-base font-medium text-default-700">
                               {" "}
-                              UI/UX Designer at Codeshaper
+                              UI/UX Designer atyodigitals
                             </span>
                           </div>
                           <div className="text-lg  text-default-800 mt-4">
@@ -138,7 +138,7 @@ const LoginPage = () => {
                             Prantik Chakraborty <br />
                             <span className="text-base font-medium text-default-700">
                               {" "}
-                              UI/UX Designer at Codeshaper
+                              UI/UX Designer atyodigitals
                             </span>
                           </div>
                           <div className="text-lg  text-default-800 mt-4">
@@ -154,7 +154,7 @@ const LoginPage = () => {
                             Prantik Chakraborty <br />
                             <span className="text-base font-medium text-default-700">
                               {" "}
-                              UI/UX Designer at Codeshaper
+                              UI/UX Designer atyodigitals
                             </span>
                           </div>
                           <div className="text-lg  text-default-800 mt-4">

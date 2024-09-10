@@ -27,7 +27,7 @@ import { useState } from "react";
 import { getApiData } from "../../../../../../helper/common";
 import { Input } from "@/components/ui/input";
 
-export function TransactionTable({ type }) {
+export function InvoiceTable({ type }) {
   const [data, setData] = React.useState([]);
 
   useEffect(() => {
@@ -68,15 +68,15 @@ const fetchNewsList = async () => {
   const columns = [
     {
       accessorKey: "sn",
-      header: "index",
+      header: "S No",
       cell: ({ row }) => (
         <div className="whitespace-nowrap">{row?.index + 1}</div>
       ),
     },
 
     {
-      accessorKey: "Date",
-      header: "Date",
+      accessorKey: " Date",
+      header: " Date",
       cell: ({ row }) => {
         const createdAt = new Date(row.original.createdAt);
         return (
@@ -87,73 +87,40 @@ const fetchNewsList = async () => {
       },
     },
 
-    // {
-    //   accessorKey: "Query_Related_To",
-    //   header: "User Name",
-    //   cell: ({ row }) => (
-    //     <div className="whitespace-nowrap">{row?.original?.subject}</div>
-    //   ),
-    // },
+    {
+      accessorKey: " Time",
+      header: " Time",
+      cell: ({ row }) => {
+        const createdAt = new Date(row.original.createdAt);
+        return (
+          <div className="whitespace-nowrap">
+            {createdAt.toLocaleTimeString()}
+          </div>
+        );
+      },
+    },
 
     {
-      accessorKey: "Amount",
-      header: "Amount",
+      accessorKey: "Order No",
+      header: "Order No	",
+      cell: ({ row }) => (
+        <div className="whitespace-nowrap">{row?.original?.subject}</div>
+      ),
+    },
+
+    {
+      accessorKey: "Invoice Name	",
+      header: "Invoice Name	",
       cell: ({ row }) => (
         <div className="whitespace-nowrap">{row?.original?.amount}</div>
       ),
     },
 
-    {
-        accessorKey: "transaction_type",
-        header: "Transaction Type",
-        cell: ({ row }) => (
-          <Badge
-            variant="soft"
-            color={
-              row?.original?.transaction_type === "debit"
-                ? "warning"
-                : row?.original?.transaction_type === "credit"
-                ? "success"
-                : row?.original?.transaction_type === "debit"
-                ? "success"
-                : "destructive"
-            }
-            className="capitalize"
-          >
-            {row?.original?.transaction_type}
-          </Badge>
-        ),
-      },
-    {
-      accessorKey: "Opening Balance",
-      header: "Opening Balance",
-      cell: ({ row }) => (
-        <div className="whitespace-nowrap">
-          {row?.original?.opening_balance}
-        </div>
-      ),
-    },
+   
+ 
 
-    {
-      accessorKey: "Closing Balance",
-      header: "Closing Balance",
-      cell: ({ row }) => (
-        <div className="whitespace-nowrap">
-          {row?.original?.closing_balance}
-        </div>
-      ),
-    },
-    {
-        accessorKey: "Description",
-        header: "Description",
-        cell: ({ row }) => {
-          const description = row?.original?.description || "";
-          const firstTwoWords = description.split(" ").slice(0, 2).join(" ");
-          return (
-            <div className="whitespace-nowrap">{firstTwoWords}</div>
-          );
-        },
-      },
+  
+ 
   
     
 
@@ -326,4 +293,4 @@ const fetchNewsList = async () => {
   );
 }
 
-export default TransactionTable;
+export default InvoiceTable;

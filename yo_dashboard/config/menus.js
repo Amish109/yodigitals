@@ -40,7 +40,14 @@ import {
   Heroicon,
   LucideIcon,
   CustomIcon,
+  Users
 } from "@/components/svg";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
+import AutoAwesomeMosaicOutlinedIcon from '@mui/icons-material/AutoAwesomeMosaicOutlined';
+import CallToActionOutlinedIcon from '@mui/icons-material/CallToActionOutlined';
+
 
 export const menusConfig = {
   mainNav: [
@@ -905,18 +912,41 @@ export const menusConfig = {
         ],
       },
       {
+        title: "Users",
+        icon: AccountCircleIcon,
+        child: [
+          {
+            title: "Add User",
+            href: "/admin/users/add",
+            icon: AccountCircleIcon,
+          },
+          {
+            title: "Users List",
+            href: "/admin/users/list",
+            icon: AccountCircleIcon,
+          },
+         
+
+
+         
+        ],
+       
+      },
+
+
+      {
         title: "Order",
         icon: Application,
         child: [
           {
             title: "Add Order",
             href: "/admin/order/add",
-            icon: DashBoard,
+            icon: Application,
           },
           {
             title: "Order List",
             href: "/admin/order/list",
-            icon: DashBoard,
+            icon: Application,
           },
          
 
@@ -945,43 +975,20 @@ export const menusConfig = {
         
       //   ],
       // },
-      {
-        title: "Enquiries",
-        icon: Stacks2,
-        child: [
 
-          {
-            title: "Add Enquiries",
-            icon: Note,
-            href: "/admin/enquiries/add",
-          },
-        
-
-          {
-            title: "Enquiries List",
-            icon: Note,
-            href: "/admin/enquiries/list",
-          },
-
-
-         
-        
-        
-        ],
-      },
       {
         title: "Products",
         icon: Files,
         child: [
           {
             title: "Add Products",
-            icon: Sheild,
+            icon: Files,
             href: "/admin/product/add",
           
           },
           {
             title: "Products List",
-            icon: Sheild,
+            icon: Files,
             href: "/admin/product/list",
           
           },
@@ -992,18 +999,89 @@ export const menusConfig = {
         ],
       },
       {
+        title: "Categories",
+        icon: AutoAwesomeMosaicOutlinedIcon,
+        child: [
+          {
+            title: "Add Categories",
+            icon: AutoAwesomeMosaicOutlinedIcon,
+            href: "/admin/categories/add",
+          
+          },
+          {
+            title: "Categories List",
+            icon: AutoAwesomeMosaicOutlinedIcon,
+            href: "/admin/categories/list",
+          
+          },
+         
+         
+         
+         
+        ],
+      },
+
+      {
+        title: "Ledger",
+        icon: Files,
+        child: [
+          {
+            title: "Add Ledger",
+            icon: Files,
+            href: "/admin/ledger/add",
+          
+          },
+          {
+            title: "Ledger List",
+            icon: Files,
+            href: "/admin/ledger/list",
+          
+          },
+         
+         
+         
+         
+        ],
+      },
+
+      {
+        title: "Enquiries",
+        icon: CallToActionOutlinedIcon,
+        child: [
+
+          {
+            title: "Add Enquiries",
+            icon: CallToActionOutlinedIcon,
+            href: "/admin/enquiries/add",
+          },
+        
+
+          {
+            title: "Enquiries List",
+            icon: CallToActionOutlinedIcon,
+            href: "/admin/enquiries/list",
+          },
+
+
+         
+        
+        
+        ],
+      },
+     
+      {
         title: "Invoices",
         icon: Files,
         child: [
           {
             title: "Upload Invoices",
             href: "/admin/invoices/add",
-            icon: BarLeft,
+            icon: Files,
           },
           {
             title: "Invoices",
             href: "/admin/invoices/list",
-            icon: BarLeft,
+            icon: Files,
           },
           
          
@@ -1011,18 +1089,18 @@ export const menusConfig = {
       },
       {
         title: "Transaction",
-        icon: Chart,
+        icon: AccountBalanceWalletIcon,
         child: [
 
           {
             title: "Add Transaction",
-            icon: ChartBar,
+            icon: AccountBalanceWalletIcon,
             href:"/admin/transaction/add"
           },
 
           {
-            title: "Transaction",
-            icon: ChartBar,
+            title: "Transaction List",
+            icon: AccountBalanceWalletIcon,
             href:"/admin/transaction/list"
           },
          
@@ -1044,11 +1122,11 @@ export const menusConfig = {
       // },
       {
         title: "Profile",
-        icon: Map,
+        icon: Person2OutlinedIcon,
         child: [
           {
             title: "Profile",
-            icon: Google,
+            icon: Person2OutlinedIcon,
             href: "/maps-google",
           },
          

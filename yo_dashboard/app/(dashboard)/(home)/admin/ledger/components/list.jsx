@@ -27,7 +27,7 @@ import { useState } from "react";
 import { getApiData } from "../../../../../../helper/common";
 import { Input } from "@/components/ui/input";
 
-export function TransactionTable({ type }) {
+export function LedgerTable({ type }) {
   const [data, setData] = React.useState([]);
 
   useEffect(() => {
@@ -74,59 +74,22 @@ const fetchNewsList = async () => {
       ),
     },
 
-    {
-      accessorKey: "Date",
-      header: "Date",
-      cell: ({ row }) => {
-        const createdAt = new Date(row.original.createdAt);
-        return (
-          <div className="whitespace-nowrap">
-            {createdAt.toLocaleDateString()}
-          </div>
-        );
-      },
-    },
+  
 
-    // {
-    //   accessorKey: "Query_Related_To",
-    //   header: "User Name",
-    //   cell: ({ row }) => (
-    //     <div className="whitespace-nowrap">{row?.original?.subject}</div>
-    //   ),
-    // },
+ 
 
     {
-      accessorKey: "Amount",
-      header: "Amount",
+      accessorKey: "User Name",
+      header: "User Name",
       cell: ({ row }) => (
         <div className="whitespace-nowrap">{row?.original?.amount}</div>
       ),
     },
 
+  
     {
-        accessorKey: "transaction_type",
-        header: "Transaction Type",
-        cell: ({ row }) => (
-          <Badge
-            variant="soft"
-            color={
-              row?.original?.transaction_type === "debit"
-                ? "warning"
-                : row?.original?.transaction_type === "credit"
-                ? "success"
-                : row?.original?.transaction_type === "debit"
-                ? "success"
-                : "destructive"
-            }
-            className="capitalize"
-          >
-            {row?.original?.transaction_type}
-          </Badge>
-        ),
-      },
-    {
-      accessorKey: "Opening Balance",
-      header: "Opening Balance",
+      accessorKey: "Business Name",
+      header: "Business Name",
       cell: ({ row }) => (
         <div className="whitespace-nowrap">
           {row?.original?.opening_balance}
@@ -135,27 +98,25 @@ const fetchNewsList = async () => {
     },
 
     {
-      accessorKey: "Closing Balance",
-      header: "Closing Balance",
+      accessorKey: "Business Address",
+      header: "Business Address",
       cell: ({ row }) => (
         <div className="whitespace-nowrap">
           {row?.original?.closing_balance}
         </div>
       ),
     },
+
     {
-        accessorKey: "Description",
-        header: "Description",
-        cell: ({ row }) => {
-          const description = row?.original?.description || "";
-          const firstTwoWords = description.split(" ").slice(0, 2).join(" ");
-          return (
-            <div className="whitespace-nowrap">{firstTwoWords}</div>
-          );
-        },
-      },
-  
-    
+      accessorKey: "Opening Balance",
+      header: "Opening Balance",
+      cell: ({ row }) => (
+        <div className="whitespace-nowrap">
+          {row?.original?.closing_balance}
+        </div>
+      ),
+    },
+
 
     {
       accessorKey: "action",
@@ -326,4 +287,4 @@ const fetchNewsList = async () => {
   );
 }
 
-export default TransactionTable;
+export default LedgerTable;

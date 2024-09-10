@@ -19,7 +19,7 @@ const list = [
     name: "Project Title",
   },
   {
-    name: "yodigitals Admin Template",
+    name: "yodigitalsAdmin Template",
   },
   {
     name: "User Template",
