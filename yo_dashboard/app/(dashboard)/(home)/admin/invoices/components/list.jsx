@@ -133,7 +133,7 @@ const fetchNewsList = async () => {
         <Button
           size="icon"
           variant="outline"
-          color="secondary  "
+          color="secondary"
           className=" h-7 w-7 "
         >
           <Icon icon="heroicons:pencil" className=" h-4 w-4  " />
@@ -141,7 +141,7 @@ const fetchNewsList = async () => {
         <Button
           size="icon"
           variant="outline"
-          className=" h-7 w-7"
+          className=" h-7 w-7 text-green-700"
           color="secondary"
         >
           <Icon icon="heroicons:eye" className=" h-4 w-4  " />
@@ -149,7 +149,7 @@ const fetchNewsList = async () => {
         <Button
           size="icon"
           variant="outline"
-          className=" h-7 w-7"
+          className=" h-7 w-7  text-red-700"
           color="secondary"
         >
           <Icon icon="heroicons:trash" className=" h-4 w-4  " />
