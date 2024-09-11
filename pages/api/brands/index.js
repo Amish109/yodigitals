@@ -1,20 +1,22 @@
-import { Brand } from '../../../models'; // Import the Brand model
+import Brand from '../../../models/brands'; 
+
 
 const handler = async (req, res) => {
   if (req.method === 'GET') {
-    // Handle GET request: Retrieve all brands
+
     try {
       const brands = await Brand.findAll();
+      // console.log(brands);
       res.status(200).json(brands);
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   } else 
   
+  
   if (req.method === 'POST') {
-    // Handle POST request: Create a new brand
     const { name, logo_url } = req.body;
-
+    console.log(name);
     if (!name) {
       return res.status(400).json({ error: 'Name is required' });
     }

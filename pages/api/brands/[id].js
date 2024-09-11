@@ -1,10 +1,11 @@
-import { Brand } from '../../../models'; // Import the Brand model
+import Brand  from '../../../models/brands';
+
 
 const handler = async (req, res) => {
   const { id } = req.query;
 
   if (req.method === 'GET') {
-    //brand by id for single get and update
+    
     try {
       const brand = await Brand.findByPk(id);
       if (brand) {
@@ -47,7 +48,9 @@ const handler = async (req, res) => {
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  } else {
+  } 
+  
+  else {
     res.setHeader('Allow', ['GET', 'PUT', 'DELETE']);
     res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
