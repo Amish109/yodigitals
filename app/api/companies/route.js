@@ -3,7 +3,7 @@ import { Brand } from '../../../models/brands'; // Import your Sequelize model
 export async function GET() {
   try {
     const brands = await Brand.findAll();
-    return new Response(JSON.stringify(brands), { status: 200 });
+    return new Response(JSON.stringify(brands), { status: 200, success:true });
   } catch (error) {
     return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
   }
