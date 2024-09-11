@@ -1,4 +1,4 @@
-import { Brand } from '../../../models/brand'; // Import your Sequelize model
+import { Brand } from '../../../models/brands'; // Import your Sequelize model
 
 export async function GET() {
   try {
