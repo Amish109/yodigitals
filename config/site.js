@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "yodigitals Next js Admin Template",
+  name: "Yo Digitals | Store",
   description: null,
   theme: "violet",
   layout: "vertical",

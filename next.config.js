@@ -39,9 +39,12 @@ const nextConfig = {
 
   env: {
     HOSTNAME: 'localhost',
-    APIBASEURL: 'https://b2b.yodigitals.com',
+    APIBASEURL: 'http://localhost:5000',
   }
+  
 
 };
+
+
 
 module.exports = nextConfig;
