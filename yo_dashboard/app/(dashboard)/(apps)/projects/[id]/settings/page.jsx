@@ -74,7 +74,7 @@ const Settings = () => {
           </div>
           <div className="col-span-12 md:col-span-9">
             <Input
-              defaultValue="yodigitalsDashboard Template"
+              defaultValue="yodigitals Dashboard Template"
               size="lg"
               id="projectName"
             />

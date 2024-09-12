@@ -101,7 +101,7 @@ export default function PreviewSheet() {
                   <span className="text-sm text-default-700 font-medium  ">
                     Supervisor:
                   </span>{" "}
-                  <span className="text-warning">yodigitals</span>
+                  <span className="text-warning"> Codeshaper</span>
                 </li>
                 <li className="col-span-2">
                   <span className="text-sm text-default-700 font-medium  ">

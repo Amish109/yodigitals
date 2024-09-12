@@ -270,7 +270,7 @@ export default function PreviewSheet() {
             <li><span className="text-sm text-default-600 ">Position:</span> <span className="text-default-500 "> UX/UI Designer</span></li>
             <li><span className="text-sm text-default-600 ">Responsibilities:</span><span className="text-default-500 "> Destroy Programmers</span></li>
             <li><span className="text-sm text-default-600 ">Department:</span>  <span className="text-default-500 "> I am alone</span></li>
-            <li><span className="text-sm text-default-600 ">Supervisor:</span> <span className="text-warning">yodigitals</span></li>
+            <li><span className="text-sm text-default-600 ">Supervisor:</span> <span className="text-warning"> Codeshaper</span></li>
             <li className="col-span-2"><span className="text-sm text-default-600 ">Skills:</span>
               <span className="text-default-500 ">
                 Onek gula ache, C / C + +, data structures, software engineering, operating systems, computer networks, databases, compiler theory, computer architecture, Microcomputer Principle and Interface Technology, Computer English, Java, ASP, etc.

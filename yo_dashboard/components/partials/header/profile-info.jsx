@@ -15,11 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
-import CampaignIcon from '@mui/icons-material/Campaign';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import Link from "next/link";
-import LockIcon from '@mui/icons-material/Lock';
-import FlipCameraAndroidIcon from '@mui/icons-material/FlipCameraAndroid';
 
 const ProfileInfo = () => {
   const { data: session } = useSession();
@@ -67,32 +63,25 @@ const ProfileInfo = () => {
           <Link href="/dashboard" className="cursor-pointer">
             <DropdownMenuItem className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
             
-              <PersonOutlineIcon  className="w-4 h-4" />
+              <Icon icon="heroicons:user-plus" className="w-4 h-4" />
               User Profile
             </DropdownMenuItem>
           </Link>
           
           <Link href="/dashboard">
             <DropdownMenuItem className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
-            <LockIcon  className="w-4 h-4"  />
+            <Icon icon="heroicons:user-group" className="w-4 h-4" />
               Change Password
             </DropdownMenuItem>
           </Link>
 
           <Link href="/dashboard">
             <DropdownMenuItem className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
-            <FlipCameraAndroidIcon className="w-4 h-4" />
+            <Icon icon="heroicons:user-group" className="w-4 h-4" />
             Service Center
             </DropdownMenuItem>
           </Link>
 
-
-          <Link href="/dashboard">
-            <DropdownMenuItem className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
-          <  CampaignIcon  className="w-4 h-4" />
-            Announcement
-            </DropdownMenuItem>
-          </Link>
        
         </DropdownMenuGroup>
         <DropdownMenuSeparator className="mb-0 dark:bg-background" />

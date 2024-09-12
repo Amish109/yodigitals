@@ -48,7 +48,7 @@ const LogInForm = () => {
     resolver: zodResolver(schema),
     mode: "all",
     defaultValues: {
-      email: "ali.hamid@gmail.com",
+      email: "yodigitals@codeshaper.net",
       password: "password",
     },
   });

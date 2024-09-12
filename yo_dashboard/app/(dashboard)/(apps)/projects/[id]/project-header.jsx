@@ -201,7 +201,7 @@ const ProjectHeader = ({ project }) => {
             <div className="flex flex-wrap justify-between gap-4">
               <div className="text-xl font-medium text-default-950 truncate">
                 {" "}
-                yodigitals
+                yodigitals - Admin Template
               </div>
               <div className="space-x-3 rtl:space-x-reverse ">
                 <Badge color="warning" variant="soft">

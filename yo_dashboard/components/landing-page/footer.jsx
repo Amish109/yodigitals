@@ -60,7 +60,7 @@ const Footer = () => {
             <span className="text-3xl font-semibold">yodigitals</span>
           </Link>
           <p className="text-base leading-7 text-default-200 dark:text-default-600 text-center mt-3">
-            yodigitalsis a developer-friendly, ready-to-use admin template designed for building attractive, scalable, and high-performing web applications, powered by the cutting-edge technologies of Next.js and Tailwind CSS.</p>
+            yodigitals is a developer-friendly, ready-to-use admin template designed for building attractive, scalable, and high-performing web applications, powered by the cutting-edge technologies of Next.js and Tailwind CSS.</p>
           <div className="mt-9 flex justify-center flex-wrap gap-4">
             <Button asChild variant="outline" className="rounded text-primary-foreground border-primary">
               <Link href="/dashboard">View Demo</Link>
@@ -89,7 +89,7 @@ const Footer = () => {
       </div>
       <div className="relative bg-default-900 dark:bg-default-50 py-6">
         <div className="container flex flex-col text-center md:text-start md:flex-row gap-2">
-          <p className="text-primary-foreground flex-1 text-base xl:text-lg font-medium">COPYRIGHT &copy; 2024 yodigitalsAll rights Reserved</p>
+          <p className="text-primary-foreground flex-1 text-base xl:text-lg font-medium">COPYRIGHT &copy; 2024 yodigitals All rights Reserved</p>
           <p className="text-primary-foreground flex-none text-base font-medium">
             Hand-crafted & Made by {" "}
             <Link href="/" className="text-primary hover:underline">Codeshaper</Link></p>

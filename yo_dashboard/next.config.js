@@ -39,16 +39,12 @@ const nextConfig = {
 
   env: {
     HOSTNAME: 'localhost',
-    APIBASEURL: 'https://b2b.yodigitals.com',
-  },
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      // Sequelize is a server-side library; exclude it from client bundles
-      config.externals.push('sequelize');
-    }
-    return config;
-  },
+    APIBASEURL: 'http://localhost:5000',
+  }
+  
 
 };
+
+
 
 module.exports = nextConfig;
