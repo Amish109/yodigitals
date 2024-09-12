@@ -7,9 +7,9 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import DueForm from "../components/form";
+import DueForm from "./components/Form";
 
-const AddUser = () => {
+const PasswordChange = () => {
 
 
 
@@ -20,17 +20,8 @@ const AddUser = () => {
       <CardHeader>
         <CardTitle>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            Add new user
-            <div className=" w-100 flex justify-between gap-5">
-
-              <div>
-                <Button color="primary" >
-                <Link href="/admin/users/list" prefetch={true}>{("Users List")}</Link>
-                </Button>
-
-                
-              </div>
-            </div>
+          Change Password
+         
           </div>
         </CardTitle>
       </CardHeader>
@@ -49,4 +40,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default PasswordChange;

@@ -69,6 +69,7 @@ const CategoriesAdd = () => {
             </Label>
             <Input
               type="text"
+                  size="lg"
               id="Title"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
@@ -84,6 +85,7 @@ const CategoriesAdd = () => {
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
+                size="lg"
               type="text"
               id="comment"
               value={comment}
@@ -100,6 +102,7 @@ const CategoriesAdd = () => {
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
+                size="lg"
               type="text"
               id="comment"
               value={comment}
@@ -116,6 +119,7 @@ const CategoriesAdd = () => {
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
+                size="lg"
               type="text"
               id="comment"
               value={comment}
@@ -131,6 +135,7 @@ const CategoriesAdd = () => {
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
+                size="lg"
               type="text"
               id="comment"
               value={comment}
@@ -149,6 +154,7 @@ const CategoriesAdd = () => {
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
+                size="lg"
               type="tel"
               id="comment"
               // value={comment}
@@ -166,6 +172,8 @@ const CategoriesAdd = () => {
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
+
+                size="lg"
               type="text"
               id="comment"
               // value={comment}
@@ -184,6 +192,8 @@ const CategoriesAdd = () => {
             </Label>
             <Input
               type="tel"
+                size="lg"
+
               id="comment"
               // value={comment}
               // onChange={(e) => setComment(e.target.value)}
@@ -199,6 +209,7 @@ const CategoriesAdd = () => {
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
+              size="lg"
               type="text"
               id="comment"
               // value={comment}
@@ -216,6 +227,7 @@ const CategoriesAdd = () => {
             </Label>
             <Input
               type="text"
+                size="lg"
               id="comment"
               // value={comment}
               // onChange={(e) => setComment(e.target.value)}
@@ -224,19 +236,16 @@ const CategoriesAdd = () => {
            
           </div>
 
-
-
-       
-          
-       
-       
-
         </div>
 
         <div
           style={{ margin: "auto", width: "300px", gap: "20px" }}
-          className="mt-5 flex justify-center"
+          className="mt-5 flex "
         >
+          <Button style={{ margin: "auto" }} className="mx-5" type="submit">
+            Reset
+          </Button>
+
           <Button style={{ margin: "auto" }} className="mx-5" type="submit">
             {("Submit")}
           </Button>

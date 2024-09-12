@@ -66,8 +66,10 @@ const TransactionAdd = () => {
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
+            
               type="number"
               id="amount"
+              size="lg"
               required
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -84,6 +86,7 @@ const TransactionAdd = () => {
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
+              size="lg"
               type="text"
               id="transRef"
               required
@@ -127,6 +130,7 @@ const TransactionAdd = () => {
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
+              size="lg"
               type="text"
               id="comment"
               value={comment}
@@ -143,6 +147,10 @@ const TransactionAdd = () => {
           style={{ margin: "auto", width: "300px", gap: "20px" }}
           className="mt-5 flex justify-center"
         >
+          <Button style={{ margin: "auto" }} className="mx-5" type="submit">
+            {("Reset")}
+          </Button>
+
           <Button style={{ margin: "auto" }} className="mx-5" type="submit">
             {("Submit")}
           </Button>

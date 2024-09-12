@@ -60,7 +60,7 @@ const ProfileInfo = () => {
        
        
         <DropdownMenuGroup>
-          <Link href="/dashboard" className="cursor-pointer">
+          <Link href="/admin/profile" className="cursor-pointer">
             <DropdownMenuItem className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
             
               <Icon icon="heroicons:user-plus" className="w-4 h-4" />
@@ -68,14 +68,14 @@ const ProfileInfo = () => {
             </DropdownMenuItem>
           </Link>
           
-          <Link href="/dashboard">
+          <Link href="/admin/password">
             <DropdownMenuItem className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
             <Icon icon="heroicons:user-group" className="w-4 h-4" />
               Change Password
             </DropdownMenuItem>
           </Link>
 
-          <Link href="/dashboard">
+          <Link href="/admin/service-center">
             <DropdownMenuItem className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
             <Icon icon="heroicons:user-group" className="w-4 h-4" />
             Service Center

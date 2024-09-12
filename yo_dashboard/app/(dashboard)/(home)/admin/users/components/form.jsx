@@ -20,244 +20,227 @@ const UserAdd = () => {
     screenShotImg: "",
   });
 
- 
   const handleImageChange = (setImage, image) => {
     setImage(image);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-      const apiData = new FormData();
-      apiData.append("amount", amount);
-      apiData.append("transRef", transRef);
-      apiData.append("comment", comment);
-      try {
-        const data = await postApiFormDataToken("", apiData);
-        if (data.error === false) {
-          toast.success(data.message, {
-            position: "bottom-center",
-            style: { borderRadius: "10px", background: "#333", color: "#fff" },
-          });
-          setComment(null);
-          setAmount(null);
-          setTransRef(null);
-        } else {
-          toast.error(data.message, {
-            position: "bottom-center",
-            style: { borderRadius: "10px", background: "#333", color: "#fff" },
-          });
-        }
-      } catch (errorData) {
-        toast.error(errorData.message, {
+
+    const apiData = new FormData();
+    apiData.append("amount", amount);
+    apiData.append("transRef", transRef);
+    apiData.append("comment", comment);
+    try {
+      const data = await postApiFormDataToken("", apiData);
+      if (data.error === false) {
+        toast.success(data.message, {
+          position: "bottom-center",
+          style: { borderRadius: "10px", background: "#333", color: "#fff" },
+        });
+        setComment(null);
+        setAmount(null);
+        setTransRef(null);
+      } else {
+        toast.error(data.message, {
           position: "bottom-center",
           style: { borderRadius: "10px", background: "#333", color: "#fff" },
         });
       }
-    
+    } catch (errorData) {
+      toast.error(errorData.message, {
+        position: "bottom-center",
+        style: { borderRadius: "10px", background: "#333", color: "#fff" },
+      });
+    }
   };
 
   return (
     <>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          
-
-        <div className="flex flex-col gap-2">
-            <Label htmlFor="comment">
-            First Name
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="fname">
+              First Name
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
               type="text"
-              id="comment"
+              size="lg"
+              id="fname"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              placeholder={("First Name")}
+              placeholder={"First Name"}
             />
-           
           </div>
 
-
           <div className="flex flex-col gap-2">
-            <Label htmlFor="comment">
-            Business Name
+            <Label htmlFor="bname">
+              Business Name
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
               type="text"
-              id="comment"
+              size="lg"
+              id="bname"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              placeholder={("Business Name")}
+              placeholder={"Business Name"}
             />
-           
           </div>
 
-
           <div className="flex flex-col gap-2">
-            <Label htmlFor="comment">
-            Aadhar Number
+            <Label htmlFor="adhar">
+              Aadhar Number
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
               type="text"
-              id="comment"
+              size="lg"
+              id="adhar"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              placeholder={("Aadhar Number")}
+              placeholder={"Aadhar Number"}
             />
-           
           </div>
-
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="comment">
-            Last Name
+              Last Name
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
               type="text"
-              id="comment"
+              id="lname"
+              size="lg"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              placeholder={("Last Name")}
+              placeholder={"Last Name"}
             />
-           
           </div>
 
           <div className="flex flex-col gap-2">
-            <Label htmlFor="comment">
-            Business Address
+            <Label htmlFor="baddress">
+              Business Address
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
               type="text"
-              id="comment"
+              size="lg"
+              id="baddress"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              placeholder={("Business Address")}
+              placeholder={"Business Address"}
             />
-           
           </div>
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="comment">
-            Phone Number
+              Phone Number
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
               type="tel"
+              size="lg"
               id="comment"
               // value={comment}
               // onChange={(e) => setComment(e.target.value)}
-              placeholder={("Phone Number")}
+              placeholder={"Phone Number"}
             />
-           
           </div>
-
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="comment">
-            CIN
+              CIN
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
               type="tel"
+              size="lg"
               id="comment"
               // value={comment}
               // onChange={(e) => setComment(e.target.value)}
-              placeholder={("CIN")}
+              placeholder={"CIN"}
             />
-           
           </div>
-
-
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="comment">
-            E-mail
+              E-mail
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
               type="tel"
+              size="lg"
               id="comment"
               // value={comment}
               // onChange={(e) => setComment(e.target.value)}
-              placeholder={("E-mail")}
+              placeholder={"E-mail"}
             />
-           
           </div>
-
-
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="comment">
-            GSTIN
+              GSTIN
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
-              type="tel"
+              size="lg"
+              type="text"
               id="comment"
               // value={comment}
               // onChange={(e) => setComment(e.target.value)}
-              placeholder={("GSTIN")}
+              placeholder={"GSTIN"}
             />
-           
           </div>
-
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="comment">
-            Password
+              Password
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
               type="password"
+              size="lg"
               id="comment"
               // value={comment}
               // onChange={(e) => setComment(e.target.value)}
-              placeholder={("Password")}
+              placeholder={"Password"}
             />
-           
           </div>
-
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="comment">
-            Balance
+              Balance
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
+              size="lg"
               type="password"
               id="comment"
               // value={comment}
               // onChange={(e) => setComment(e.target.value)}
-              placeholder={("Balance")}
+              placeholder={"Balance"}
             />
-           
           </div>
-
-
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="comment">
-            Date
+              Date
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
               type="date"
+              size="lg"
               id="comment"
               // value={comment}
               // onChange={(e) => setComment(e.target.value)}
-              placeholder={("Date")}
+              placeholder={"Date"}
             />
-           
           </div>
-          
 
           <div className="flex flex-col gap-3 mb-5">
             <Label>
-            Aadhar Front
+              Aadhar Front
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <FileUploader
@@ -282,7 +265,7 @@ const UserAdd = () => {
 
           <div className="flex flex-col gap-3 mb-5">
             <Label>
-            Aadhar Back
+              Aadhar Back
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <FileUploader
@@ -306,7 +289,7 @@ const UserAdd = () => {
           </div>
           <div className="flex flex-col gap-3 mb-5">
             <Label>
-            Avatar
+              Avatar
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <FileUploader
@@ -328,15 +311,18 @@ const UserAdd = () => {
               />
             )}
           </div>
-
         </div>
 
         <div
-          style={{ margin: "auto", width: "300px", gap: "20px" }}
-          className="mt-5 flex justify-center"
+          style={{ margin: "auto", width: "300px" }}
+          className="mt-5 gap-7"
         >
+          <Button style={{ margin: "auto" }} className="mx-5" type="button">
+           Reset
+          </Button>
+
           <Button style={{ margin: "auto" }} className="mx-5" type="submit">
-            {("Submit")}
+            {"Submit"}
           </Button>
         </div>
       </form>

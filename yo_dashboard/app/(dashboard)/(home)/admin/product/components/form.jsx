@@ -68,6 +68,7 @@ const ProductAdd = () => {
             </Label>
             <Input
               type="text"
+              size="lg"
               id="transRef"
               required
               value={transRef}
@@ -83,6 +84,7 @@ const ProductAdd = () => {
             </Label>
             <Input
               type="text"
+               size="lg"
               id="Price"
               required
               value={amount}
@@ -100,6 +102,7 @@ const ProductAdd = () => {
             <Input
               type="text"
               id="Price"
+               size="lg"
               required
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -117,6 +120,7 @@ const ProductAdd = () => {
             <Input
               type="text"
               id="Price"
+               size="lg"
               required
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -133,6 +137,8 @@ const ProductAdd = () => {
             <Input
               type="text"
               id="Price"
+                  size="lg"
+
               required
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -149,6 +155,7 @@ const ProductAdd = () => {
             <Input
               type="text"
               id="Price"
+                  size="lg"
               required
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -166,6 +173,7 @@ const ProductAdd = () => {
             <Input
               type="text"
               id="Price"
+                  size="lg"
               required
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -184,6 +192,7 @@ const ProductAdd = () => {
             <Input
               type="text"
               id="Price"
+                  size="lg"
               required
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -200,6 +209,7 @@ const ProductAdd = () => {
             <Input
               type="text"
               id="Price"
+                  size="lg"
               required
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -227,7 +237,7 @@ const ProductAdd = () => {
           </div>
 <div className="flex flex-col gap-3 mb-5">
             <Label>
-              {("Upload_Your_Transaction_Screenshot")}
+             Upload Image
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <FileUploader
