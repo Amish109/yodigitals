@@ -26,9 +26,14 @@ exports.addNewbrand = async (req, res) => {
   }
   try {
     const brandData = {
-      title: input.title,
-      name:input.name
+      id: input.id || undefined,
+      name: input.name || null,
+      importHash: input.importHash || null,
+      // createdById: currentUser.id,
+      // updatedById: currentUser.id,
     };
+
+    
 
     // Create a new brand
     const brandCreated = await db.Brand.create(brandData);
@@ -58,6 +63,67 @@ exports.BrandList = async (req, res) => {
         success: true,
         brand: brand,
       });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Data not found",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "server error",
+    });
+  }
+};
+
+
+
+// @ DES SINGLE  brand 
+// GET API
+exports.SingleBrand = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    
+    const brand = await db.Brand.findByPk(id);
+
+    if (brand) {
+      res.status(200).json({
+        success: true,
+        brand: brand,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Data not found",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "server error",
+    });
+  }
+};
+
+
+// @ DES DELETE  brand 
+// DELETE API
+exports.DeleteBrand = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    
+    const brand = await db.Brand.findByPk(id);
+    
+
+    if (brand) {
+       await brand.destroy();
+       res.status(200).json({
+        success:true,
+        message:"Brand deleted successfully"
+       })
     } else {
       res.status(404).json({
         success: false,

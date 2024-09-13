@@ -15,9 +15,13 @@ app.use(cookiesParser())
 
 
 const brand = require("./routers/brand");
+const productenq = require("./routers/productenq");
+const categories = require("./routers/categories");
 
 
 app.use("/brand", brand);
+app.use("/productenq", productenq);
+app.use("/categories", categories);
 
 
 module.exports = app;

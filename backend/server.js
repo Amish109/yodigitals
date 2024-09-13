@@ -2,9 +2,14 @@ const app = require("./app");
 const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
-
+const db = require('./models');
 app.use(express.json());
 
+db.sequelize.sync({ alter: true }).then(() => {
+  console.log('Database synced successfully');
+}).catch((error) => {
+  console.error('Error syncing database:', error);
+});
 
 
 
