@@ -43,21 +43,22 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
-    //   created_at: {
-    //     type: DataTypes.DATE,
-    //     defaultValue: DataTypes.NOW,
-    //     field: 'created_at',
-    //   },
-    //   updated_at: {
-    //     type: DataTypes.DATE,
-    //     defaultValue: DataTypes.NOW,
-    //     field: 'updated_at',
-    //   }
-    // deletedAt: {
-    //     type: DataTypes.DATE,
-    //     defaultValue: DataTypes.NOW, 
-    //     field: 'deletedAt',
-    // }
+      created_at: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+        field: 'createdAt',
+      },
+      updated_at: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+        field: 'updatedAt',
+      },
+
+    deletedAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW, 
+        field: 'deletedAt',
+    }
     },
     {
       tableName: "business_info",
