@@ -5,11 +5,18 @@ module.exports = (sequelize, DataTypes) => {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
-        primaryKey: true,
+        primaryKey: true,  // Keep UUID as the primary key
+      },
+      brand_id: {
+        type: DataTypes.INTEGER,
+
+        unique: true, 
+        allowNull: true,  
       },
       name: {
         type: DataTypes.STRING,
         allowNull: true,
+        unique: true,
       },
       importHash: {
         type: DataTypes.STRING(255),
@@ -19,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "brands",
-      timestamps: true,
+      timestamps: true,  
     }
   );
 

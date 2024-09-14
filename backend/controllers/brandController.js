@@ -14,6 +14,9 @@ exports.addNewbrand = async (req, res) => {
       name: Joi.string().messages({
         "string.base": "name must be a required",
       }),
+      // brand_id: Joi.number().message({
+      //   "String.base": "brand ID must be required",
+      // })
    };
   const { error } = Joi.object(rules).validate(input, { abortEarly: false });
 
@@ -24,23 +27,21 @@ exports.addNewbrand = async (req, res) => {
       errors: error.details.map((detail) => detail.message),
     });
   }
-  try {
+    try {
     const brandData = {
       id: input.id || undefined,
       name: input.name || null,
       importHash: input.importHash || null,
-      // createdById: currentUser.id,
-      // updatedById: currentUser.id,
     };
 
-    
+  
 
     // Create a new brand
     const brandCreated = await db.Brand.create(brandData);
 
     res.status(200).json({
       success: true,
-      message: "Brand created successfully...",
+      message: "Brand created successfully",
       brandCreated,
     });
   } catch (error) {
@@ -85,7 +86,6 @@ exports.SingleBrand = async (req, res) => {
   try {
     const id = req.params.id;
 
-    
     const brand = await db.Brand.findByPk(id);
 
     if (brand) {
@@ -96,7 +96,7 @@ exports.SingleBrand = async (req, res) => {
     } else {
       res.status(404).json({
         success: false,
-        message: "Data not found",
+        message: "Brand not found",
       });
     }
   } catch (error) {
@@ -114,6 +114,12 @@ exports.DeleteBrand = async (req, res) => {
   try {
     const id = req.params.id;
 
+    if(brand)  {
+      const deletedBrand = 
+    id = brand.id,
+    name = brand.name
+   }
+
     
     const brand = await db.Brand.findByPk(id);
     
@@ -122,12 +128,12 @@ exports.DeleteBrand = async (req, res) => {
        await brand.destroy();
        res.status(200).json({
         success:true,
-        message:"Brand deleted successfully"
+        message:'Brand deleted successfully', deletedBrand
        })
     } else {
       res.status(404).json({
         success: false,
-        message: "Data not found",
+        message: "Brand not Found",
       });
     }
   } catch (error) {
@@ -138,4 +144,3 @@ exports.DeleteBrand = async (req, res) => {
   }
 };
 
-// ::::::::::::::::::::::::::::::::::::::::::::::::END::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
