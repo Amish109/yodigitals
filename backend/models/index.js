@@ -27,7 +27,8 @@ db.sequelize = sequelize;
 db.Brand = require("./Brand")(sequelize, DataTypes);
 db.Categories = require("./Categories")(sequelize, DataTypes);
 db.ProductEnq = require("./ProductEnq")(sequelize, DataTypes);
-db.Product = require("./Product")(sequelize, DataTypes);
+db.Products = require("./Product")(sequelize, DataTypes);
+db.User = require("./users")(sequelize, DataTypes);
 db.BusinessInfo = require("./businessInfo")(sequelize, DataTypes);
 
 db.sequelize.sync({ force: false, logging: false });

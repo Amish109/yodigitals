@@ -126,10 +126,11 @@ module.exports = (sequelize, DataTypes) => {
             key: 'id',
           },
         },
-        deletedAt: {
-          type: DataTypes.DATE,
-          allowNull: true,
-        },
+        // deletedAt: {
+        //   type: DataTypes.DATE,
+        //   allowNull: true,
+        //   defaultValue: DataTypes.NOW,
+        // },
       },
       {
         tableName: "users",
@@ -137,7 +138,17 @@ module.exports = (sequelize, DataTypes) => {
         paranoid: true, 
       }
     );
-  
+
+
+    User.associate = (models) => {
+      
+      User.hasMany(models.BusinessInfo, {
+          foreignKey: "user_id",
+          as: "businessInfo",  
+      });
+  };
+
+
     return User;
   };
   

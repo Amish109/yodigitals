@@ -98,7 +98,6 @@ exports.categoriesList = async (req, res) => {
 
 
 
-// @ DES SINGLE  categories 
 // GET API
 exports.Singlecategories = async (req, res) => {
   try {
