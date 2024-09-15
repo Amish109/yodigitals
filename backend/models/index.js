@@ -30,6 +30,7 @@ db.ProductEnq = require("./ProductEnq")(sequelize, DataTypes);
 db.Products = require("./Product")(sequelize, DataTypes);
 db.User = require("./users")(sequelize, DataTypes);
 db.BusinessInfo = require("./businessInfo")(sequelize, DataTypes);
+db.Category = require("./category")(sequelize, DataTypes);
 
 db.sequelize.sync({ force: false, logging: false });
 

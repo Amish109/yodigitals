@@ -1,12 +1,13 @@
-const { Products, Brand, users } = require('../models'); // Assuming these models are already defined
+const { Products, Brand, User } = require('../models'); // Assuming these models are already defined
 // const { Op } = require('sequelize');
 
 
 exports.createProduct = async (req, res) => {
   try {
-    const { title, price, discount, description, rating, status, brandId, createdById, distributor_price, stock } = req.body;
+    const { title, price, discount, description, rating, identityNumber, categoryId, status, brandId, createdById, distributor_price, stock } = req.body;
     
-console.log("Products is :", title);
+// console.log("Products is :", title);
+console.log("Category is:", categoryId);
 
     const products = await Products.create({
       title,
@@ -18,6 +19,8 @@ console.log("Products is :", title);
       brandId,
       createdById,
       distributor_price,
+      categoryId,
+      identityNumber,
       stock
     });
 
@@ -73,7 +76,7 @@ exports.getProductById = async (req, res) => {
 exports.updateProduct = async (req, res) => {
   try {
     const productId = req.params.id;
-    const { title, price, discount, description, rating, status, brandId, updatedById, distributor_price, stock } = req.body;
+    const { title, price, discount, description,  identityNumber, rating, status, categoryId, brandId, updatedById, distributor_price, stock } = req.body;
     
     const product = await Products.findByPk(productId);
 
@@ -89,6 +92,8 @@ exports.updateProduct = async (req, res) => {
       rating,
       status,
       brandId,
+      categoryId,
+      identityNumber,
       updatedById,
       distributor_price,
       stock

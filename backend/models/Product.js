@@ -34,17 +34,28 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true, // HSN, IMEI, etc.
             // comment: 'HSN for laptops, IMEI for smartphones, etc.', // Optional field comment for clarity
           },
-
-        brandId: {
-          type: DataTypes.UUID,
-          references: {
-            model: 'brands',
-            key: 'id',
+          brandId: {
+            type: DataTypes.UUID,
+            references: {
+              model: 'brands',  // Ensure this matches the actual table name
+              key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'SET NULL',
           },
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL',
-        },
         
+
+          categoryId: {
+            type: DataTypes.UUID,
+            references: {
+              model: 'categoriess',  // Correct table name
+              key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'SET NULL',
+          },
+
+
         createdById: {
           type: DataTypes.UUID,
           references: {
