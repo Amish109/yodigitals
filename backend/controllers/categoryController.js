@@ -1,22 +1,29 @@
 const { Category } = require('../models');
 
 // Create a new category
+// Create a new category
 exports.createCategory = async (req, res) => {
   try {
     const { name, slug, top_category } = req.body;
 
-    console.log(name);
+    const existingCategory = await Category.findOne({ where: { name } });
+    if (existingCategory) {
+      return res.status(400).json({ error: 'Category with this name already exists' });
+    }
+
     const category = await Category.create({
       name,
       slug,
       top_category,
     });
+  
 
     return res.status(201).json(category);
   } catch (error) {
-    return res.status(500).json({ error: 'Failed to create category' });
+    return res.status(500).json({ error: 'Failed to create category', details: error.message });
   }
 };
+
 
 // Get all categories
 exports.getAllCategories = async (req, res) => {

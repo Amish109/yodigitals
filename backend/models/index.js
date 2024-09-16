@@ -25,7 +25,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.Brand = require("./Brand")(sequelize, DataTypes);
-db.Categories = require("./Categories")(sequelize, DataTypes);
+// db.Categories = require("./Categories")(sequelize, DataTypes);
 db.ProductEnq = require("./ProductEnq")(sequelize, DataTypes);
 db.Products = require("./Product")(sequelize, DataTypes);
 db.User = require("./users")(sequelize, DataTypes);

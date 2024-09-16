@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         title: {
           type: DataTypes.TEXT,
-          allowNull: false,
+          allowNull: false, 
         },
         price: {
           type: DataTypes.DECIMAL,
@@ -32,7 +32,6 @@ module.exports = (sequelize, DataTypes) => {
         identityNumber: {
             type: DataTypes.STRING,
             allowNull: true, // HSN, IMEI, etc.
-            // comment: 'HSN for laptops, IMEI for smartphones, etc.', // Optional field comment for clarity
           },
           brandId: {
             type: DataTypes.UUID,
@@ -48,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
           categoryId: {
             type: DataTypes.UUID,
             references: {
-              model: 'categoriess',  // Correct table name
+              model: 'categories',  // Correct table name
               key: 'id',
             },
             onUpdate: 'CASCADE',
@@ -80,6 +79,12 @@ module.exports = (sequelize, DataTypes) => {
         stock: {
           type: DataTypes.INTEGER,
         },
+
+        images: {  // JSON field for storing array of image paths
+          type: DataTypes.JSONB, // Use JSONB for PostgreSQL or JSON for MySQL
+          allowNull: true,
+        },
+      
       },
       {
         tableName: 'products',

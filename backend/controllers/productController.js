@@ -5,11 +5,11 @@ const { Products, Brand, User } = require('../models'); // Assuming these models
 exports.createProduct = async (req, res) => {
   try {
     const { title, price, discount, description, rating, identityNumber, categoryId, status, brandId, createdById, distributor_price, stock } = req.body;
-    
-// console.log("Products is :", title);
-console.log("Category is:", categoryId);
 
-    const products = await Products.create({
+   
+    const imagePaths = req.files.map(file => file.path);
+
+    const product = await Products.create({
       title,
       price,
       discount,
@@ -21,12 +21,19 @@ console.log("Category is:", categoryId);
       distributor_price,
       categoryId,
       identityNumber,
-      stock
+      stock,
+      images: imagePaths
     });
 
-    res.status(201).json(products);
+    return res.status(201).json({
+      success: true,
+      product
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating product', error: error.message });
+    return res.status(500).json({
+      message: 'Error creating product',
+      error: error.message
+    });
   }
 };
 
@@ -40,7 +47,12 @@ exports.getAllProducts = async (req, res) => {
         { model: User, as: 'updatedBy' } 
       ]
     });
-    res.status(200).json(products);
+
+    
+    res.status(200).json({
+      success:true,
+      products
+    });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching products', error: error.message });
   }
@@ -75,10 +87,12 @@ exports.getProductById = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
   try {
-    const productId = req.params.id;
-    const { title, price, discount, description,  identityNumber, rating, status, categoryId, brandId, updatedById, distributor_price, stock } = req.body;
-    
-    const product = await Products.findByPk(productId);
+    const { id } = req.params;
+    const { title, price, discount, description, rating, identityNumber, categoryId, status, brandId, createdById, distributor_price, stock } = req.body;
+
+    const imagePaths = req.files ? req.files.map(file => file.path) : [];
+
+    const product = await Products.findByPk(id);
 
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
@@ -92,16 +106,23 @@ exports.updateProduct = async (req, res) => {
       rating,
       status,
       brandId,
+      createdById,
+      distributor_price,
       categoryId,
       identityNumber,
-      updatedById,
-      distributor_price,
-      stock
+      stock,
+      images: imagePaths.length ? imagePaths : product.images 
     });
 
-    res.status(200).json(product);
+    return res.status(200).json({
+      success: true,
+      product
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Error updating product', error: error.message });
+    return res.status(500).json({
+      message: 'Error updating product',
+      error: error.message
+    });
   }
 };
 
