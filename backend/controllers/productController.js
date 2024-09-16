@@ -142,7 +142,7 @@ exports.deleteProduct = async (req, res) => {
 
     await product.destroy();
 
-    res.status(200).json({ message: 'Product deleted successfully' });
+    res.status(200).json({ success:true, message: 'Product deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting product', error: error.message });
   }

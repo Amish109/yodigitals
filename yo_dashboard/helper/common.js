@@ -177,3 +177,33 @@ export async function postApiFormData(url, data) {
     console.error("Error:", error.message);
   }
 }
+
+
+
+export async function deleteApiData(url) {
+  if (typeof window === "undefined") {
+    // Handle server-side (Node.js) logic if needed
+  }
+
+  const apiUrl = `${baseUrl}/${url}`;
+
+  try {
+    const result = await fetch(apiUrl, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (result.ok) {
+      const data = await result.json();
+      return data;
+    } else {
+      const error = await result.json();
+      return error;
+    }
+  } catch (error) {
+    console.error("Error:", error.message);
+    // Handle error accordingly
+  }
+}

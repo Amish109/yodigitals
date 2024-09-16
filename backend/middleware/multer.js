@@ -1,9 +1,7 @@
-// middleware/multerMiddleware.js
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Set up storage configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = './uploads';
@@ -17,10 +15,9 @@ const storage = multer.diskStorage({
   }
 });
 
-// Set up multer configuration
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 1000000 }, // 1 MB
+  limits: { fileSize: 1000000 }, 
   fileFilter: (req, file, cb) => {
     const fileTypes = /jpeg|jpg|png/;
     const mimeType = fileTypes.test(file.mimetype);
@@ -33,5 +30,4 @@ const upload = multer({
   }
 });
 
-// Export the middleware
 module.exports = upload;
