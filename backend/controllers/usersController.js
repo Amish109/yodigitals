@@ -6,6 +6,16 @@ exports.createUser = async (req, res) => {
   try {
     const { firstName, lastName, phoneNumber, email, role, password, aadhar_number, pan_number } = req.body;
 
+    const allowedRoles = ['admin', 'manager', 'customer'];
+
+    if (!password) {
+      return res.status(400).json({ error: 'Password is required' });
+    }
+
+    if (!allowedRoles.includes(role)) {
+      return res.status(400).json({ error: `Invalid role provided. Allowed roles are: ${allowedRoles.join(', ')}` });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await User.create({
@@ -111,7 +121,10 @@ exports.deleteUser = async (req, res) => {
     );
 
     if (updated) {
-      res.status(204).json();
+     res.status(200).json({
+      success:true,
+      message:"User deleted successfully"
+     })
     } else {
       res.status(404).json({ message: 'User not found' });
     }

@@ -30,7 +30,7 @@ app.use("/categories", categories);
 app.use("/users", users);
 app.use("/business", business);
 app.use("/product", product);
-app.use("/category", category);
+app.use("/categories", category);
 
 
 
