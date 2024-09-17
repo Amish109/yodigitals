@@ -16,12 +16,12 @@ const Page = ({ params }) => {
         <div style={{display:"flex", justifyContent:"space-between"}}>
        
           
-            <CardTitle>Transaction</CardTitle>
+            <CardTitle>Users</CardTitle>
       
           <div className=" w-100 flex justify-between gap-5">
          <div>
          <Button color="primary">
-            <Link href="/admin/transaction/add" prefetch={true}>Add Transaction</Link>
+            <Link href="/admin/users/add" prefetch={true}>Add User</Link>
           </Button>
          </div>
           </div>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import * as React from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -10,60 +10,88 @@ import {
 } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import {
-  Table, 
+  Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import toast, { Toaster } from "react-hot-toast";
-import { Badge } from "@/components/ui/badge";
-// import { cn } from "@/lib/utils";
+
+
 import { Icon } from "@iconify/react";
-
-
+import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { getApiData } from "../../../../../../helper/common";
-import { Input } from "@/components/ui/input";
-
-export function EnquiriesTable({ type }) {
-  const [data, setData] = React.useState([]);
-
-  useEffect(() => {
-    fetchNewsList();
-  }, []);
+import { useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 
-//     try {
-//       const response = await getApiData(
-//         "api/transactions",
-       
-//       );
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { deleteApiData, getApiData, postApiData } from "@/helper/common";
 
-      
+export function BasicDataTable() {
 
-//       const data = await response.json();
-//       setData(data);
-//       console.log(data);
-//     } catch (error) {
-//       console.error("Fetch error:", error);
-//     }
-//   };
-const fetchNewsList = async () => {
+  const [id, setId] = React.useState(null);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [sorting, setSorting] = React.useState([]);
+  const [columnFilters, setColumnFilters] = React.useState([]);
+  const [columnVisibility, setColumnVisibility] = React.useState({});
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+
+  const fetchProductenqList = async () => {
     try {
-      const apiResData = await getApiData(`api/transactions`);
-      console.log(apiResData);
-      if (apiResData) {
-        setData(apiResData);
+      const apiResData = await getApiData(`productenq/list`);
+      if (apiResData.success === true) {
+        setData(apiResData?.productEnqs);
       } else {
         setData([]);
+        setError(apiResData.message || "Failed to fetch data");
       }
     } catch (error) {
       console.error("Error fetching:", error);
+      setError("Error fetching data");
     }
   };
-  const [status, setStatus] = useState("");
+
+  useEffect(() => {
+    fetchProductenqList();
+  }, []);
+
+  const productEnqDelete = async () => {
+    toast.dismiss();
+    try {
+      const response = await deleteApiData(`productenq/${id}`);
+      if (response.success == true) {
+        toast.success(response.message, {
+          position: "bottom-center",
+          style: { borderRadius: "10px", background: "#333", color: "#fff" },
+        });
+        await fetchProductenqList(); 
+        setIsOpen(false);
+      }
+    } catch (error) {
+      toast.error("Error deleting product enquiry");
+    }
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const DeleteConfirm = (id) => {
+    setId(id);
+    setIsOpen(true);
+  };
 
   const columns = [
     {
@@ -74,31 +102,31 @@ const fetchNewsList = async () => {
       ),
     },
 
-    {
-      accessorKey: " Date",
-      header: " Date",
-      cell: ({ row }) => {
-        const createdAt = new Date(row.original.createdAt);
-        return (
-          <div className="whitespace-nowrap">
-            {createdAt.toLocaleDateString()}
-          </div>
-        );
-      },
-    },
+    // {
+    //   accessorKey: " Date",
+    //   header: " Date",
+    //   cell: ({ row }) => {
+    //     const createdAt = new Date(row.original.createdAt);
+    //     return (
+    //       <div className="whitespace-nowrap">
+    //         {createdAt.toLocaleDateString()}
+    //       </div>
+    //     );
+    //   },
+    // },
 
-    {
-      accessorKey: " Time",
-      header: " Time",
-      cell: ({ row }) => {
-        const createdAt = new Date(row.original.createdAt);
-        return (
-          <div className="whitespace-nowrap">
-            {createdAt.toLocaleTimeString()}
-          </div>
-        );
-      },
-    },
+    // {
+    //   accessorKey: " Time",
+    //   header: " Time",
+    //   cell: ({ row }) => {
+    //     const createdAt = new Date(row.original.createdAt);
+    //     return (
+    //       <div className="whitespace-nowrap">
+    //         {createdAt.toLocaleTimeString()}
+    //       </div>
+    //     );
+    //   },
+    // },
     
 
     // {
@@ -110,42 +138,51 @@ const fetchNewsList = async () => {
     // },
 
     {
+      accessorKey: "Contact",
+      header: "Name",
+      cell: ({ row }) => (
+        <div className="whitespace-nowrap">{row?.original?.name}</div>
+      ),
+    },
+    {
+      accessorKey: "Contact",
+      header: "title",
+      cell: ({ row }) => (
+        <div className="whitespace-nowrap">{row?.original?.title}</div>
+      ),
+    },
+
+    {
       accessorKey: "Email",
       header: "Email",
       cell: ({ row }) => (
-        <div className="whitespace-nowrap">{row?.original?.amount}</div>
+        <div className="whitespace-nowrap">{row?.original?.email}</div>
       ),
     },
 
 
     {
-      accessorKey: "Contact",
-      header: "Contact",
+      accessorKey: "contact",
+      header: "Mobile No",
       cell: ({ row }) => (
-        <div className="whitespace-nowrap">{row?.original?.amount}</div>
+        <div className="whitespace-nowrap">{row?.original?.contact}</div>
       ),
     },
     {
-      accessorKey: "Business Name",
+      accessorKey: "BusinessName",
       header: "Business Name",
       cell: ({ row }) => (
-        <div className="whitespace-nowrap">{row?.original?.amount}</div>
+        <div className="whitespace-nowrap">{row?.original?.bname}</div>
       ),
     },
 
-    {
-      accessorKey: "Title",
-      header: "Title",
-      cell: ({ row }) => (
-        <div className="whitespace-nowrap">{row?.original?.amount}</div>
-      ),
-    },
+    
 
     {
       accessorKey: "Units",
       header: "Units",
       cell: ({ row }) => (
-        <div className="whitespace-nowrap">{row?.original?.amount}</div>
+        <div className="whitespace-nowrap">{row?.original?.unit}</div>
       ),
     },
  
@@ -177,6 +214,7 @@ const fetchNewsList = async () => {
           <Icon icon="heroicons:eye" className=" h-4 w-4  " />
         </Button>
         <Button
+         onClick={() => DeleteConfirm(row.original.id)}
           size="icon"
           variant="outline"
           className=" h-7 w-7  text-red-700"
@@ -188,11 +226,6 @@ const fetchNewsList = async () => {
       ),
     },
   ];
-  const [sorting, setSorting] = React.useState([]);
-  const [columnFilters, setColumnFilters] = React.useState([]);
-  const [columnVisibility, setColumnVisibility] = React.useState({});
-  const [rowSelection, setRowSelection] = React.useState({});
-
   const table = useReactTable({
     data,
     columns,
@@ -215,19 +248,7 @@ const fetchNewsList = async () => {
   return (
     <>
       <div>
-      <div className="flex items-center flex-wrap gap-2  px-4">
-        <Input
-          placeholder="Filter..."
-          // value={table.getColumn("email")?.getFilterValue() || ""}
-          // onChange={(event) =>
-          //   table.getColumn("email")?.setFilterValue(event.target.value)
-          // }
-          className="max-w-sm min-w-[200px] h-10"
-        />
-      
-      </div>
-      
-        <Table>
+      <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -280,7 +301,7 @@ const fetchNewsList = async () => {
       <div className="flex items-center flex-wrap gap-4 px-4 py-4">
         <div className="flex-1 text-sm text-muted-foreground whitespace-nowrap">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} {"row selected"}
+          {table.getFilteredRowModel().rows.length} {("rows selected")}
         </div>
 
         <div className="flex gap-2  items-center">
@@ -298,11 +319,11 @@ const fetchNewsList = async () => {
             <Button
               key={`basic-data-table-${pageIdx}`}
               onClick={() => table.setPageIndex(pageIdx)}
-              variant={`${
-                pageIdx === table.getState().pagination.pageIndex
+              variant={`${pageIdx === table.getState().pagination.pageIndex
                   ? ""
                   : "outline"
-              }`}
+                }`}
+              className={cn("w-8 h-8")}
             >
               {page + 1}
             </Button>
@@ -319,8 +340,59 @@ const fetchNewsList = async () => {
           </Button>
         </div>
       </div>
+
+      <div>
+        <Dialog open={isOpen} onOpenChange={handleClose}>
+          {" "}
+          <DialogTrigger asChild></DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="text-base font-medium ">
+                <p
+                  style={{
+                    textAlign: "center",
+                    fontWeight: "bolder",
+                    fontSize: "18px",
+                  }}
+                >
+                  {" "}
+                  Product Enquiry Delete Confirm
+                </p>
+              </DialogTitle>
+            </DialogHeader>
+
+            <div className="flex flex-col items-center text-center">
+              <span className="text-sm text-default-500  mt-1 block"></span>
+              <p
+                style={{
+                  fontSize: "16px",
+                  textAlign: "justify",
+                   lineHeight: "30px",
+                  width: "100%",
+                }}
+                width={"100%;"}
+               >
+             Are you sure you want to delete this enquiries?
+              </p>
+            </div>
+            <DialogFooter className="mt-8 gap-2">
+              <DialogClose asChild>
+                <Button onClick={handleClose} type="button" variant="outline">
+                  {("Cencel")}
+                </Button>
+              </DialogClose>
+              {/* <Link href="/admin/kyc-update" > */}
+              <Button onClick={() => productEnqDelete()} type="button">
+              Delete Confirm
+              </Button>
+              {/* </Link> */}
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+
     </>
   );
 }
 
-export default EnquiriesTable;
+export default BasicDataTable;

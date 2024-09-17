@@ -8,10 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import {
   Table,
   TableBody,
@@ -25,7 +22,6 @@ import { Badge } from "@/components/ui/badge";
 
 import { Icon } from "@iconify/react";
 import { cn } from "@/lib/utils";
-import SegmentIcon from "@mui/icons-material/Segment";
 import Link from "next/link";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -147,6 +143,14 @@ export function BasicDataTable() {
           alt="Product"
           className="h-8 w-8 object-contain"
         />
+      ),
+    },
+
+    {
+      accessorKey: "Image",
+      header: "Stock",
+      cell: ({ row }) => (
+        <div className="whitespace-nowrap">{row.original.stock}</div>
       ),
     },
     {
@@ -278,7 +282,7 @@ export function BasicDataTable() {
       <div className="flex items-center flex-wrap gap-4 px-4 py-4">
         <div className="flex-1 text-sm text-muted-foreground whitespace-nowrap">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} {("row_selected")}
+          {table.getFilteredRowModel().rows.length} {("rows selected")}
         </div>
 
         <div className="flex gap-2  items-center">
@@ -344,11 +348,11 @@ export function BasicDataTable() {
                 style={{
                   fontSize: "16px",
                   textAlign: "justify",
-                  lineHeight: "30px",
+                   lineHeight: "30px",
                   width: "100%",
                 }}
                 width={"100%;"}
-              >
+               >
              Are you sure you want to delete this Product?
               </p>
             </div>

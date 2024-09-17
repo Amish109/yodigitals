@@ -28,7 +28,7 @@ const ProductAdd = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+ 
     const apiData = new FormData();
     apiData.append("title", transRef);
     apiData.append("price", amount);

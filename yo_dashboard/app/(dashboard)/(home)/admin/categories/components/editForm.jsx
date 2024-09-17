@@ -1,7 +1,7 @@
 "use client";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,21 +11,42 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { postApiData } from "@/helper/common";
+import { getApiData, updateApiData } from "@/helper/common";
+import { useParams } from "next/navigation";
 
-const CategoriesAdd = () => {
-
-  
-
+const CategoriesEdit = () => {
+  const params = useParams(); // Getting the params
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [top_category, setTopCategory] = useState("");
-
   const [errors, setErrors] = useState({
     name: "",
     slug: "",
     top_category: "",
   });
+
+  const fetchCategoryData = async () => {
+    const id = params?.id;
+    if (!id) return;
+
+    try {
+      const apiResData = await getApiData(`categories/${id}`);
+      if (apiResData.success) {
+        setName(apiResData?.category?.name);
+        setSlug(apiResData?.category?.slug);
+        setTopCategory(apiResData?.category?.top_category ? "true" : "false");
+      } else {
+        toast.error("Failed to fetch category data");
+      }
+    } catch (error) {
+      console.error("Error fetching:", error);
+      toast.error("Error fetching category data");
+    }
+  };
+
+  useEffect(() => {
+    fetchCategoryData();
+  }, []);
 
   const validateFields = () => {
     let tempErrors = { ...errors };
@@ -58,33 +79,33 @@ const CategoriesAdd = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateFields()) return;
 
-    if (!validateFields()) {
-      return;
-    }
+    const id = params?.id;
+    if (!id) return;
 
     const apiData = {
-      name: name,
-      slug: slug,
-      top_category: top_category,
+      name,
+      slug,
+      top_category: top_category === "true", // Convert to boolean for the backend
     };
 
     try {
-      const data = await postApiData("categories", apiData, "application/json");
-      if (data.success === true) {
-        toast.success("Category added successfully", {
+      const data = await updateApiData(`categories/${id}`, apiData);
+      if (data.success) {
+        toast.success("Category updated successfully", {
           position: "bottom-center",
           style: { borderRadius: "10px", background: "#333", color: "#fff" },
         });
-        resetForm();
       } else {
-        toast.error(data.error, {
+        toast.error(data.error || "Failed to update category", {
           position: "bottom-center",
           style: { borderRadius: "10px", background: "#333", color: "#fff" },
         });
       }
-    } catch (errorData) {
-      toast.error(errorData.error, {
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Error updating category", {
         position: "bottom-center",
         style: { borderRadius: "10px", background: "#333", color: "#fff" },
       });
@@ -111,8 +132,7 @@ const CategoriesAdd = () => {
             <Input
               type="text"
               id="name"
-               size="lg"
-
+              size="lg"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter Name"
@@ -147,7 +167,9 @@ const CategoriesAdd = () => {
                 <SelectItem value="false">False</SelectItem>
               </SelectContent>
             </Select>
-            {errors.top_category && <span style={{ color: "red" }}>{errors.top_category}</span>}
+            {errors.top_category && (
+              <span style={{ color: "red" }}>{errors.top_category}</span>
+            )}
           </div>
         </div>
 
@@ -164,4 +186,4 @@ const CategoriesAdd = () => {
   );
 };
 
-export default CategoriesAdd;
+export default CategoriesEdit;
