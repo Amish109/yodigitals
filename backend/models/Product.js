@@ -80,8 +80,8 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.INTEGER,
         },
 
-        images: {  // JSON field for storing array of image paths
-          type: DataTypes.JSONB, // Use JSONB for PostgreSQL or JSON for MySQL
+        images: {  
+          type: DataTypes.JSONB, 
           allowNull: true,
         },
       

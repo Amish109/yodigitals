@@ -6,7 +6,7 @@ exports.createUser = async (req, res) => {
   try {
     const { firstName, lastName, phoneNumber, email, role, password, aadhar_number, pan_number } = req.body;
 
-    const allowedRoles = ['admin', 'manager', 'customer'];
+    const allowedRoles = ['admin', 'staff', 'users','retailers'];
 
     if (!password) {
       return res.status(400).json({ error: 'Password is required' });
@@ -29,7 +29,10 @@ exports.createUser = async (req, res) => {
       pan_number
     });
 
-    res.status(201).json(newUser);
+    res.status(201).json({
+      success:true,
+      newUser
+    });
   } catch (error) {
     console.error('Error creating user:', error);
     res.status(500).json({ error: 'An error occurred while creating the user' });
@@ -48,7 +51,10 @@ exports.getAllUsers = async (req, res) => {
         }
       ]
     });
-    res.status(200).json(users);
+    res.status(200).json({
+      success:true,
+     users: users
+    });
   } catch (error) {
     console.error('Error fetching users:', error);
     res.status(500).json({ error: 'An error occurred while fetching users' });
@@ -70,7 +76,10 @@ exports.getUserById = async (req, res) => {
     });
 
     if (user) {
-      res.status(200).json(user);
+      res.status(200).json({
+        success:true,
+        user
+      });
     } else {
       res.status(404).json({ message: 'User not found' });
     }
@@ -100,7 +109,10 @@ exports.updateUser = async (req, res) => {
 
     if (updated) {
       const updatedUser = await User.findByPk(id);
-      res.status(200).json(updatedUser);
+      res.status(200).json({
+        success:true,
+        updatedUser
+      });
     } else {
       res.status(404).json({ message: 'User not found' });
     }
