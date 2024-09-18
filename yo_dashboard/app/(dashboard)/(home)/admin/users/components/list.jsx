@@ -20,11 +20,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import ViewModel from '../components/ViewModel'
+import ViewModel from "../components/ViewModel";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 import { Icon } from "@iconify/react";
 import { cn } from "@/lib/utils";
@@ -34,12 +43,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
-
-
 import { deleteApiData, getApiData, postApiData } from "@/helper/common";
 
 export function BasicDataTable() {
-
   const [id, setId] = React.useState(null);
   const [id1, setId1] = React.useState(null);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -51,7 +57,7 @@ export function BasicDataTable() {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
 
-  const fetchProductList = async () => {
+  const FetchUserList = async () => {
     try {
       const apiResData = await getApiData(`users`);
       if (apiResData.success === true) {
@@ -67,7 +73,7 @@ export function BasicDataTable() {
   };
 
   useEffect(() => {
-    fetchProductList();
+    FetchUserList();
   }, []);
 
   const productsDelete = async () => {
@@ -79,7 +85,7 @@ export function BasicDataTable() {
           position: "bottom-center",
           style: { borderRadius: "10px", background: "#333", color: "#fff" },
         });
-        await fetchProductList(); // Fetch updated product list
+        await FetchUserList(); // Fetch updated product list
         setIsOpen(false); // Close the modal
       }
     } catch (error) {
@@ -99,11 +105,31 @@ export function BasicDataTable() {
     setId(id);
     setIsOpen(true);
   };
-  const DeleteConfirm1 = (id) => {
-    setId(id);
+  const ViewConfirm = async (id) => {
+   
     setIsOpen1(true);
+
+    try {
+      const apiResData = await getApiData(`users/${id}`);
+console.log(apiResData,"bbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+
+      if (apiResData) {
+        setView(apiResData?.user)
+      } else {
+        toast.error("Failed to fetch user data");
+      }
+    } catch (error) {
+      console.error("Error fetching:", error);
+      toast.error("Error fetching user data");
+    }
   };
 
+
+
+ const [view, setView] = useState("")
+ 
+
+  
   const columns = [
     {
       accessorKey: "sn",
@@ -140,7 +166,9 @@ export function BasicDataTable() {
       accessorKey: "Name",
       header: "Full Name",
       cell: ({ row }) => (
-        <div className="whitespace-nowrap">{row.original.firstName} {row.original.lastName}</div>
+        <div className="whitespace-nowrap">
+          {row.original.firstName} {row.original.lastName}
+        </div>
       ),
     },
     {
@@ -188,8 +216,7 @@ export function BasicDataTable() {
         </Badge>
       ),
     },
-    
- 
+
     {
       accessorKey: "action",
       header: "Action",
@@ -197,18 +224,18 @@ export function BasicDataTable() {
       cell: ({ row }) => (
         <div className="flex space-x-3 rtl:space-x-reverse">
           <Link href={`/admin/users/edit/${row?.original?.id}`}>
-          <Button
-            size="icon"
-            variant="outline"
-            color="secondary"
-            className="h-7 w-7"
-          >
-            <Icon icon="heroicons:pencil" className="h-4 w-4" />
-          </Button>
+            <Button
+              size="icon"
+              variant="outline"
+              color="secondary"
+              className="h-7 w-7"
+            >
+              <Icon icon="heroicons:pencil" className="h-4 w-4" />
+            </Button>
           </Link>
-         
+
           <Button
-           onClick={() => DeleteConfirm1()}
+            onClick={() => ViewConfirm(row.original.id)}
             size="icon"
             variant="outline"
             color="secondary"
@@ -251,7 +278,7 @@ export function BasicDataTable() {
   return (
     <>
       <div>
-      <Table>
+        <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -304,7 +331,7 @@ export function BasicDataTable() {
       <div className="flex items-center flex-wrap gap-4 px-4 py-4">
         <div className="flex-1 text-sm text-muted-foreground whitespace-nowrap">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} {("rows selected")}
+          {table.getFilteredRowModel().rows.length} {"rows selected"}
         </div>
 
         <div className="flex gap-2  items-center">
@@ -322,10 +349,11 @@ export function BasicDataTable() {
             <Button
               key={`basic-data-table-${pageIdx}`}
               onClick={() => table.setPageIndex(pageIdx)}
-              variant={`${pageIdx === table.getState().pagination.pageIndex
+              variant={`${
+                pageIdx === table.getState().pagination.pageIndex
                   ? ""
                   : "outline"
-                }`}
+              }`}
               className={cn("w-8 h-8")}
             >
               {page + 1}
@@ -370,23 +398,23 @@ export function BasicDataTable() {
                 style={{
                   fontSize: "16px",
                   textAlign: "justify",
-                   lineHeight: "30px",
+                  lineHeight: "30px",
                   width: "100%",
                 }}
                 width={"100%;"}
-               >
-             Are you sure you want to delete this user?
+              >
+                Are you sure you want to delete this user?
               </p>
             </div>
             <DialogFooter className="mt-8 gap-2">
               <DialogClose asChild>
                 <Button onClick={handleClose} type="button" variant="outline">
-                  {("Cencel")}
+                  {"Cencel"}
                 </Button>
               </DialogClose>
               {/* <Link href="/admin/kyc-update" > */}
               <Button onClick={() => productsDelete()} type="button">
-              Delete Confirm
+                Delete Confirm
               </Button>
               {/* </Link> */}
             </DialogFooter>
@@ -395,58 +423,122 @@ export function BasicDataTable() {
       </div>
 
       <div className="flex flex-wrap  gap-x-5 gap-y-4 ">
-     
-    
-    
-   
-    
-      <Dialog  open={isOpen1} onOpenChange={handleClose1} >
-        <DialogTrigger asChild>
-         
-        </DialogTrigger>
-        <DialogContent size="2xl">
-          <DialogHeader>
-            <DialogTitle className="text-base font-medium text-default-700 ">
-              What is the world's number one tourist destination?
-            </DialogTitle>
-          </DialogHeader>
+        <Dialog open={isOpen1} onOpenChange={handleClose1}>
+          <DialogTrigger asChild></DialogTrigger>
+          <DialogContent size="2xl">
+            <DialogHeader>
+              <DialogTitle className="text-base font-medium text-default-700 ">
+                User Details
+              </DialogTitle>
+            </DialogHeader>
 
-          <div className="text-sm text-default-500  space-y-4">
-            <p>
-              <span className="text-primary font-medium">France</span> is the
-              most visited country in the world with 117,109,000 international
-              tourists, thanks to its rich history and iconic landmarks.
-            </p>
-            <p>
-              France's magnetic City of Light is a perennial tourist
-              destination, drawing visitors with its iconic attractions, like
-              the Eiffel Tower and the Louvre, and its unmistakable je ne sais
-              quoi. Quaint cafes, trendy shopping districts and Haussmann
-              architecture give Paris its timeless beauty. But the city's best
-              asset is that you're likely to discover something new with each
-              trip or season (read: Paris is always a good idea). To best
-              explore France's ever-changing capital, get lost wandering the
-              charming cobblestone streets, learn its secrets on a walking
-              tour head to dynamic art exhibits like the Atelier des Lumières
-              or gourmandize at the latest restaurants and pastry shops
-            </p>
-          </div>
-          <DialogFooter className="mt-8">
-            <DialogClose asChild>
-              <Button type="submit" variant="outline">
-                Disagree
-              </Button>
-            </DialogClose>
-            <Button type="submit">Agree</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    
-     
-   
-  
-    </div>
+            <div className="text-sm text-default-500  space-y-4">
+              <form>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="firstName">First Name</Label>
+                    <Input
+                      type="text"
+                      id="firstName"
+                      size="lg"
+                      value={view?.firstName}
+                      disabled="true"
+                      placeholder="Enter First Name"
+                    />
+                  </div>
 
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="firstName">Last Name</Label>
+                    <Input
+                      type="text"
+                      id="firstName"
+                      size="lg"
+                      value={view?.lastName}
+                      disabled="true"
+                      placeholder="Enter First Name"
+                    />
+                  </div>
+                
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="lastName">Email-Address</Label>
+                    <Input
+                      type="text"
+                      id="lastName"
+                      size="lg"
+                      value={view?.email}
+                      disabled="true"
+                      placeholder="Enter Last Name"
+                    />
+                  </div>
+
+
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="lastName">Phone Number</Label>
+                    <Input
+                      type="text"
+                      id="lastName"
+                      size="lg"
+                      disabled="true"
+                      value={view?.phoneNumber}
+                      placeholder="Enter Last Name"
+                    />
+                  </div>
+
+
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="lastName">Aadhar Number</Label>
+                    <Input
+                      type="text"
+                      id="lastName"
+                      size="lg"
+                      disabled="true"
+                      value={view?.aadhar_number}
+                      placeholder="Enter Last Name"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="lastName">Pan Number</Label>
+                    <Input
+                      type="text"
+                      id="lastName"
+                      size="lg"
+                      value={view?.pan_number}
+                      disabled="true"
+                      placeholder="Enter Last Name"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="lastName">User Role</Label>
+                    <Input
+                      type="text"
+                      id="lastName"
+                      size="lg"
+                      value={view?.role}
+                      disabled="true"
+                      placeholder="Enter Last Name"
+                    />
+                  </div>
+
+
+                </div>
+              </form>
+            </div>
+            <DialogFooter className="mt-8">
+              <DialogClose asChild>
+                <Button type="submit" variant="outline">
+                  Cencel
+                </Button>
+              </DialogClose>
+            
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+
+      
     </>
   );
 }

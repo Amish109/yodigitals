@@ -37,7 +37,39 @@ import {
 } from "@/components/ui/dialog";
 import { deleteApiData, getApiData, postApiData } from "@/helper/common";
 
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+
+
 export function BasicDataTable() {
+
+
+  const [isOpen1, setIsOpen1] = React.useState(false);
+  const [view, setView] = useState("")
+
+ 
+  const handleClose1 = () => {
+    setIsOpen1(false);
+  }; 
+
+  const ViewConfirm = async (id) => {
+   
+    setIsOpen1(true);
+
+    try {
+      const apiResData = await getApiData(`productenq/${id}`);
+console.log(apiResData,"bbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+
+      if (apiResData) {
+        setView(apiResData?.ProductEnq)
+      } else {
+        toast.error("Failed to fetch user data");
+      }
+    } catch (error) {
+      console.error("Error fetching:", error);
+      toast.error("Error fetching user data");
+    }
+  };
 
   const [id, setId] = React.useState(null);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -206,6 +238,7 @@ export function BasicDataTable() {
           <Icon icon="heroicons:pencil" className=" h-4 w-4  " />
         </Button>
         <Button
+        onClick={() => ViewConfirm(row.original.id)}
           size="icon"
           variant="outline"
           className=" h-7 w-7 text-green-700"
@@ -390,7 +423,163 @@ export function BasicDataTable() {
           </DialogContent>
         </Dialog>
       </div>
+{/* view model */}
 
+<div className="flex flex-wrap  gap-x-5 gap-y-4 ">
+    <Dialog open={isOpen1} onOpenChange={handleClose1}>
+      <DialogTrigger asChild></DialogTrigger>
+      <DialogContent size="2xl">
+        <DialogHeader>
+          <DialogTitle className="text-base font-medium text-default-700 ">
+            User Details
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="text-sm text-default-500  space-y-4">
+          <form>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Name</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.name}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Contact</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.contact}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Email-Address</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.email}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Business Name</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.bname}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">BGST</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.bgst}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Address</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.address}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Unit</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.unit}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Message</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.title}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Created Date</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.createdAt ? new Date(view.createdAt).toLocaleDateString() : ''}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Created Time</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.createdAt ? new Date(view.createdAt).toLocaleTimeString() : ''}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+            </div>
+          </form>
+        </div>
+        <DialogFooter className="mt-8">
+          <DialogClose asChild>
+            <Button type="submit" variant="outline">
+              Cencel
+            </Button>
+          </DialogClose>
+        
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  </div>
     </>
   );
 }

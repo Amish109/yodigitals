@@ -39,6 +39,12 @@ import {
 } from "@/components/ui/dialog";
 import { deleteApiData, getApiData, postApiData } from "@/helper/common";
 
+
+
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+
+
 export function BasicDataTable() {
 
   const [id, setId] = React.useState(null);
@@ -94,6 +100,39 @@ export function BasicDataTable() {
     setId(id);
     setIsOpen(true);
   };
+
+
+
+  const [isOpen1, setIsOpen1] = React.useState(false);
+  const [view, setView] = useState("")
+  const [brand, setBrand] = useState("")
+
+ 
+  const handleClose1 = () => {
+    setIsOpen1(false);
+  }; 
+
+  const ViewConfirm = async (id) => {
+   
+    setIsOpen1(true);
+
+    try {
+      const apiResData = await getApiData(`product/${id}`);
+console.log(apiResData,"bbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+
+      if (apiResData) {
+        setView(apiResData);
+        setBrand(apiResData?.brand)
+      } else {
+        toast.error("Failed to fetch user data");
+      }
+    } catch (error) {
+      console.error("Error fetching:", error);
+      toast.error("Error fetching user data");
+    }
+  };
+
+
 
   const columns = [
     {
@@ -172,7 +211,7 @@ export function BasicDataTable() {
         </Badge>
       ),
     },
-    {
+    { 
       accessorKey: "action",
       header: "Action",
       headerProps: { className: "text-center" },
@@ -187,6 +226,7 @@ export function BasicDataTable() {
             <Icon icon="heroicons:pencil" className="h-4 w-4" />
           </Button>
           <Button
+          onClick={() => ViewConfirm(row.original.id)}
             size="icon"
             variant="outline"
             color="secondary"
@@ -371,7 +411,163 @@ export function BasicDataTable() {
           </DialogContent>
         </Dialog>
       </div>
+   {/* view model */}
 
+   <div className="flex flex-wrap  gap-x-5 gap-y-4 ">
+    <Dialog open={isOpen1} onOpenChange={handleClose1}>
+      <DialogTrigger asChild></DialogTrigger>
+      <DialogContent size="3xl">
+        <DialogHeader>
+          <DialogTitle className="text-base font-medium text-default-700 ">
+            Porduct Details
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="text-sm text-default-500  space-y-4">
+          <form>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+             
+              
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Product Name</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.title}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Product Price</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.price}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Product Description</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.description}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Product Rating</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.rating}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Product Status</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.status}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Product Stock</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.stock}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Product Brand</Label>
+                 <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={brand?.name}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Discount</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.discount?view.discount:"0.00"}
+                  disabled="true"
+                  placeholder="Enter Discount"
+                />
+              </div>
+
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Created Date</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.createdAt ? new Date(view.createdAt).toLocaleDateString() : ''}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Created Time</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.createdAt ? new Date(view.createdAt).toLocaleTimeString() : ''}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+
+            </div>
+          </form>
+        </div>
+        <DialogFooter className="mt-8">
+          <DialogClose asChild>
+            <Button type="submit" variant="outline">
+              Cencel
+            </Button>
+          </DialogClose>
+        
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  </div>
     </>
   );
 }

@@ -5,21 +5,20 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  getSortedRowModel, 
+  getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"; 
+} from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import {
   Table,
-  TableBody, 
+  TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+
+
 import { Icon } from "@iconify/react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -37,9 +36,41 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { deleteApiData, getApiData, postApiData } from "@/helper/common";
+
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
+
 export function BasicDataTable() {
+
+
+  const [isOpen1, setIsOpen1] = React.useState(false);
+  const [view, setView] = useState("")
+
+ 
+  const handleClose1 = () => {
+    setIsOpen1(false);
+  }; 
+
+  const ViewConfirm = async (id) => {
+   
+    setIsOpen1(true);
+
+    try {
+      const apiResData = await getApiData(`business/${id}`);
+console.log(apiResData,"bbssbbbbbbbbbbbbbbbbbbbbbbbbbb");
+
+      if (apiResData) {
+        setView(apiResData?.businessInfo)
+      } else {
+        toast.error("Failed to fetch user data");
+      }
+    } catch (error) {
+      console.error("Error fetching:", error);
+      toast.error("Error fetching user data");
+    }
+  };
 
   const [id, setId] = React.useState(null);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -50,39 +81,12 @@ export function BasicDataTable() {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
 
-
-  const [isOpen1, setIsOpen1] = React.useState(false);
-  const [view, setView] = useState("")
-
-
-  const handleClose1 = () => {
-    setIsOpen1(false);
-  }; 
-  const ViewConfirm = async (id) => {
-   
-    setIsOpen1(true);
-
+  const fetchProductenqList = async () => {
     try {
-      const apiResData = await getApiData(`categories/${id}`);
-      if (apiResData.success) {
-        setView(apiResData?.category);
-        
-        // setTopCategory(apiResData?.category?.top_category ? "true" : "false");
-      } else {
-        toast.error("Failed to fetch category data");
-      }
-    } catch (error) {
-      console.error("Error fetching:", error);
-      toast.error("Error fetching category data");
-    }
-  };
-
-
-  const fetchCategoriesList = async () => {
-    try {
-      const apiResData = await getApiData(`categories`);
+      const apiResData = await getApiData(`business`);
+      
       if (apiResData.success === true) {
-        setData(apiResData?.categories);
+        setData(apiResData?.businessInfos);
       } else {
         setData([]);
         setError(apiResData.message || "Failed to fetch data");
@@ -94,23 +98,23 @@ export function BasicDataTable() {
   };
 
   useEffect(() => {
-    fetchCategoriesList();
+    fetchProductenqList();
   }, []);
 
-  const categoriesDelete = async () => {
+  const productEnqDelete = async () => {
     toast.dismiss();
     try {
-      const response = await deleteApiData(`categories/${id}`);
+      const response = await deleteApiData(`business/${id}`);
       if (response.success == true) {
         toast.success(response.message, {
           position: "bottom-center",
           style: { borderRadius: "10px", background: "#333", color: "#fff" },
         });
-        await fetchCategoriesList(); 
-        setIsOpen(false); 
+        await fetchProductenqList(); 
+        setIsOpen(false);
       }
     } catch (error) {
-      toast.error("Error deleting product");
+      toast.error("Error deleting product enquiry");
     }
   };
 
@@ -126,89 +130,85 @@ export function BasicDataTable() {
   const columns = [
     {
       accessorKey: "sn",
-      header: "S NO",
+      header: "S No",
       cell: ({ row }) => (
         <div className="whitespace-nowrap">{row?.index + 1}</div>
       ),
     },
 
-    {
-      accessorKey: " Date",
-      header: " Date",
-      cell: ({ row }) => {
-        const createdAt = new Date(row.original.createdAt);
-        return (
-          <div className="whitespace-nowrap">
-            {createdAt.toLocaleDateString()}
-          </div>
-        );
-      },
-    },
+   
+   
 
     {
-      accessorKey: " Time",
-      header: " Time",
-      cell: ({ row }) => {
-        const createdAt = new Date(row.original.createdAt);
-        return (
-          <div className="whitespace-nowrap">
-            {createdAt.toLocaleTimeString()}
-          </div>
-        );
-      },
-    },
-    
- 
-   
-    {
-      accessorKey: "name",
-      header: "Category Title",
+      accessorKey: "Business Name",
+      header: "Business Name",
       cell: ({ row }) => (
-        <div className="whitespace-nowrap">{row?.original?.name}</div>
+        <div className="whitespace-nowrap">{row?.original?.business_name}</div>
       ),
     },
     {
-      accessorKey: "top_category",
-      header: "Top Category",
-      cell: ({ row }) => {
-        const isTopCategory = row.original.top_category === true;
-        return (
-          <Badge
-            variant="soft"
-            color={isTopCategory ? "warning" : "success"}
-            className="capitalize"
-          >
-            {isTopCategory ? "True" : "False"}
-          </Badge>
-        );
-      },
+      accessorKey: "Business Address",
+      header: "Business Address",
+      cell: ({ row }) => (
+        <div className="whitespace-nowrap">{row?.original?.business_address}</div>
+      ),
     },
-   
+
+    {
+      accessorKey: "GST Number",
+      header: "GST Number",
+      cell: ({ row }) => (
+        <div className="whitespace-nowrap">{row?.original?.gst_number}</div>
+      ),
+    },
+
+
+    {
+      accessorKey: "CIN",
+      header: "CIN",
+      cell: ({ row }) => (
+        <div className="whitespace-nowrap">{row?.original?.cin}</div>
+      ),
+    },
+    {
+      accessorKey: "turnover",
+      header: "Turnover",
+      cell: ({ row }) => (
+        <div className="whitespace-nowrap">{row?.original?.turnover}</div>
+      ),
+    },
+
+    
+
+    
     {
       accessorKey: "action",
       header: "Action",
       headerProps: { className: "text-center" },
       cell: ({ row }) => (
         <div className="flex space-x-3 rtl:space-x-reverse">
-       <Link  href={`/admin/categories/edit/${row?.original?.id}`}>
-       <Button
+          <Link  href={`/admin/businessinfo/edit/${row?.original?.id}`}>
+        <Button
           size="icon"
           variant="outline"
           color="secondary"
           className=" h-7 w-7 "
         >
           <Icon icon="heroicons:pencil" className=" h-4 w-4  " />
-        </Button>
-       </Link>
+        </Button> 
+        </Link>
         <Button
-           onClick={() => ViewConfirm(row.original.id)}
+        onClick={() => ViewConfirm(row.original.id)}
           size="icon"
           variant="outline"
           className=" h-7 w-7 text-green-700"
           color="secondary"
         >
+          
           <Icon icon="heroicons:eye" className=" h-4 w-4  " />
         </Button>
+        
+       
         <Button
          onClick={() => DeleteConfirm(row.original.id)}
           size="icon"
@@ -352,7 +352,7 @@ export function BasicDataTable() {
                   }}
                 >
                   {" "}
-                  Categories Delete Confirm
+                  Product business info Delete Confirm
                 </p>
               </DialogTitle>
             </DialogHeader>
@@ -368,7 +368,7 @@ export function BasicDataTable() {
                 }}
                 width={"100%;"}
                >
-             Are you sure you want to delete this categories?
+             Are you sure you want to delete this business info?
               </p>
             </div>
             <DialogFooter className="mt-8 gap-2">
@@ -378,7 +378,7 @@ export function BasicDataTable() {
                 </Button>
               </DialogClose>
               {/* <Link href="/admin/kyc-update" > */}
-              <Button onClick={() => categoriesDelete()} type="button">
+              <Button onClick={() => productEnqDelete()} type="button">
               Delete Confirm
               </Button>
               {/* </Link> */}
@@ -386,8 +386,6 @@ export function BasicDataTable() {
           </DialogContent>
         </Dialog>
       </div>
-
-
 {/* view model */}
 
 <div className="flex flex-wrap  gap-x-5 gap-y-4 ">
@@ -396,54 +394,90 @@ export function BasicDataTable() {
       <DialogContent size="2xl">
         <DialogHeader>
           <DialogTitle className="text-base font-medium text-default-700 ">
-            Categories Details
+            Business Info Details
           </DialogTitle>
         </DialogHeader>
 
         <div className="text-sm text-default-500  space-y-4">
           <form>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            
-
+          
               <div className="flex flex-col gap-2">
-                <Label htmlFor="lastName">Categories Name</Label>
+                <Label htmlFor="lastName">Business Address</Label>
                 <Input
                   type="text"
                   id="lastName"
                   size="lg"
-                  value={view?.name}
+                  value={view?.business_address}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Business Name</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.business_name}
+                  disabled="true"
+                  placeholder="business_name"
+                />
+              </div>
+
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">CIN</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.cin}
+                  disabled="true"
+                  placeholder="cin"
+                />
+              </div>
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">GST Number</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.gst_number}
+                  disabled="true"
+                  placeholder="gst_number"
+                />
+              </div>
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Turnover</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.turnover}
+                  disabled="true"
+                  placeholder="turnover"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Due Date</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.due_date ? new Date(view.due_date).toLocaleDateString() : ''}
                   disabled="true"
                   placeholder="Enter Last Name"
                 />
               </div>
 
               <div className="flex flex-col gap-2">
-                <Label htmlFor="lastName">Categories Slug</Label>
-                <Input
-                  type="text"
-                  id="lastName"
-                  size="lg"
-                  value={view?.slug}
-                  disabled="true"
-                  placeholder="Enter Last Name"
-                />
-              </div>  
-
-
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="lastName">Categories Top Category</Label>
-                <Input
-                  type="text"
-                  id="lastName"
-                  size="lg"
-                  value={view?.top_category}
-                  disabled="true"
-                  placeholder="Enter Last Name"
-                />
-              </div>
-
-
-               <div className="flex flex-col gap-2">
                 <Label htmlFor="lastName">Created Date</Label>
                 <Input
                   type="text"
@@ -465,7 +499,6 @@ export function BasicDataTable() {
                   placeholder="Enter Last Name"
                 />
               </div>
-
 
 
             </div>

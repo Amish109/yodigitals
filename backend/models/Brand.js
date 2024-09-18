@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
-        primaryKey: true,  // Keep UUID as the primary key
+        primaryKey: true, 
       },
       brand_id: {
         type: DataTypes.INTEGER,
