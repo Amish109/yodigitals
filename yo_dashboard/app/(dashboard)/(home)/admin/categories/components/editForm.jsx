@@ -15,7 +15,7 @@ import { getApiData, updateApiData } from "@/helper/common";
 import { useParams } from "next/navigation";
 
 const CategoriesEdit = () => {
-  const params = useParams(); // Getting the params
+  const params = useParams(); 
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [top_category, setTopCategory] = useState("");
@@ -27,7 +27,7 @@ const CategoriesEdit = () => {
 
   const fetchCategoryData = async () => {
     const id = params?.id;
-    if (!id) return;
+    if (!id) return; 
 
     try {
       const apiResData = await getApiData(`categories/${id}`);

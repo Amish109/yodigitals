@@ -57,7 +57,7 @@ export function BasicDataTable() {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
 
-  const fetchProductList = async () => {
+  const FetchUserList = async () => {
     try {
       const apiResData = await getApiData(`users`);
       if (apiResData.success === true) {
@@ -73,7 +73,7 @@ export function BasicDataTable() {
   };
 
   useEffect(() => {
-    fetchProductList();
+    FetchUserList();
   }, []);
 
   const productsDelete = async () => {
@@ -85,7 +85,7 @@ export function BasicDataTable() {
           position: "bottom-center",
           style: { borderRadius: "10px", background: "#333", color: "#fff" },
         });
-        await fetchProductList(); // Fetch updated product list
+        await FetchUserList(); // Fetch updated product list
         setIsOpen(false); // Close the modal
       }
     } catch (error) {

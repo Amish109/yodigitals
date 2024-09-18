@@ -932,50 +932,6 @@ export const menusConfig = {
         ],
        
       },
-
-
-      {
-        title: "Order",
-        icon: Application,
-        child: [
-          {
-            title: "Add Order",
-            href: "/admin/order/add",
-            icon: Application,
-          },
-          {
-            title: "Order List",
-            href: "/admin/order/list",
-            icon: Application,
-          },
-         
-
-
-          // {
-          //   title: "New Order Add",
-          //   href: "/admin/new-order/add",
-          //   icon: DashBoard,
-          // },
-          
-         
-        ],
-       
-      },
-      // {
-      //   title: "Order",
-      //   icon: Components,
-      //   // href: "/admin/order/list",
-      //   child: [
-      //     {
-      //       title: "Order",
-      //       icon: Flag,
-      //       href: "/admin/order/list",
-           
-      //     },
-        
-      //   ],
-      // },
-
       {
         title: "Products",
         icon: Files,
@@ -1022,29 +978,6 @@ export const menusConfig = {
       },
 
       {
-        title: "Ledger",
-        icon: Files,
-        child: [
-          {
-            title: "Add Ledger",
-            icon: Files,
-            href: "/admin/ledger/add",
-          
-          },
-          {
-            title: "Ledger List",
-            icon: Files,
-            href: "/admin/ledger/list",
-          
-          },
-         
-         
-         
-         
-        ],
-      },
-
-      {
         title: "Enquiries",
         icon: CallToActionOutlinedIcon,
         child: [
@@ -1068,6 +1001,101 @@ export const menusConfig = {
         
         ],
       },
+
+      {
+        title: "Business Info",
+        icon: CallToActionOutlinedIcon,
+        child: [
+
+          {
+            title: "Add Business Info",
+            icon: CallToActionOutlinedIcon,
+            href: "/admin/businessinfo/add",
+          },
+        
+
+          {
+            title: "Business Info List",
+            icon: CallToActionOutlinedIcon,
+            href: "/admin/businessinfo/list",
+          },
+
+
+         
+        
+        
+        ],
+      },
+
+
+      {
+        title: "Order",
+        icon: Application,
+        child: [
+          {
+            title: "Add Order",
+            href: "/admin/order/add",
+            icon: Application,
+          },
+          {
+            title: "Order List",
+            href: "/admin/order/list",
+            icon: Application,
+          },
+         
+
+
+          // {
+          //   title: "New Order Add",
+          //   href: "/admin/new-order/add",
+          //   icon: DashBoard,
+          // },
+          
+         
+        ],
+       
+      },
+      // {
+      //   title: "Order",
+      //   icon: Components,
+      //   // href: "/admin/order/list",
+      //   child: [
+      //     {
+      //       title: "Order",
+      //       icon: Flag,
+      //       href: "/admin/order/list",
+           
+      //     },
+        
+      //   ],
+      // },
+
+    
+
+      {
+        title: "Ledger",
+        icon: Files,
+        child: [
+          {
+            title: "Add Ledger",
+            icon: Files,
+            href: "/admin/ledger/add",
+          
+          },
+          {
+            title: "Ledger List",
+            icon: Files,
+            href: "/admin/ledger/list",
+          
+          },
+         
+         
+         
+         
+        ],
+      },
+
+   
      
       {
         title: "Invoices",
