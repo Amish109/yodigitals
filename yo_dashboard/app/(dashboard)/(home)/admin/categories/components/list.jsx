@@ -5,22 +5,21 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  getSortedRowModel,
+  getSortedRowModel, 
   useReactTable,
-} from "@tanstack/react-table";
+} from "@tanstack/react-table"; 
 import { Button } from "@/components/ui/button";
 import {
   Table,
-  TableBody,
+  TableBody, 
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-
-
-
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Icon } from "@iconify/react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -50,6 +49,34 @@ export function BasicDataTable() {
   const [rowSelection, setRowSelection] = React.useState({});
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
+
+
+  const [isOpen1, setIsOpen1] = React.useState(false);
+  const [view, setView] = useState("")
+
+
+  const handleClose1 = () => {
+    setIsOpen1(false);
+  }; 
+  const ViewConfirm = async (id) => {
+   
+    setIsOpen1(true);
+
+    try {
+      const apiResData = await getApiData(`categories/${id}`);
+      if (apiResData.success) {
+        setView(apiResData?.category);
+        
+        // setTopCategory(apiResData?.category?.top_category ? "true" : "false");
+      } else {
+        toast.error("Failed to fetch category data");
+      }
+    } catch (error) {
+      console.error("Error fetching:", error);
+      toast.error("Error fetching category data");
+    }
+  };
+
 
   const fetchCategoriesList = async () => {
     try {
@@ -174,6 +201,7 @@ export function BasicDataTable() {
         </Button>
        </Link>
         <Button
+           onClick={() => ViewConfirm(row.original.id)}
           size="icon"
           variant="outline"
           className=" h-7 w-7 text-green-700"
@@ -359,6 +387,101 @@ export function BasicDataTable() {
         </Dialog>
       </div>
 
+
+{/* view model */}
+
+<div className="flex flex-wrap  gap-x-5 gap-y-4 ">
+    <Dialog open={isOpen1} onOpenChange={handleClose1}>
+      <DialogTrigger asChild></DialogTrigger>
+      <DialogContent size="2xl">
+        <DialogHeader>
+          <DialogTitle className="text-base font-medium text-default-700 ">
+            Categories Details
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="text-sm text-default-500  space-y-4">
+          <form>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Categories Name</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.name}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Categories Slug</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.slug}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>  
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Categories Top Category</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.top_category}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+               <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Created Date</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.createdAt ? new Date(view.createdAt).toLocaleDateString() : ''}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Created Time</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.createdAt ? new Date(view.createdAt).toLocaleTimeString() : ''}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+
+            </div>
+          </form>
+        </div>
+        <DialogFooter className="mt-8">
+          <DialogClose asChild>
+            <Button type="submit" variant="outline">
+              Cencel
+            </Button>
+          </DialogClose>
+        
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  </div>
     </>
   );
 }
