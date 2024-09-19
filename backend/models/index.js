@@ -32,6 +32,10 @@ db.User = require("./users")(sequelize, DataTypes);
 db.BusinessInfo = require("./businessInfo")(sequelize, DataTypes);
 db.Category = require("./category")(sequelize, DataTypes);
 db.coupon = require("./coupon")(sequelize, DataTypes);
+db.orders = require("./orders")(sequelize, DataTypes);
+db.orderDetails = require("./order_details")(sequelize, DataTypes);
+
+
 
 db.sequelize.sync({ force: false, logging: false });
 

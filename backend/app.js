@@ -22,6 +22,7 @@ const business =require("./routers/businessinfo");
 const product = require("./routers/product");
 const category = require("./routers/category");
 const coupon = require("./routers/coupon");
+const orders = require("./routers/orders");
 
 
 
@@ -33,6 +34,7 @@ app.use("/business", business);
 app.use("/product", product);
 app.use("/categories", category);
 app.use("/coupon", coupon);
+app.use("/orders", orders);
 
 
 
