@@ -35,7 +35,7 @@ const ProductAdd = () => {
     apiData.append("discount", discount);
     apiData.append("categories", categories);
     apiData.append("moreProducts", moreProducts);
-    apiData.append("metaDescription", metaDescription);
+    apiData.append("metaDescription", metaDescription); 
     apiData.append("keywords", keywords);
     apiData.append("stock", stock);
     apiData.append("distributorPrice", distributorPrice);

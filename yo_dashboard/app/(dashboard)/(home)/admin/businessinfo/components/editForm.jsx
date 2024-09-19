@@ -20,7 +20,7 @@ const UpdateBusinessInfo = () => {
   const [businessAddress, setBusinessAddress] = useState("");
   const [gstNumber, setGstNumber] = useState("");
   const [cin, setCin] = useState("");
-  const [dueDate, setDueDate] = useState("");
+  const [dueDate, setDueDate] = useState(new Date().toISOString().slice(0, 10)); // Set default to today's date
   const [turnover, setTurnover] = useState("");
   const [user_id, setUser_id] = useState("");
   const [data, setData] = useState([]);
@@ -32,13 +32,14 @@ const UpdateBusinessInfo = () => {
     try {
       const apiResData = await getApiData(`business/${id}`);
       if (apiResData?.businessInfo) {
+        setDueDate(apiResData?.businessInfo?.due_date.toISOString || new Date().toISOString().slice(0, 10)); 
         setBusinessName(apiResData.businessInfo.business_name || "");
         setBusinessAddress(apiResData.businessInfo.business_address || "");
         setGstNumber(apiResData.businessInfo.gst_number || "");
         setCin(apiResData.businessInfo.cin || "");
-        setDueDate(apiResData.businessInfo.due_date || "");
         setTurnover(apiResData.businessInfo.turnover || "");
-        setUser_id(apiResData.businessInfo.user_id || ""); // Set user_id correctly
+        setUser_id(apiResData?.businessInfo?.user_id);
+       
       } else {
         toast.error("Failed to fetch business data");
       }
@@ -48,14 +49,13 @@ const UpdateBusinessInfo = () => {
     }
   };
 
-
+  // Fetch the user list to populate the retailer dropdown
   const FetchUserList = async () => {
     try {
       const apiResData = await getApiData(`users`);
       if (apiResData.success === true) {
-       
         const retailers = apiResData?.users?.filter((user) => user.role === 'retailers');
-        setData(retailers); 
+        setData(retailers);
       } else {
         setData([]);
       }
@@ -63,7 +63,6 @@ const UpdateBusinessInfo = () => {
       console.error("Error fetching:", error);
     }
   };
-
 
   useEffect(() => {
     fetchBusinessData();
@@ -109,7 +108,7 @@ const UpdateBusinessInfo = () => {
     setBusinessAddress("");
     setGstNumber("");
     setCin("");
-    setDueDate("");
+    setDueDate(new Date().toISOString().slice(0, 10)); 
     setTurnover("");
     setUser_id("");
   };
@@ -225,6 +224,6 @@ const UpdateBusinessInfo = () => {
       <Toaster />
     </>
   );
-}; 
+};
 
 export default UpdateBusinessInfo;

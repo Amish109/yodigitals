@@ -27,7 +27,7 @@ const BusinessInfo = () => {
   const FetchUserList = async () => {
     try {
       const apiResData = await getApiData(`users`);
-      if (apiResData.success === true) {
+      if (apiResData.success === true) {  
         // Filter users with role 'retailers'
         const retailers = apiResData?.users?.filter((user) => user.role === 'retailers');
         setData(retailers); 
@@ -198,7 +198,7 @@ const BusinessInfo = () => {
       </form>
       <Toaster />
     </>
-  );
+  ); 
 };
 
 export default BusinessInfo;

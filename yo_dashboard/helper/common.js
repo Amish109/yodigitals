@@ -30,6 +30,7 @@ export async function postApiData(url, data) {
 }
 
 
+
 // post with token api call
 export async function postWithToken(url, data) {
   const token = typeof window !== 'undefined' ? localStorage.getItem("token") : null;

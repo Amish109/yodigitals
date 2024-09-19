@@ -5,13 +5,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+
 import Link from "next/link";
-import DueForm from "../components/form";
+import { Button } from "@/components/ui/button";
+import  Form  from "../components/newForm";
 
-const AddOrder = () => {
-
-
+ 
+const Home = () => {
 
 
   return (
@@ -20,25 +20,15 @@ const AddOrder = () => {
       <CardHeader>
         <CardTitle>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            Add Order
-            <div className=" w-100 flex justify-between gap-5">
+          {("Add New Order")}
 
-              <div>
-                <Button color="primary" >
-                <Link href="/admin/order/list" prefetch={true}>{("Orders List")}</Link>
-                </Button>
-              </div>
-            </div>
           </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <div className="px-4 space-y-4 gap-2 lg:space-y-0 lg:grid lg:grid-cols-1 gap-6 mx-auto ">
-
           <div className="col-span-2 mb-5">
-
-            <DueForm />
-
+            <Form />
           </div>
         </div>
       </CardContent>
@@ -47,4 +37,4 @@ const AddOrder = () => {
   );
 };
 
-export default AddOrder;
+export default Home;

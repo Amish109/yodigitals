@@ -10,10 +10,10 @@ const FileUploaderRestrictions = () => {
   const [files, setFiles] = useState([]);
   const { toast } = useToast();
   const { getRootProps, getInputProps } = useDropzone({
-    maxFiles: 2,
+    maxFiles: 5,
     maxSize: 2000000,
     accept: {
-      "image/*": [".png", ".jpg", ".jpeg", ".gif"],
+      "image/*": [".png", ".jpg", ".jpeg", ".gif" , ".pdf"],
     },
     onDrop: (acceptedFiles) => {
       setFiles(acceptedFiles.map((file) => Object.assign(file)));

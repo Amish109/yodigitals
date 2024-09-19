@@ -36,4 +36,4 @@ const Page = ({ params }) => {
   );
 };
 
-export default Page;
+export default Page; 
