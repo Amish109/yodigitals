@@ -57,12 +57,12 @@ export const menusConfig = {
       child: [
         {
           title: "Analytics",
-          href: "/dashboard",
+          href: "/admin/dashboard",
           icon: Graph,
         },
         {
           title: "Ecommerce",
-          href: "/ecommerce",
+          href: "/admin/ecommerce",
           icon: Cart,
         },
         {
@@ -904,7 +904,7 @@ export const menusConfig = {
         child: [
           {
             title: "Dashboard",
-            href: "/dashboard",
+            href: "/admin/dashboard",
             icon: DashBoard,
           },
           
@@ -982,14 +982,14 @@ export const menusConfig = {
         icon: CallToActionOutlinedIcon,
         child: [
 
-          {
-            title: "Add Enquiries",
-            icon: CallToActionOutlinedIcon,
-            href: "/admin/enquiries/add",
-          },
+          // {
+          //   title: "Add Enquiries",
+          //   icon: CallToActionOutlinedIcon,
+          //   href: "/admin/enquiries/add",
+          // },
         
 
-          {
+          { 
             title: "Enquiries List",
             icon: CallToActionOutlinedIcon,
             href: "/admin/enquiries/list",
@@ -1148,19 +1148,19 @@ export const menusConfig = {
         
       //   ],
       // },
-      {
-        title: "Profile",
-        icon: Person2OutlinedIcon,
-        child: [
-          {
-            title: "Profile",
-            icon: Person2OutlinedIcon,
-            href: "/maps-google",
-          },
+      // {
+      //   title: "Profile",
+      //   icon: Person2OutlinedIcon,
+      //   child: [
+      //     {
+      //       title: "Profile",
+      //       icon: Person2OutlinedIcon,
+      //       href: "/maps-google",
+      //     },
          
         
-        ],
-      },
+      //   ],
+      // },
       // {
       //   title: "Change Password",
       //   icon: Icons,

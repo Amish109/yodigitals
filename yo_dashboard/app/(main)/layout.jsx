@@ -1,6 +1,5 @@
-import "./globals.css";
-import "../../public/assets/css/animate.css";
-
+// import './global.css';
+// import "./assets/scss/globals.scss";
 import "../../public/assets/css/bootstrap-select.min.css";
 import "../../public/assets/css/bootstrap.min.css";
 import "../../public/assets/css/drift-basic.min.css";
@@ -15,8 +14,8 @@ import "simplebar-react/dist/simplebar.min.css";
 import TanstackProvider from "@/provider/providers.client";
 import AuthProvider from "@/provider/auth.provider";
 import "flatpickr/dist/themes/light.css";
-import "./components/Header";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -33,11 +32,10 @@ export default function RootLayout({ children }) {
       <AuthProvider>
         <TanstackProvider>
           <Providers>
-  <Header>
-
-          {children}
-  </Header>
-          </Providers>
+            <Header></Header>
+            {children}
+            <Footer/>
+            </Providers>
         </TanstackProvider>
       </AuthProvider>
     </html>
