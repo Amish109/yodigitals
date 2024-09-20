@@ -61,7 +61,7 @@ const LogInForm = () => {
       });
       if (response?.ok) {
         toast.success("Login Successful");
-        window.location.assign("/dashboard");
+        window.location.assign("/admin/dashboard");
         reset();
       } else if (response?.error) {
         toast.error(response?.error);

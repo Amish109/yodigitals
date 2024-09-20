@@ -7,14 +7,17 @@ import { X } from "lucide-react";
 import { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import LogInForm from "@/components/auth/login-form";
+import Header from './components/Header'
+import Product from './components/Product'
+import Slider from './components/Slider'
 
 const LoginPage = () => {
   const [openVideo, setOpenVideo] = useState(false);
   return (
     <>
-  
-
+   
     
+    <Product/>
     </>
   );
 };
