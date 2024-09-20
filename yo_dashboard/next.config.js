@@ -37,10 +37,14 @@ const nextConfig = {
     ],
   },
 
+  
+
   env: {
     HOSTNAME: 'localhost',
     APIBASEURL: 'http://localhost:5000',
-  }
+  },
+
+  
   
 
 };

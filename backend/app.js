@@ -23,6 +23,8 @@ const product = require("./routers/product");
 const category = require("./routers/category");
 const coupon = require("./routers/coupon");
 const orders = require("./routers/orders");
+const invoice = require("./routers/invoice");
+const transactions = require("./routers/transactions");
 
 
 
@@ -33,9 +35,11 @@ app.use("/users", users);
 app.use("/business", business);
 app.use("/product", product);
 app.use("/categories", category);
+
 app.use("/coupon", coupon);
 app.use("/orders", orders);
-
+app.use("/invoice", invoice);
+app.use("/transaction", transactions);
 
 
 module.exports = app;

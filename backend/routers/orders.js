@@ -1,12 +1,17 @@
+
+
+
 const express = require('express');
 const router = express.Router();
-const orderController = require('../controllers/orderController');
+const ordersController = require('../controllers/orderController');
 
 
-router.post('/add', orderController.createOrder);
+router.post('/create', ordersController.createOrder);
+router.get('/:id', ordersController.getOrderWithDetails);
+router.get('/', ordersController.getAllOrdersWithDetails);
+router.put('/orders/:id', ordersController.updateOrder);
 
-router.get('/orders/:id', orderController.getOrderWithDetails);
-
-router.get('/list', orderController.getAllOrdersWithDetails);
+// Soft delete order
+router.delete('/orders/:id', ordersController.softDeleteOrder);
 
 module.exports = router;
