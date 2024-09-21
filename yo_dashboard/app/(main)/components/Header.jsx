@@ -31,9 +31,9 @@ const Header = () => {
           </a>
         </div>
         <div className="col-xl-3 col-md-4 col-6">
-          {/* <a href="index.html" className="logo-header"> */}
+          <Link href="/" className="">
             <img src="https://yodigitals.com/_next/static/media/yo_logoo.95ffa7e61c58c080eed908e433ed63e0.svg" alt="logo" className="logo"  />
-          {/* </a> */}
+          </Link>
         </div>
         <div className="col-xl-6 tf-md-hidden">
           <nav className="box-navigation text-center">

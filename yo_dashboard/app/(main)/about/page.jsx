@@ -70,7 +70,7 @@ const page = () => {
       <div className="tf-grid-layout md-col-2 tf-img-with-text style-4">
         <div className="tf-content-wrap px-0 d-flex justify-content-center w-100">
           <div>
-            <div className="heading">Seconed Year</div>
+            <div className="heading">Second Year</div>
             <div className="text">
             Some work experience
 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate

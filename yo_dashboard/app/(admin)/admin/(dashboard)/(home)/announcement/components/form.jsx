@@ -5,112 +5,125 @@ import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FileUploader } from "react-drag-drop-files";
 import { Input } from "@/components/ui/input";
+import { postApiFormData } from "@/helper/common";
 
-const TransactionAdd = () => {
+const AnnouncementAdd = () => {
   const fileTypes = ["JPG", "PNG", "GIF"];
-  const [amount, setAmount] = useState("");
-  const [transRef, setTransRef] = useState("");
-  const [comment, setComment] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [images, setImages] = useState(null);
 
-  const [screenShotImg, setscreenShotImg] = useState(null);
   const [errors, setErrors] = useState({
-    amount: "",
-    transRef: "",
-    comment: "",
-    screenShotImg: "",
+    title: "",
+    description: "",
+    images: "",
   });
 
- 
-  const handleImageChange = (setImage, image) => {
-    setImage(image);
+  const handleImageChange = (image) => {
+    setImages(image);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-      const apiData = new FormData();
-      apiData.append("amount", amount);
-      apiData.append("transRef", transRef);
-      apiData.append("comment", comment);
-      try {
-        const data = await postApiFormDataToken("", apiData);
-        if (data.error === false) {
-          toast.success(data.message, {
-            position: "bottom-center",
-            style: { borderRadius: "10px", background: "#333", color: "#fff" },
-          });
-          setComment(null);
-          setAmount(null);
-          setTransRef(null);
-        } else {
-          toast.error(data.message, {
-            position: "bottom-center",
-            style: { borderRadius: "10px", background: "#333", color: "#fff" },
-          });
-        }
-      } catch (errorData) {
-        toast.error(errorData.message, {
+
+    // Reset previous errors
+    setErrors({
+      title: "",
+      description: "",
+      images: "",
+    });
+
+    if (!title || !description || !images) {
+      setErrors({
+        title: !title ? "Title is required" : "",
+        description: !description ? "Description is required" : "",
+        images: !images ? "Please upload an image" : "",
+      });
+      return;
+    }
+
+    const apiData = new FormData();
+    apiData.append("title", title);
+    apiData.append("description", description);
+    apiData.append("images", images);
+
+    try {
+      const data = await postApiFormData("announcement", apiData);
+      if (data.success === true) {
+        toast.success("Announcement added successfully", {
           position: "bottom-center",
           style: { borderRadius: "10px", background: "#333", color: "#fff" },
         });
-      }
-    
+        setTitle("");
+        setDescription("");
+        setImages(null);
+      } 
+    } catch (errorData) {
+      toast.error(errorData.message, {
+        position: "bottom-center",
+        style: { borderRadius: "10px", background: "#333", color: "#fff" },
+      });
+    }
   };
+
+
+  const resetForm =() =>{
+    setTitle("");
+        setDescription("");
+        setImages(null);
+  }
 
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="amount">
-              {("Amount")}
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Input
-              type="number"
-              id="amount"
-              required
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder={("Amount")}
-            />
-            {errors.amount && (
-              <span style={{ color: "red" }}>{errors.amount}</span>
-            )}
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="transRef">
-              {("Transaction_Reference_ID")}
-              <span style={{ color: "tomato" }}>*</span>
+            <Label htmlFor="title">
+              Title<span style={{ color: "tomato" }}>*</span>
             </Label>
             <Input
               type="text"
-              id="transRef"
+              id="title"
               required
-              value={transRef}
-              onChange={(e) => setTransRef(e.target.value)}
-              placeholder={("Transaction_Reference_ID")}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Title"
             />
-            {errors.transRef && (
-              <span style={{ color: "red" }}>{errors.transRef}</span>
+            {errors.title && <span style={{ color: "red" }}>{errors.title}</span>}
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="description">
+              Description<span style={{ color: "tomato" }}>*</span>
+            </Label>
+            <Input
+              type="text"
+              id="description"
+              required
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Description"
+            />
+            {errors.description && (
+              <span style={{ color: "red" }}>{errors.description}</span>
             )}
           </div>
 
           <div className="flex flex-col gap-3 mb-5">
             <Label>
-              {("Upload_Your_Transaction_Screenshot")}
-              <span style={{ color: "tomato" }}>*</span>
+              Upload Images<span style={{ color: "tomato" }}>*</span>
             </Label>
             <FileUploader
-              handleChange={(image) =>
-                handleImageChange(setscreenShotImg, image)
-              }
-              name="image"
+              handleChange={handleImageChange}
+              name="images"
               types={fileTypes}
             />
-            {screenShotImg && (
+            {errors.images && (
+              <span style={{ color: "red" }}>{errors.images}</span>
+            )}
+            {images && (
               <img
-                src={URL.createObjectURL(screenShotImg)}
+                src={URL.createObjectURL(images)}
                 width="100px"
                 style={{
                   borderRadius: "8px",
@@ -120,36 +133,19 @@ const TransactionAdd = () => {
               />
             )}
           </div>
-
-          <div className="flex flex-col gap-2 mt-3">
-            <Label htmlFor="comment">
-              {("Comment")}
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Input
-              type="text"
-              id="comment"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder={("Comment")}
-            />
-            {errors.comment && (
-              <span style={{ color: "red" }}>{errors.comment}</span>
-            )}
-          </div>
         </div>
 
-        <div
-          style={{ margin: "auto", width: "300px", gap: "20px" }}
-          className="mt-5 flex justify-center"
-        >
-          <Button style={{ margin: "auto" }} className="mx-5" type="submit">
-            {("Submit")}
+        <div className="mt-5 flex justify-center gap-5">
+          <Button type="button" onClick={resetForm}>
+            Reset
           </Button>
+
+          <Button type="submit">Submit</Button>
         </div>
+        
       </form>
     </>
   );
 };
 
-export default TransactionAdd;
+export default AnnouncementAdd;

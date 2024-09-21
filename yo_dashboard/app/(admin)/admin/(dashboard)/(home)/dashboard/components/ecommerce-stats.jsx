@@ -1,37 +1,69 @@
 "use client";
 
 import { CupBar, NoteIcon, CheckShape } from "@/components/svg";
+import { getApiData } from "@/helper/common";
 import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
 
 const EcommerceStats = () => {
+  
+  const [stats, setStats] = useState({
+    orders: 0,
+    users: 0,
+    products: 0,
+  });
+
+  const fetchData = async () => {
+    try {
+      const [orderData, userData, productData] = await Promise.all([
+        getApiData("orders"),
+        getApiData("users"),
+        getApiData("product/list"),
+      ]);
+
+      setStats({
+        orders: orderData.success ? orderData.orders.length : 0,
+        users: userData.success ? userData.users.length : 0,
+        products: productData.success ? productData.products.length : 0,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const data = [
     {
-      text: "Total Dues",
-      total: "42,750.98",
+      text: "Total Products",
+      total: stats.products,
       color: "primary",
       icon: <CupBar className="w-3.5 h-3.5" />,
-      link: "/admin/transaction/list",
+      link: "/admin/product/list",
     },
     {
       text: "Total Orders",
-      total: "536,23,3",
+      total: stats.orders,
       color: "warning",
       icon: <NoteIcon className="w-3.5 h-3.5" />,
       link: "/admin/order/list",
     },
     {
       text: "Total Users",
-      total: "234,1",
+      total: stats.users,
       color: "success",
       icon: <CheckShape className="w-3.5 h-3.5" />,
       link: "/admin/users/list",
     },
   ];
-
   return (
     <>
+   
       {data.map((item, index) => (
         <Link href={item.link} key={`reports-state-${index}`}>
           <div

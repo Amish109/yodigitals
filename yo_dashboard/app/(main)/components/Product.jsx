@@ -32,7 +32,19 @@ const Product = () => {
   return (
     <>
 
-<div className="tf-marquee marquee-sm bg_blue-3">
+
+     <section className="">
+     <div className="container">
+     <div className="flat-title mb_1 gap-14">
+     <span className="title wow fadeInUp mt-5" data-wow-delay="0s">
+     Welcome to Yo Digitals Pvt Ltd
+
+            </span>
+              <RoleBase/>
+            </div>
+            </div>
+     </section>
+     <div style={{background:"black"}} className="tf-marquee marquee-sm bg_blue-3">
   <div className="wrap-marquee">
    
    
@@ -209,18 +221,6 @@ const Product = () => {
   </div>
 </div>
 
-     <section className="">
-     <div className="container">
-     <div className="flat-title mb_1 gap-14">
-     <span className="title wow fadeInUp mt-5" data-wow-delay="0s">
-     Welcome to Yo Digitals Pvt Ltd
-
-            </span>
-              <RoleBase/>
-            </div>
-            </div>
-     </section>
-
 
       <section className="mb-5">
         <div className="container">
@@ -238,8 +238,8 @@ const Product = () => {
             {data && data.length > 0 ? (
               data.map((item, index) => {
                 const images = Array.isArray(item.images)
-                  ? item.images
-                  : item.images.split(",");
+                ? item.images
+                : item.images ? item.images.split(",") : [];
 
                 return (
                  <ProductItems item={item} index={index} images={images}/>

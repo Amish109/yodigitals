@@ -43,7 +43,7 @@ const EcommercePage = () => {
                 Orders
                 </CardTitle>
                 <div className="flex-none">
-                  <DashboardSelect />
+                  {/* <DashboardSelect /> */}
                 </div>
               </div>
             </CardHeader>

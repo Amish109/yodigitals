@@ -1148,19 +1148,25 @@ export const menusConfig = {
         
       //   ],
       // },
-      // {
-      //   title: "Profile",
-      //   icon: Person2OutlinedIcon,
-      //   child: [
-      //     {
-      //       title: "Profile",
-      //       icon: Person2OutlinedIcon,
-      //       href: "/maps-google",
-      //     },
+      {
+        title: "Announcement",
+        icon: Person2OutlinedIcon,
+        child: [
+          {
+            title: "Add Announcement",
+            icon: Person2OutlinedIcon,
+            href: "/admin/announcement/add",
+          },
+
+          {
+            title: "List Announcement",
+            icon: ChartBar,
+            href: "/admin/announcement/list",
+          },
          
         
-      //   ],
-      // },
+        ],
+      },
       // {
       //   title: "Change Password",
       //   icon: Icons,

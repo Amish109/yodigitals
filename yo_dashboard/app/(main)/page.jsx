@@ -16,7 +16,7 @@ const LoginPage = () => {
   return (
     <>
    
-    
+    {/* <Slider/> */}
     <Product/>
     </>
   );
