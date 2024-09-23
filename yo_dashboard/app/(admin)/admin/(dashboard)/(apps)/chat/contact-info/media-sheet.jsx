@@ -170,7 +170,7 @@ const MediaSheet = ({ showDrawer, handleDrawer }) => {
               <TabsContent value="links">
                 <Link
                   target="_blank"
-                  href="https://stackoverflow.com/"
+                  href=""
                   className="flex items-center gap-2 border-b border-default-200 group py-2 last:border-none"
                 >
                   <div className="h-16 w-16 rounded-sm bg-default-50 flex justify-center items-center">
@@ -190,7 +190,7 @@ const MediaSheet = ({ showDrawer, handleDrawer }) => {
                 </Link>
                 <Link
                   target="_blank"
-                  href="https://www.envato.com/"
+                  href=""
                   className="flex items-center gap-2 border-b border-default-200 group py-2 last:border-none"
                 >
                   <div className="h-16 w-16 rounded-sm bg-default-50 flex justify-center items-center">
@@ -201,7 +201,7 @@ const MediaSheet = ({ showDrawer, handleDrawer }) => {
                   </div>
                   <div>
                     <div className="text-sm text-default-500 group-hover:text-default-800">
-                      Envato
+                      
                     </div>
                     <p className="text-sm text-default-500">
                       Sell Your code here

@@ -171,7 +171,10 @@ const BusinessInfo = () => {
               onValueChange={(value) => setUser_id(value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Choose Retailer" />
+                {/* <SelectValue placeholder="Choose Retailer" /> */}
+                <SelectValue>
+           {user_id ? user_id?.title : "Choose Retailer"}
+         </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {data && data.length > 0 ? (

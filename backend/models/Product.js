@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
           categoryId: {
             type: DataTypes.UUID,
             references: {
-              model: 'categories',  // Correct table name
+              model: 'categories',
               key: 'id',
             },
             onUpdate: 'CASCADE',
@@ -106,6 +106,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'updatedById',
         as: 'updatedBy',
       });
+
+      Products.belongsTo(models.Category, {
+        foreignKey: 'categoryId',
+        as: 'category',
+      });
+
+      
     };
   
     return Products;

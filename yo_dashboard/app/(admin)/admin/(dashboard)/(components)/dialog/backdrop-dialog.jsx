@@ -52,7 +52,7 @@ const DialogBackdrop = () => {
               <div className="flex flex-row gap-2 mb-2">
                 <Input
                   type="text"
-                  placeholder="https://share.modals.comps.com/component5xwo6a"
+                  placeholder=""
                 />
                 <Button type="button">Copy</Button>
               </div>
@@ -80,7 +80,7 @@ const DialogBackdrop = () => {
               <div className="flex flex-row gap-2 mb-2">
                 <Input
                   type="text"
-                  placeholder="https://share.modals.comps.com/component5xwo6a"
+                  placeholder="a"
                 />
                 <Button type="button">Copy</Button>
               </div>
@@ -141,7 +141,7 @@ const DialogBackdrop = () => {
               <div className="flex flex-row gap-2 mb-2">
                 <Input
                   type="text"
-                  placeholder="https://share.modals.comps.com/component5xwo6a"
+                  placeholder=""
                 />
                 <Button type="button">Copy</Button>
               </div>
@@ -169,7 +169,7 @@ const DialogBackdrop = () => {
               <div className="flex flex-row gap-2 mb-2">
                 <Input
                   type="text"
-                  placeholder="https://share.modals.comps.com/component5xwo6a"
+                  placeholder=""
                 />
                 <Button type="button">Copy</Button>
               </div>
@@ -228,7 +228,7 @@ const DialogBackdrop = () => {
               <div className="flex flex-row gap-2 mb-2">
                 <Input
                   type="text"
-                  placeholder="https://share.modals.comps.com/component5xwo6a"
+                  placeholder=""
                 />
                 <Button type="button">Copy</Button>
               </div>

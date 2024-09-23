@@ -22,16 +22,16 @@ exports.createOrder = async (req, res) => {
     delivery_date,
     tracking_number,
     order_source,
-    products // Assuming this is an array of product_id and quantity
+    products 
   } = req.body;
 
-  // Input validation
+  
   if (!products || products.length === 0) {
     return res.status(400).json({ message: 'Products array cannot be empty' });
   }
 
   try {
-    // Step 1: Create the order
+   
     const newOrder = await Orders.create({
       order_date,
       amount,
@@ -54,7 +54,7 @@ exports.createOrder = async (req, res) => {
       order_source
     });
 
-    // Step 2: Create order details for each product in the order
+   
     for (const product of products) {
       const { product_id, quantity } = product;
       const productExists = await Products.findByPk(product_id);
@@ -72,9 +72,10 @@ exports.createOrder = async (req, res) => {
 
     // Step 3: Respond with the created order and its details
     res.status(201).json({
+      success:true,
       message: 'Order created successfully',
       order: newOrder,
-      products // Only return the list of products that were added
+      products 
     });
   } catch (error) {
     console.error(error);
@@ -96,7 +97,7 @@ exports.getOrderWithDetails = async (req, res) => {
             {
               model: Products,
               as: 'product',
-              attributes: ['title', 'price', 'identityNumber'] // Products specific attributes
+              attributes: ['title', 'price', 'identityNumber'] 
             }
           ]
         }
@@ -107,7 +108,9 @@ exports.getOrderWithDetails = async (req, res) => {
       return res.status(404).json({ message: 'Order not found' });
     }
 
-    res.status(200).json(order);
+    res.status(200).json({
+      success:true,
+      order});
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -136,7 +139,9 @@ exports.getAllOrdersWithDetails = async (req, res) => {
       return res.status(404).json({ message: 'No orders found' });
     }
 
-    res.status(200).json(orders);
+    res.status(200).json({
+      success:true,
+      orders});
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -199,6 +204,8 @@ exports.updateOrder = async (req, res) => {
     });
 
     res.status(200).json({
+      
+      success:true,
       message: 'Order updated successfully',
       order
     });
@@ -224,6 +231,7 @@ exports.softDeleteOrder = async (req, res) => {
     await order.destroy();
 
     res.status(200).json({
+      success:true,
       message: 'Order deleted successfully'
     });
   } catch (error) {

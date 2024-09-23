@@ -15,17 +15,16 @@ import {
 import { useParams } from "next/navigation";
 
 const UpdateBusinessInfo = () => {
-  const { id } = useParams(); // Extract 'id' directly
+  const { id } = useParams(); 
   const [businessName, setBusinessName] = useState("");
   const [businessAddress, setBusinessAddress] = useState("");
   const [gstNumber, setGstNumber] = useState("");
   const [cin, setCin] = useState("");
-  const [dueDate, setDueDate] = useState(new Date().toISOString().slice(0, 10)); // Set default to today's date
+  const [dueDate, setDueDate] = useState(new Date().toISOString().slice(0, 10)); 
   const [turnover, setTurnover] = useState("");
   const [user_id, setUser_id] = useState("");
   const [data, setData] = useState([]);
 
-  // Fetch business data to auto-populate fields
   const fetchBusinessData = async () => {
     if (!id) return;
 
@@ -49,7 +48,7 @@ const UpdateBusinessInfo = () => {
     }
   };
 
-  // Fetch the user list to populate the retailer dropdown
+
   const FetchUserList = async () => {
     try {
       const apiResData = await getApiData(`users`);
@@ -202,7 +201,7 @@ const UpdateBusinessInfo = () => {
                 {data && data.length > 0 ? (
                   data.map((item) => (
                     <SelectItem key={item.id} value={item.id}>
-                      {item.firstName} {item.lastName} {/* Display retailer's name */}
+                      {item.firstName} {item.lastName} 
                     </SelectItem>
                   ))
                 ) : (

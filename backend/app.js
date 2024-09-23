@@ -25,6 +25,7 @@ const coupon = require("./routers/coupon");
 const orders = require("./routers/orders");
 const invoice = require("./routers/invoice");
 const transactions = require("./routers/transactions");
+const announcement = require("./routers/announcement");
 
 
 
@@ -40,6 +41,7 @@ app.use("/coupon", coupon);
 app.use("/orders", orders);
 app.use("/invoice", invoice);
 app.use("/transaction", transactions);
+app.use("/announcement", announcement);
 
 
 module.exports = app;

@@ -1,13 +1,43 @@
-import React from 'react'
+"use client"
+import { getApiData } from '@/helper/common';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react'
 
 const page = () => {
+
+
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+
+  const fetchProductList = async () => {
+    try {
+      const apiResData = await getApiData(`announcement`);
+      if (apiResData.success === true) {
+        setData(apiResData?.announcements);
+      } else {
+        setData([]);
+        setError(apiResData.message || "Failed to fetch data");
+      }
+    } catch (error) {
+      console.error("Error fetching:", error);
+      setError("Error fetching data");
+    }
+  };
+
+  useEffect(() => {
+    fetchProductList();
+  }, []);
+
+  console.log(data, "data");
+
+
   return (
     <>
     <>
- 
+  
   <div id="wrapper">
   
-    {/* page-title */}
+  
     <div className="tf-page-title">
       <div className="container-full">
         <div className="row">
@@ -15,7 +45,7 @@ const page = () => {
             <div className="heading text-center">Announcement</div>
             <ul className="breadcrumbs d-flex align-items-center justify-content-center">
               <li>
-                <a href="index">Home</a>
+                <Link href="index">Home</Link>
               </li>
               <li>
                 <i className="icon-arrow-right" />
@@ -30,113 +60,53 @@ const page = () => {
     <div className="blog-grid-main">
       <div className="container">
         <div className="row">
-          <div className="col-xl-4 col-md-6 col-12">
+
+
+          {data && data.length> 0 ?(
+            data.map((item, index)=>(
+              <>
+              <div className="col-xl-4 col-md-6 col-12">
             <div className="blog-article-item">
               <div className="article-thumb">
-                <a href="announcwmnt-details">
+                <Link href={`/announcement/${item.id}`}>
                   <img
                     className="lazyload"
                     data-src="https://i.ytimg.com/vi/QqbdI8ocsZU/maxresdefault.jpg"
                     src="https://i.ytimg.com/vi/QqbdI8ocsZU/maxresdefault.jpg"
                     alt="img-blog"
                   />
-                </a>
+                </Link>
                 <div className="article-label">
-                  <a
-                    href="announcwmnt-details"
+                  <Link
+                   href={`/announcement/${item.id}`}
                     className="tf-btn btn-sm radius-3 btn-fill animate-hover-btn"
                   >
                     Announcement
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="article-content">
                 <div className="article-title">
-                  <a href="announcwmnt-details" className="">
-                  The yo digital announcement cricket in mumbai
-                  </a>
+                  <Link href={`/announcement/${item.id}`} className="">
+                  {item.title}
+                  </Link>
                 </div>
                 <div className="article-btn">
-                  <a href="announcwmnt-details" className="tf-btn btn-line fw-6">
+                  <Link  href={`/announcement/${item.id}`} className="tf-btn btn-line fw-6">
                     More images
                     <i className="icon icon-arrow1-top-left" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
+              </>
+            ))
+          ):""}
+          
          
-          <div className="col-xl-4 col-md-6 col-12">
-            <div className="blog-article-item">
-              <div className="article-thumb">
-                <a href="announcwmnt-details">
-                  <img
-                    className="lazyload"
-                    data-src="https://i.ytimg.com/vi/QqbdI8ocsZU/maxresdefault.jpg"
-                    src="https://i.ytimg.com/vi/QqbdI8ocsZU/maxresdefault.jpg"
-                    alt="img-blog"
-                  />
-                </a>
-                <div className="article-label">
-                  <a
-                    href="announcwmnt-details"
-                    className="tf-btn btn-sm radius-3 btn-fill animate-hover-btn"
-                  >
-                    Announcement
-                  </a>
-                </div>
-              </div>
-              <div className="article-content">
-                <div className="article-title">
-                  <a href="announcwmnt-details" className="">
-                  The yo digital announcement cricket in mumbai
-                  </a>
-                </div>
-                <div className="article-btn">
-                  <a href="announcwmnt-details" className="tf-btn btn-line fw-6">
-                    More images
-                    <i className="icon icon-arrow1-top-left" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-4 col-md-6 col-12">
-            <div className="blog-article-item">
-              <div className="article-thumb">
-                <a href="announcwmnt-details">
-                  <img
-                    className="lazyload"
-                    data-src="https://i.ytimg.com/vi/QqbdI8ocsZU/maxresdefault.jpg"
-                    src="https://i.ytimg.com/vi/QqbdI8ocsZU/maxresdefault.jpg"
-                    alt="img-blog"
-                  />
-                </a>
-                <div className="article-label">
-                  <a
-                    href="announcwmnt-details"
-                    className="tf-btn btn-sm radius-3 btn-fill animate-hover-btn"
-                  >
-                    Announcement
-                  </a>
-                </div>
-              </div>
-              <div className="article-content">
-                <div className="article-title">
-                  <a href="announcwmnt-details" className="">
-                  The yo digital announcement cricket in mumbai
-                  </a>
-                </div>
-                <div className="article-btn">
-                  <a href="announcwmnt-details" className="tf-btn btn-line fw-6">
-                    More images
-                    <i className="icon icon-arrow1-top-left" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-         
+       
+       
          
         
          

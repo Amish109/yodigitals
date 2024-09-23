@@ -20,12 +20,12 @@ const AddTransaction = () => {
       <CardHeader>
         <CardTitle>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            Add Transaction
+            Add Announcement
             <div className=" w-100 flex justify-between gap-5">
 
               <div>
                 <Button color="primary" >
-                <Link href="/admin/transaction/list" prefetch={true}>{("Transaction List")}</Link>
+                <Link href="/admin/announcement/list" prefetch={true}>{("Announcement List")}</Link>
                 </Button>
               </div>
             </div>

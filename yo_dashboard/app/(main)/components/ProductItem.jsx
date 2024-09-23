@@ -54,7 +54,8 @@ const ProductItem = ({item, index,images}) => {
       <Link href={`/product-detail/${item.id}`} className="title link">
         {item?.title}
       </Link>
-      <span className="price text-center">{item?.price}</span>
+      <span className="price text-center">₹&nbsp;{item?.price}
+      </span>
     </div>
   </div></div>
   )

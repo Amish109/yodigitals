@@ -1,31 +1,87 @@
 "use client";
 import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+
 import { useThemeStore } from "@/store";
 import { useTheme } from "next-themes";
 import { themes } from "@/config/thems";
 import { getGridConfig, getYAxisConfig } from "@/lib/appex-chart-options";
+import { getApiData } from "@/helper/common";
+import { useEffect, useState } from "react";
 
 const RevinueChart = ({ height = 350 }) => {
-  const { theme: config, setTheme: setConfig } = useThemeStore();
-  const { theme: mode } = useTheme();
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
 
-  const theme = themes.find((theme) => theme.name === config);
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const apiResData = await getApiData(`orders`);
+        if (apiResData.success) {
+          setData(apiResData.orders);
+        } else {
+          setError(apiResData.message || "Failed to fetch data");
+        }
+      } catch (error) {
+        console.error("Error fetching:", error);
+        setError("Error fetching data");
+      }
+    };
+    fetchOrders();
+  }, []);
+
+  const allMonths = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+
+  // Parse data to group by order_date and status, but include all months
+  const statusData = allMonths.reduce(
+    (acc, month) => {
+      acc[month] = { NetProfit: 0, Orders: 0, Return: 0 };
+      return acc;
+    },
+    {}
+  );
+
+  data.forEach((item) => {
+    const month = new Date(item.order_date).toLocaleString("default", {
+      month: "short",
+    });
+    if (statusData[month]) {
+      switch (item.status) {
+        case "completed":
+          statusData[month].Orders += 1;
+          break;
+        case "cancelled":
+          statusData[month].Return += 1;
+          break;
+        default:
+          statusData[month].NetProfit += 1;
+          break;
+      }
+    }
+  });
 
   const series = [
     {
       name: "Net Profit",
-      data: [44, 55, 41, 37, 22, 43, 21, 40, 30, 50, 60, 50],
+      data: allMonths.map((month) => statusData[month].NetProfit),
     },
     {
       name: "Orders",
-      data: [53, 32, 33, 52, 13, 43, 32, 40, 50, 20, 40, 50],
+      data: allMonths.map((month) => statusData[month].Orders),
     },
     {
       name: "Return",
-      data: [40, 47, 51, 39, 35, 51, 60, 40, 60, 30, 20, 60],
+      data: allMonths.map((month) => statusData[month].Return),
     },
   ];
+
+  const { theme: config } = useThemeStore();
+  const { theme: mode } = useTheme();
+  const theme = themes.find((theme) => theme.name === config);
+
   const options = {
     chart: {
       toolbar: {
@@ -86,20 +142,7 @@ const RevinueChart = ({ height = 350 }) => {
       `hsl(${theme?.cssVars[mode === "dark" ? "dark" : "light"].chartLabel})`
     ),
     xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "July",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
+      categories: allMonths,
       axisBorder: {
         show: false,
       },
@@ -117,7 +160,6 @@ const RevinueChart = ({ height = 350 }) => {
         },
       },
     },
-
     legend: {
       position: "bottom",
       horizontalAlign: "center",
@@ -141,6 +183,7 @@ const RevinueChart = ({ height = 350 }) => {
       },
     },
   };
+
   return (
     <>
       <Chart

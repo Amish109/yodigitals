@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
       },
       amount: {
-        type: DataTypes.NUMERIC,
-        allowNull: false,
+        type: DataTypes.NUMERIC, 
+        allowNull: true,
       },
       status: {
         type: DataTypes.ENUM('inprocess', 'dispatched', 'intransit', 'delivered', 'pending', 'completed', 'cancelled', 'rejected'),
