@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const { User, BusinessInfo  } = require('../models'); 
+const Token = require('../utils/Token')
+
 
 // Create a new user
 exports.createUser = async (req, res) => {
@@ -29,9 +31,11 @@ exports.createUser = async (req, res) => {
       pan_number
     });
 
+    const token = Token.generateJWT(newUser._id);
+
     res.status(201).json({
       success:true,
-      newUser
+      newUser,token
     });
   } catch (error) {
     console.error('Error creating user:', error);
@@ -39,6 +43,41 @@ exports.createUser = async (req, res) => {
   }
 };
 
+
+exports.loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+    const token = Token.generateJWT(user.id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Login successful',
+      token,
+      user: {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role
+      }
+    });
+  } catch (error) {
+    console.error('Error logging in user:', error);
+    res.status(500).json({ error: 'An error occurred while logging in the user' });
+  }
+};
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -143,5 +182,43 @@ exports.deleteUser = async (req, res) => {
   } catch (error) {
     console.error('Error deleting user:', error);
     res.status(500).json({ error: 'An error occurred while deleting the user' });
+  }
+};
+
+
+
+
+
+// Change user password
+exports.changePassword = async (req, res) => {
+  try {
+    const { userId } = req.user; 
+    console.log(req.user);
+
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+   
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ error: 'New password and confirm password do not match' });
+    }
+    const user = await User.findByPk(userId);
+   
+    
+    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: 'Incorrect current password' });
+    }
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedNewPassword;
+    await user.save();
+    const token = Token.generateJWT(user.id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Password changed successfully',
+      token, 
+    });
+  } catch (error) {
+    console.error('Error changing password:', error);
+    res.status(500).json({ error: 'An error occurred while changing the password' });
   }
 };

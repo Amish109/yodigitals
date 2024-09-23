@@ -81,7 +81,7 @@ const Page = () => {
                         {/* <div className="badges">Description</div> */}
                         <div className="product-status-content">
                           <i className="icon-lightning" />
-                          <p className="fw-6">{view?.description}</p>
+                          <p className="">{view?.description}</p>
                         </div>
                       </div>
                       <div className="tf-product-info-price">

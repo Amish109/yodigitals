@@ -140,7 +140,9 @@ const CategoriesAdd = () => {
               onValueChange={(value) => setTopCategory(value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Choose Option" />
+              <SelectValue>
+           {top_category ? top_category?.title : "Top Category"}
+         </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="true">True</SelectItem>

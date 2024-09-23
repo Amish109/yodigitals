@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       amount: {
         type: DataTypes.NUMERIC, 
-        allowNull: false,
+        allowNull: true,
       },
       status: {
         type: DataTypes.ENUM('inprocess', 'dispatched', 'intransit', 'delivered', 'pending', 'completed', 'cancelled', 'rejected'),

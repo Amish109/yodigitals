@@ -194,7 +194,9 @@ const UserAdd = () => {
               onValueChange={(value) => setRole(value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Choose Option" />
+              <SelectValue>
+           {role ? role?.title : "Select Role"}
+         </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="admin">Admin</SelectItem>

@@ -1,4 +1,4 @@
-const { Products, Brand, User } = require('../models'); // Assuming these models are already defined
+const { Products, Brand, User , Category} = require('../models'); // Assuming these models are already defined
 // const { Op } = require('sequelize');
 
 
@@ -40,23 +40,42 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
+    // Extract filters from the request query
+    const { status, categorySlug } = req.query;
+
+    // Build where condition for product filters
+    const whereConditions = {};
+    
+    if (status) {
+      whereConditions.status = status; // Filter by "in stock" or "out of stock"
+    }
+
     const products = await Products.findAll({
+      where: whereConditions, // Apply product-specific filters here
       include: [
         { model: Brand, as: 'brand' }, 
         { model: User, as: 'createdBy' }, 
-        { model: User, as: 'updatedBy' } 
+        { model: User, as: 'updatedBy' },
+        {
+          model: Category,
+          as: 'category', // Must match the alias used in the Product model association
+          where: categorySlug ? { slug: categorySlug } : {}, // Filter by category slug if provided
+        }
       ]
     });
 
     
+
     res.status(200).json({
-      success:true,
+      success: true,
       products
     });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching products', error: error.message });
   }
 };
+
+
 
 
 
