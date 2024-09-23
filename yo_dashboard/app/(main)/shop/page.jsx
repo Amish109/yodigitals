@@ -2,15 +2,22 @@
 import React, { useEffect, useState } from "react";
 import { deleteApiData, getApiData, postApiData } from "@/helper/common";
 import ProductItem from "../components/ProductItem";
+import Link from "next/link";
 
 const page = () => {
   const [data, setData] = useState([]);
   const [catdata, setCatData] = useState([]);
   const [error, setError] = useState(null);
 
-  const fetchProductList = async () => {
+  const fetchProductList = async (status = "", categorySlug = "") => {
     try {
-      const apiResData = await getApiData(`product/list`);
+      // Construct the query string based on status and categorySlug
+      const query = new URLSearchParams();
+      if (status) query.append("status", status);
+      if (categorySlug) query.append("categorySlug", categorySlug);
+
+      const apiResData = await getApiData(`product/list?${query.toString()}`);
+
       if (apiResData.success === true) {
         setData(apiResData?.products);
       } else {
@@ -21,6 +28,16 @@ const page = () => {
       console.error("Error fetching:", error);
       setError("Error fetching data");
     }
+  };
+
+  // Handle category filter
+  const handleCategoryFilter = (categorySlug) => {
+    fetchProductList("", categorySlug);
+  };
+
+  // Handle status filter
+  const handleStatusFilter = (status) => {
+    fetchProductList(status);
   };
 
   useEffect(() => {
@@ -44,13 +61,9 @@ const page = () => {
     fetchCategoriesList();
   }, []);
 
-
-
   return (
     <>
       <div id="wrapper">
-        {/* /header */}
-        {/* page-title */}
         <div className="tf-page-title">
           <div className="container-full">
             <div className="row">
@@ -111,7 +124,6 @@ const page = () => {
                   </div>
                 </li>
               </ul>
-              {/* fiter tha */}
             </div>
             <div className="blog-sidebar-main p-0">
               <div className="tf-section-sidebar wrap-sidebar-mobile flex-shrink-0">
@@ -127,13 +139,26 @@ const page = () => {
                     <span className="icon icon-arrow-up" />
                   </div>
                   <div id="categories" className="collapse show">
-                    <ul className="list-categoris current-scrollbar mb_36">
+                    <ul className="list-categories current-scrollbar mb_36">
                       {catdata.map((item, index) => (
-                        <li key={index} className="cate-item current">
-                          <a href="#">
-                            <span>{item.name}</span>
-                          </a>
-                        </li>
+                        <>
+                          <div style={{ display: "flex", gap: "10px" }}>
+                            <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="grey" fill-rule="evenodd" d="M17 3a4 4 0 1 0 0 8a4 4 0 0 0 0-8M3 17a4 4 0 1 1 8 0a4 4 0 0 1-8 0m10-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v5a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2zM3 4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" clip-rule="evenodd"/></svg>
+                            </div>
+                            <div>
+                              <li
+                                key={index}
+                                className="cate-item current"
+                                onClick={() => handleCategoryFilter(item.slug)} // Filter by category slug
+                              >
+                                <Link style={{ color: "black" }} href="#">
+                                  <span>{item.name}</span>
+                                </Link>
+                              </li>
+                            </div>
+                          </div>
+                        </>
                       ))}
                     </ul>
                   </div>
@@ -152,7 +177,7 @@ const page = () => {
                       aria-controls="availability"
                     >
                       <span>Availability</span>
-                      <span className="icon icon-arrow-up" />
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="white" d="m9.55 17.308l-4.97-4.97l.714-.713l4.256 4.256l9.156-9.156l.713.714z"/></svg>
                     </div>
                     <div id="availability" className="collapse show">
                       <ul className="tf-filter-group current-scrollbar mb_36">
@@ -162,17 +187,20 @@ const page = () => {
                             name="availability"
                             className="tf-check"
                             id="availability-1"
+                            onClick={() => handleStatusFilter("in stock")}
                           />
                           <label htmlFor="availability-1" className="label">
                             <span>In stock</span>&nbsp;<span>(14)</span>
                           </label>
                         </li>
                         <li className="list-item d-flex gap-12 align-items-center">
+                          
                           <input
                             type="radio"
                             name="availability"
                             className="tf-check"
                             id="availability-2"
+                            onClick={() => handleStatusFilter("out of stock")}
                           />
                           <label htmlFor="availability-2" className="label">
                             <span>Out of stock</span>&nbsp;<span>(2)</span>
@@ -184,7 +212,7 @@ const page = () => {
                 </form>
               </div>
               <div>
-                <div className="grid-layout wrapper-shop" data-grid="grid-4">
+                <div className="grid-layout wrapper-shop"  data-grid={data && data.length > 0 ? "grid-4" : "undefined text-center"}>
                   {data && data.length > 0 ? (
                     data.map((item, index) => {
                       const images = Array.isArray(item.images)
@@ -203,7 +231,14 @@ const page = () => {
                     })
                   ) : (
                     <>
-                      <p>Product Not Found</p>
+                      <div  data-grid="grid-12">
+                        <img
+                          style={{ margin: "auto", marginLeft:"50px" }}
+                          className="not-founf"
+                          src="https://img.freepik.com/free-vector/hand-drawn-no-data-concept_52683-127823.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1727049600&semt=ais_hybrid"
+                          alt="No data"
+                        />
+                      </div>
                     </>
                   )}
                 </div>

@@ -1,279 +1,259 @@
 "use client";
+import { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import toast from "react-hot-toast";
 import { FileUploader } from "react-drag-drop-files";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { postApiData } from "@/helper/common";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import toast from "react-hot-toast";
+import { getApiData, postApiFormData } from "@/helper/common";
 
-const ProductAdd = () => {
+const AddProduct = () => {
   const fileTypes = ["JPG", "PNG", "GIF"];
-  const [amount, setAmount] = useState("");
-  const [transRef, setTransRef] = useState("");
-  const [discount, setDiscount] = useState("");
-  const [categories, setCategories] = useState("");
-  const [moreProducts, setMoreProducts] = useState("");
-  const [metaDescription, setMetaDescription] = useState("");
-  const [keywords, setKeywords] = useState("");
-  const [stock, setStock] = useState("");
-  const [distributorPrice, setDistributorPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [screenShotImg, setScreenShotImg] = useState(null);
-
-  const handleImageChange = (image) => {
-    setScreenShotImg(image);
+  const initialErrors = {
+    title: "",
+    description: "",
+    images: "",
+    price: "",
   };
 
+  // State variables
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [images, setImages] = useState(null);
+  const [price, setPrice] = useState("");
+  const [stock, setStock] = useState("");
+  const [status, setStatus] = useState("");
+  const [categories, setCategories] = useState("");
+  const [brand, setBrand] = useState("");
+  const [errors, setErrors] = useState(initialErrors);
+  const [data, setData] = useState([]);
+  const [bdata, setBData] = useState([]);
+
+  // Fetch categories and brands
+  const fetchCategories = async () => {
+    try {
+      const apiResData = await getApiData(`categories`);
+      setData(apiResData.success ? apiResData.categories : []);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const fetchBrands = async () => {
+    try {
+      const apiResData = await getApiData(`brand/list`);
+      setBData(apiResData.success ? apiResData.brand : []);
+    } catch (error) {
+      console.error("Error fetching brands:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+    fetchBrands();
+  }, []);
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
- 
-    const apiData = new FormData();
-    apiData.append("title", transRef);
-    apiData.append("price", amount);
-    apiData.append("discount", discount);
-    apiData.append("categories", categories);
-    apiData.append("moreProducts", moreProducts);
-    apiData.append("metaDescription", metaDescription); 
-    apiData.append("keywords", keywords);
-    apiData.append("stock", stock);
-    apiData.append("distributorPrice", distributorPrice);
-    apiData.append("description", description);
-    if (screenShotImg) {
-      apiData.append("image", screenShotImg);
+    setErrors(initialErrors);
+
+    if (!title || !description || !images) {
+      setErrors({
+        title: !title ? "Title is required" : "",
+        description: !description ? "Description is required" : "",
+        images: !images ? "Please upload an image" : "",
+      });
+      return;
     }
 
-    try {
-      const data = await postApiData("product", apiData);
+    const apiData = new FormData();
+    apiData.append("title", title);
+    apiData.append("description", description);
+    apiData.append("images", images);
+    apiData.append("price", price);
+    apiData.append("stock", stock);
+    apiData.append("status", status);
+    apiData.append("categories", categories);
+    apiData.append("brand", brand);
 
+    try {
+      const data = await postApiFormData("product", apiData);
       if (data.success) {
         toast.success("Product added successfully", {
           position: "bottom-center",
           style: { borderRadius: "10px", background: "#333", color: "#fff" },
         });
-        // Clear the form after successful submission
-        setTransRef("");
-        setAmount("");
-        setDiscount("");
-        setCategories("");
-        setMoreProducts("");
-        setMetaDescription("");
-        setKeywords("");
-        setStock("");
-        setDistributorPrice("");
-        setDescription("");
-        setScreenShotImg(null);
-      } else {
-        toast.error(data.message, {
-          position: "bottom-center",
-          style: { borderRadius: "10px", background: "#333", color: "#fff" },
-        });
+        resetForm();
       }
-    } catch (error) {
-      toast.error(error.message, {
+    } catch (errorData) {
+      toast.error(errorData.message, {
         position: "bottom-center",
         style: { borderRadius: "10px", background: "#333", color: "#fff" },
       });
     }
   };
 
+  // Reset form fields
+  const resetForm = () => {
+    setTitle("");
+    setDescription("");
+    setImages(null);
+    setPrice("");
+    setStock("");
+    setStatus("");
+    setCategories("");
+    setBrand("");
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="title">
-              Title
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
+        <div className="grid grid-cols-2 gap-4">
+          <FormField label="Title" required>
             <Input
               type="text"
-              size="lg"
-              id="title"
-              required
-              value={transRef}
-              onChange={(e) => setTransRef(e.target.value)}
+              value={title}
+               size="lg"
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="Title"
             />
-          </div>
+            {errors.title && <ErrorMessage message={errors.title} />}
+          </FormField>
 
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="price">
-              Price
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
+          <FormField label="Description" required>
             <Input
               type="text"
+              value={description}
               size="lg"
-              id="price"
-              required
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Description"
+            />
+            {errors.description && <ErrorMessage message={errors.description} />}
+          </FormField>
+
+          <FormField label="Price">
+            <Input
+              type="text"
+              value={price}
+               size="lg"
+              onChange={(e) => setPrice(e.target.value)}
               placeholder="Price"
             />
-          </div>
+            {errors.price && <ErrorMessage message={errors.price} />}
+          </FormField>
 
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="discount">
-              Discount
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
+          <FormField label="Stock">
             <Input
               type="text"
-              id="discount"
-              size="lg"
-              required
-              value={discount}
-              onChange={(e) => setDiscount(e.target.value)}
-              placeholder="Discount"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="categories">
-              Categories
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Input
-              type="text"
-              id="categories"
-              size="lg"
-              required
-              value={categories}
-              onChange={(e) => setCategories(e.target.value)}
-              placeholder="Categories"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="moreProducts">
-              More products
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Input
-              type="text"
-              id="moreProducts"
-              size="lg"
-              value={moreProducts}
-              onChange={(e) => setMoreProducts(e.target.value)}
-              placeholder="More products"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="metaDescription">
-              Meta description
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Input
-              type="text"
-              id="metaDescription"
-              size="lg"
-              value={metaDescription}
-              onChange={(e) => setMetaDescription(e.target.value)}
-              placeholder="Meta description"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="keywords">
-              Keywords (comma separated values e.g. new,cool,fancy)
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Input
-              type="text"
-              id="keywords"
-              size="lg"
-              value={keywords}
-              onChange={(e) => setKeywords(e.target.value)}
-              placeholder="Keywords"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="stock">
-              Stock
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Input
-              type="text"
-              id="stock"
-              size="lg"
-              required
               value={stock}
+               size="lg"
               onChange={(e) => setStock(e.target.value)}
               placeholder="Stock"
             />
-          </div>
+            {errors.stock && <ErrorMessage message={errors.stock} />}
+          </FormField>
 
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="distributorPrice">
-              Distributor Price
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Input
-              type="text"
-              id="distributorPrice"
-              size="lg"
-              value={distributorPrice}
-              onChange={(e) => setDistributorPrice(e.target.value)}
-              placeholder="Distributor Price"
-            />
-          </div>
-        </div>
+          <FormField label="Status">
+            <Select value={status} onValueChange={setStatus}>
+              <SelectTrigger>
 
-        <div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
-          <div className="flex flex-col gap-2 mt-5">
-            <Label htmlFor="description">
-              Description
-              <span style={{ color: "tomato" }}>*</span>
-            </Label>
-            <Textarea
-              id="description"
-              placeholder="Type Here.."
-              rows="3"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
+                <SelectValue>
+           {status ? status?.title : "Select Status"}
+         </SelectValue>
+
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="out of stock">Out of stock</SelectItem>
+                <SelectItem value="in stock">In stock</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormField>
+
+          <FormField label="Select Categories">
+            <Select value={categories} onValueChange={setCategories}>
+              <SelectTrigger>
+                <SelectValue>
+           {categories ? categories?.title : "Choose Categories"}
+         </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {data.length > 0 ? (
+                  data.map((item) => (
+                    <SelectItem key={item.id} value={item.id}>
+                      {item.name}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <SelectItem disabled>No Categories Available</SelectItem>
+                )}
+              </SelectContent>
+            </Select>
+          </FormField>
+
+          <FormField label="Select Brand">
+            <Select value={brand} onValueChange={setBrand}>
+              <SelectTrigger>
+                <SelectValue>
+           {brand ? brand?.title : "Choose Brand"}
+         </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {bdata.length > 0 ? (
+                  bdata.map((item) => (
+                    <SelectItem key={item.id} value={item.id}>
+                      {item.name}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <SelectItem disabled>No Brands Available</SelectItem>
+                )}
+              </SelectContent>
+            </Select>
+          </FormField>
 
           <div className="flex flex-col gap-3 mb-5">
             <Label>
-              Upload Image
-              <span style={{ color: "tomato" }}>*</span>
+              Upload Images<span style={{ color: "tomato" }}>*</span>
             </Label>
             <FileUploader
-              handleChange={handleImageChange}
-              name="image"
+              handleChange={setImages}
+              name="images"
               types={fileTypes}
             />
-            {screenShotImg && (
+            {errors.images && <ErrorMessage message={errors.images} />}
+            {images && (
               <img
-                src={URL.createObjectURL(screenShotImg)}
+                src={URL.createObjectURL(images)}
                 width="100px"
-                style={{
-                  borderRadius: "8px",
-                  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                  border: "1px solid #ccc",
-                }}
-                alt="Uploaded preview"
+                style={{ borderRadius: "8px", boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)", border: "1px solid #ccc" }}
               />
             )}
           </div>
         </div>
 
-        <div
-          style={{ margin: "auto", width: "100%", gap: "20px" }}
-          className="mt-5 flex justify-center"
-        >
-          <Button style={{ margin: "auto" }} className="mx-5" type="submit">
-            Submit
-          </Button>
+        <div className="mt-5 flex justify-center gap-5">
+          <Button type="button" onClick={resetForm}>Reset</Button>
+          <Button type="submit">Submit</Button>
         </div>
       </form>
     </>
   );
 };
 
-export default ProductAdd;
+const FormField = ({ label, required, children }) => (
+  <div className="flex flex-col gap-2">
+    <Label>
+      {label}
+      {required && <span style={{ color: "tomato" }}>*</span>}
+    </Label>
+    {children}
+  </div>
+);
+
+const ErrorMessage = ({ message }) => (
+  <span style={{ color: "red" }}>{message}</span>
+);
+
+export default AddProduct;

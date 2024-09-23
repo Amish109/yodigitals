@@ -24,6 +24,9 @@ const Form = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [retailers, setRetailers] = useState([]);
+  const [order_date, setOrder_date] = useState(new Date().toISOString().split("T")[0]);
+
+
 
   const fetchProductList = async () => {
     try {
@@ -82,13 +85,17 @@ const Form = () => {
       toast.dismiss();
 
       // Constructing the order payload
+      const status = "pending"
+     
       const apiData = {
         retailerId: selectedRetailer,
         contactNumber,
         gstin,
+        order_date,
+        status,
         shippingAddress,
         products: product.map((id, index) => ({
-          productId: id,
+          product_id: id,
           quantity: quantity[index],
         })),
       };
@@ -181,7 +188,7 @@ const Form = () => {
                   <Label htmlFor="order-date" className="text-default-600 mb-3 xl:text-lg text-xl">
                     {"Order Date:"}
                   </Label>
-                  <Input placeholder={""} size="lg" id="order-date" type="date" />
+                  <Input placeholder={""} size="lg" id="order-date" type="date" value={order_date} onChange={(e)=>setOrder_date(e.target.value)} />
                 </div>
               </div>
               {product.map((selectedProduct, index) => (
