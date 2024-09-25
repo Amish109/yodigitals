@@ -10,7 +10,7 @@ exports.uploadInvoice = async (req, res) => {
         filepath: `/uploads/${file.filename}`
       }))
     );
-  console.log(uploadedFiles);
+
   
     res.status(201).json({
       success: true,

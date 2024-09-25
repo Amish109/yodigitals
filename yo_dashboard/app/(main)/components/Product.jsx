@@ -234,7 +234,7 @@ const Product = () => {
               state-of-the-art Smart Device.
             </p>
           </div>
-          <div className="grid-layout" data-grid="grid-4">
+          <div className="grid-layout wrapper-shop"  data-grid={data && data.length > 0 ? "grid-4" : "undefined text-center"}>
             {data && data.length > 0 ? (
               data.map((item, index) => {
                 const images = Array.isArray(item.images)
@@ -247,7 +247,14 @@ const Product = () => {
               })
             ) : (
               <>
-                <p>Product Not Found</p>
+               <div  data-grid="grid-12">
+                        <img
+                          style={{ margin: "auto", marginLeft:"250px" }}
+                          className="not-founf"
+                          src="https://img.freepik.com/free-vector/hand-drawn-no-data-concept_52683-127823.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1727049600&semt=ais_hybrid"
+                          alt="No data"
+                        />
+                      </div>
               </>
             )}
           </div>

@@ -2,6 +2,8 @@ import Link from 'next/link'
 import React from 'react'
 
 const RoleBase = () => {
+  const token = typeof window !== 'undefined' ? localStorage.getItem("token") : null;
+   
   return (
     <>
       <div className="blog-grid-main">
@@ -10,7 +12,7 @@ const RoleBase = () => {
           <div className="col-xl-3 col-md-4 col-12">
             <div className="blog-article-item">
               <div className="article-thumb">
-                <Link href="/admin">
+                <Link href={token ? '/admin/dashboard' : '/admin'}>
                   <img
                     className="lazyload"
                     data-src="https://yodigitals.com/_next/static/media/top1.16dd6294a3fd232f4cfc4fa83b8fdc81.jpg"

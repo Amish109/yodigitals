@@ -6,8 +6,12 @@ exports.createProduct = async (req, res) => {
   try {
     const { title, price, discount, description, rating, identityNumber, categoryId, status, brandId, createdById, distributor_price, stock } = req.body;
 
-   
-    const imagePaths = req.files.map(file => file.path);
+    
+     const imagePaths = Array.isArray(req.files)
+     ? req.files.map(file => file.path.replace(/\\/g, '/')) 
+     : req.files
+     ? [req.files.path.replace(/\\/g, '/')] 
+     : []; 
 
     const product = await Products.create({
       title,
@@ -22,7 +26,7 @@ exports.createProduct = async (req, res) => {
       categoryId,
       identityNumber,
       stock,
-      images: imagePaths
+      images: imagePaths 
     });
 
     return res.status(201).json({
@@ -38,28 +42,27 @@ exports.createProduct = async (req, res) => {
 };
 
 
+
 exports.getAllProducts = async (req, res) => {
   try {
-    // Extract filters from the request query
     const { status, categorySlug } = req.query;
 
-    // Build where condition for product filters
     const whereConditions = {};
     
     if (status) {
-      whereConditions.status = status; // Filter by "in stock" or "out of stock"
+      whereConditions.status = status;
     }
 
     const products = await Products.findAll({
-      where: whereConditions, // Apply product-specific filters here
+      where: whereConditions, 
       include: [
         { model: Brand, as: 'brand' }, 
         { model: User, as: 'createdBy' }, 
         { model: User, as: 'updatedBy' },
         {
           model: Category,
-          as: 'category', // Must match the alias used in the Product model association
-          where: categorySlug ? { slug: categorySlug } : {}, // Filter by category slug if provided
+          as: 'category', 
+          where: categorySlug ? { slug: categorySlug } : {},
         }
       ]
     });
