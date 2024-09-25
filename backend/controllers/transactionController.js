@@ -1,86 +1,122 @@
-const db = require("../models");
+const db = require('../models'); // Assuming your models are in the 'models' folder
+const { Transaction, User, Order } = db;
 
-module.exports = class TransactionDBApi {
-  static async create(data) {
-    const transaction = await db.sequelize.transaction(); 
+// Create Transaction
+exports.createTransaction = async (req, res) => {
+  const { user_id, order_id, amount, transaction_type, description } = req.body;
 
-    try {
-      const user = await db.users.findByPk(data.user_id, { transaction });
-      if (!user) {
-        throw new Error(`User with ID ${data.user_id} not found`);
+  // Validate request payload
+  if (!user_id || !amount || !transaction_type) {
+    return res.status(400).json({ message: 'User ID, amount, and transaction type are required' });
+  }
+
+  try {
+    // Check if user exists
+    const user = await User.findByPk(user_id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // If an order_id is provided, check if the order exists
+    let order;
+    if (order_id) {
+      order = await Order.findByPk(order_id);
+      if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
       }
+    }
 
-      const currentBalance = parseFloat(user.balance) || 0;
+    // Calculate the new balance for the user
+    const currentBalance = parseFloat(user.balance) || 0;
+    let updatedBalance;
 
-      let updatedBalance;
-      if (data.transaction_type === 'credit') {
-        updatedBalance = currentBalance + parseFloat(data.amount); 
-      } else if (data.transaction_type === 'debit') {
-        updatedBalance = currentBalance - parseFloat(data.amount);
-      } else {
-        throw new Error(`Invalid transaction type: ${data.transaction_type}`);
+    if (transaction_type === 'credit') {
+      updatedBalance = currentBalance + parseFloat(amount);
+    } else if (transaction_type === 'debit') {
+      if (currentBalance < amount) {
+        return res.status(400).json({ message: 'Insufficient balance' });
       }
-
-      const newTransaction = await db.transactions.create({
-        user_id: data.user_id,
-        order_id: data.order_id || null,
-        amount: data.amount,
-        transaction_type: data.transaction_type,
-        description: data.description,
-      }, { transaction });
-
-      // Update the user's balance
-      await db.users.update({ balance: updatedBalance }, {
-        where: { id: data.user_id },
-        transaction
-      });
-
-      await transaction.commit();
-
-      return newTransaction;
-    } catch (error) {
-      await transaction.rollback();
-      console.error('Error adding transaction:', error.message);
-      throw new Error('Failed to add transaction');
+      updatedBalance = currentBalance - parseFloat(amount);
+    } else {
+      return res.status(400).json({ message: 'Invalid transaction type' });
     }
-  }
 
-  static async getTransactions(user_id = null) {
-    try {
-      const whereClause = user_id ? { user_id } : {};
-      const transactions = await db.transactions.findAll({ where: whereClause });
-      return transactions;
-    } catch (error) {
-      console.error('Error retrieving transactions:', error);
-      throw new Error('Failed to retrieve transactions');
-    }
-  }
+    // Create the transaction
+    const newTransaction = await Transaction.create({
+      user_id,
+      order_id: order_id || null,
+      amount,
+      transaction_type,
+      description,
+      opening_balance: currentBalance,
+      closing_balance: updatedBalance
+    });
 
-  static async getTransactionsByUserId(user_id) {
-    return this.getTransactions(user_id);
-  }
+    // Update user's balance
+    await User.update({ balance: updatedBalance }, { where: { id: user_id } });
 
-  static async getUserBalance(user_id) {
-    try {
-      const credits = await db.transactions.sum('amount', {
-        where: {
-          user_id,
-          transaction_type: 'credit'
+    res.status(201).json({
+      message: 'Transaction created successfully',
+      transaction: newTransaction
+    });
+  } catch (error) {
+    console.error('Error creating transaction:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Get All Transactions
+exports.getAllTransactions = async (req, res) => {
+  try {
+    const transactions = await Transaction.findAll({
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'name', 'email'] // Include user details in the response
+        },
+        {
+          model: Order,
+          as: 'order',
+          attributes: ['id', 'order_no'] // Include order details if provided
         }
-      });
+      ]
+    });
 
-      const debits = await db.transactions.sum('amount', {
-        where: {
-          user_id,
-          transaction_type: 'debit'
+    res.status(200).json(transactions);
+  } catch (error) {
+    console.error('Error fetching transactions:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Get Transaction by ID
+exports.getTransactionById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const transaction = await Transaction.findByPk(id, {
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'name', 'email']
+        },
+        {
+          model: Order,
+          as: 'order',
+          attributes: ['id', 'order_no']
         }
-      });
+      ]
+    });
 
-      const balance = (credits || 0) - (debits || 0);
-      return balance;
-    } catch (error) {
-      console.error('Error retrieving user balance:', error);
-      throw new Error('Failed to retrieve user balance');
+    if (!transaction) {
+      return res.status(404).json({ message: 'Transaction not found' });
     }
+
+    res.status(200).json(transaction);
+  } catch (error) {
+    console.error('Error fetching transaction:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
