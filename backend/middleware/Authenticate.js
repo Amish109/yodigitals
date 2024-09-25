@@ -5,22 +5,23 @@ const asyncHnadler = require("express-async-handler")
 
 // user authentication
 exports.authenticate = async (req, res, next) => {
-    const token = req.header("Authorization");
-    if (!token) {
-      return res.status(401).json({
-        error: "Missing Token",});
-    }
-    try {
-      const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-      req.user = decodedToken.userId;
-      next();
-    } catch (err) {
-      return res.status(401).json({
-        error:
-          "Token is invalid for access, please provide a valid token :x: ...",
-      });
-    }
-  };
+  const token = req.header("Authorization");
+  if (!token) {
+    return res.status(401).json({ error: "Missing Token" });
+  }
+
+  try {
+    const actualToken = token.startsWith('Bearer ') ? token.split(' ')[1] : token;
+    const decodedToken = jwt.verify(actualToken, process.env.SECRET_KEY);
+    req.user = { userId: decodedToken.userId }; 
+    next();
+  } catch (err) {
+    console.error('Token verification failed:', err);
+    return res.status(401).json({
+      error: "Token is invalid for access, please provide a valid token :x:",
+    });
+  }
+};
 
 
 // user login 

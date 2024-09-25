@@ -54,6 +54,7 @@ const LogInForm = () => {
       
         if (typeof window !== "undefined") {
           localStorage.setItem("token", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user)); 
         }
         document.cookie = `token=${data.token}`;
          location.href = "/admin/dashboard";
@@ -139,24 +140,45 @@ const LogInForm = () => {
         </div>
 
         <div className="mt-5  mb-8 flex flex-wrap gap-2">
-          <div className="flex-1 flex  items-center gap-1.5 "></div>
-        </div>
-        <Button
-          className="w-full"
-          type="submit"
-          disabled={isPending}
-          size={!isDesktop2xl ? "lg" : "md"}
-        >
-          {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {isPending ? "Loading..." : "Sign In"}
-        </Button>
-        <div className="mt-5 2xl:mt-8 text-center text-base text-default-600">
-          Don&apos;t have an account?{" "}
-          <Link href="/register" className="text-primary">
-            {" "}
-            Sign Up{" "}
+          <div className="flex-1 flex  items-center gap-1.5 ">
+           
+            <Label
+              htmlFor="isRemebered"
+              className="text-sm text-default-600 cursor-pointer whitespace-nowrap"
+            >
+              {/* Remember me */}
+            </Label>
+          </div>
+          <Link href="/admin/forgot" className="flex-none text-sm text-primary">
+            Forget Password?
           </Link>
         </div>
+        <div style={{display:"flex", justifyContent:"", gap:"20px"}}>
+     <div  className="w-1/2">
+        <Button
+        className="w-full"
+          disabled={isPending}
+         
+        >
+          {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isPending ? "Loading..." : "Login"}
+        </Button>
+        </div>
+   
+       <div className="w-1/2">
+       <Link  href="/admin/otp-login">
+       <Button
+        className="w-full"
+        
+        
+        
+        >
+          {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isPending ? "Loading..." : "OTP"}
+        </Button>
+       </Link>
+       </div>
+       </div>
       </form>
 
      

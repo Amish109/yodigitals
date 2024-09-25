@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Input } from "@/components/ui/input";
+import { updateApiData } from "@/helper/common";
 
 const PasswordChange = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -51,37 +52,29 @@ const PasswordChange = () => {
       }));
       return;
     }
+    
+    const apiData = {
+      currentPassword,
+      newPassword,
+      confirmPassword
+    };
 
-    // Fetch API call simulation
+    
     try {
-      const response = await fetch("/api/change-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          currentPassword,
-          newPassword,
-          confirmPassword,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.error === false) {
-        toast.success(data.message, {
+      const data = await updateApiData(`users/change-password`, apiData);
+      if (data.success) {
+        toast.success("Category updated successfully", {
           position: "bottom-center",
           style: { borderRadius: "10px", background: "#333", color: "#fff" },
         });
-        setCurrentPassword("");
-        setNewPassword("");
-        setConfirmPassword("");
       } else {
-        toast.error(data.message, {
+        toast.error(data.error || "Failed to update category", {
           position: "bottom-center",
           style: { borderRadius: "10px", background: "#333", color: "#fff" },
         });
       }
+
+
     } catch (error) {
       toast.error("An error occurred. Please try again.", {
         position: "bottom-center",

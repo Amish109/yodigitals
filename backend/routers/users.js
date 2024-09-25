@@ -7,10 +7,13 @@ const {  authenticate } = require('../middleware/Authenticate');
 router.post('/', userController.createUser);
 router.get('/', userController.getAllUsers);
 router.get('/:id', userController.getUserById);
-router.put('/:id', userController.updateUser);
+// router.put('/:id', userController.updateUser);
 router.delete('/:id', userController.deleteUser);
 router.post('/login', userController.loginUser);
+router.post('/phone-number', userController.loginPhone);
 router.put('/change-password', authenticate, userController.changePassword);
+router.post('/forgot-password', userController.forgotPassword);
+router.post('/reset-password/:token', userController.resetPassword);
 
 router.get('/user-data', async (req, res) => {
   try {

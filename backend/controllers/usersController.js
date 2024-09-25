@@ -1,6 +1,10 @@
 const bcrypt = require('bcrypt');
 const { User, BusinessInfo  } = require('../models'); 
-const Token = require('../utils/Token')
+const Token = require('../utils/Token');
+const { sendEmail } = require('../utils/email');
+const crypto = require('crypto');
+const { Op } = require('sequelize');
+
 
 
 // Create a new user
@@ -70,7 +74,9 @@ exports.loginUser = async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        role: user.role
+        role: user.role,
+        aadhar_number:user.aadhar_number,
+        pan_number:user.pan_number,
       }
     });
   } catch (error) {
@@ -78,6 +84,43 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ error: 'An error occurred while logging in the user' });
   }
 };
+
+
+
+exports.loginPhone = async (req, res) => {
+  try {
+    const { phoneNumber, otp } = req.body;
+    if (!phoneNumber || !otp) {
+      return res.status(400).json({ error: 'Phone number and OTP are required' });
+    }
+    const user = await User.findOne({ where: { phoneNumber } });
+    console.log('User fetched from DB:', user);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const token = Token.generateJWT(user.id);
+    res.status(200).json({
+      success: true,
+      message: 'Login successful',
+      token,
+      user: {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        phoneNumber: user.phoneNumber,
+        role: user.role,
+        aadhar_number: user.aadhar_number,
+        pan_number: user.pan_number,
+      },
+    });
+  } catch (error) {
+    console.error('Error logging in user:', error);
+    res.status(500).json({ error: 'An error occurred while logging in the user' });
+  }
+};
+
+
+
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -188,7 +231,6 @@ exports.deleteUser = async (req, res) => {
 
 
 
-
 // Change user password
 exports.changePassword = async (req, res) => {
   try {
@@ -196,20 +238,26 @@ exports.changePassword = async (req, res) => {
     console.log(req.user);
 
     const { currentPassword, newPassword, confirmPassword } = req.body;
-   
+
     if (newPassword !== confirmPassword) {
       return res.status(400).json({ error: 'New password and confirm password do not match' });
     }
+
     const user = await User.findByPk(userId);
-   
-    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
     const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ error: 'Incorrect current password' });
     }
+
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedNewPassword;
+    
     await user.save();
+
     const token = Token.generateJWT(user.id);
 
     res.status(200).json({
@@ -220,5 +268,110 @@ exports.changePassword = async (req, res) => {
   } catch (error) {
     console.error('Error changing password:', error);
     res.status(500).json({ error: 'An error occurred while changing the password' });
+  }
+};
+
+
+
+
+
+// Forgot Password Controller
+// Forgot Password Controller
+exports.forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // Find user by email
+    const user = await User.findOne({ where: { email } });
+  
+    if (!user) {
+      return res.status(404).json({ error: "User not found with this email" });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetTokenExpires = Date.now() + 10 * 60 * 1000; 
+  
+  
+    user.passwordResetToken = resetToken;
+    user.passwordResetTokenExpiresAt = resetTokenExpires;
+
+    await user.save(); // Save the changes
+
+    const resetURL = `
+  <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto;">
+    <div style="background-color: #ffffff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+      <h1 style="color: #000000; text-align: center;">Welcome to Yo Digitals</h1>
+      <h2 style="color: #333333;">Reset Your Password</h2>
+      <p style="color: #555555;">Hi,</p>
+      <p style="color: #555555;">Please follow this link to reset your password. This link is valid for 10 minutes from now:</p>
+      <a href='http://localhost:3000/admin/reset-password/${resetToken}' style="display: inline-block; background-color: #000000; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Click Here</a>
+      <p style="color: #555555; margin-top: 20px;">If you did not request a password reset, please ignore this email.</p>
+    </div>
+    <footer style="text-align: center; margin-top: 20px; color: #888888;">
+      <p>Thank you!</p>
+    </footer>
+  </div>
+`;
+
+  
+    
+    const data = {
+      to: user.email,
+      text: "Hey User",
+      subject: "Forgot Password Link",
+      html: resetURL, 
+    };
+    
+    sendEmail(data);
+
+    res.status(200).json({ success: true, message: 'Password reset link sent to email', resetToken });
+  } catch (error) {
+    console.error('Error in forgotPassword:', error);
+    res.status(500).json({ error: 'An error occurred while processing the request' });
+  }
+};
+
+
+
+
+
+// Reset Password Controller
+exports.resetPassword = async (req, res) => {
+  const { token } = req.params; 
+  const { newPassword, confirmPassword } = req.body;
+
+  try {
+ 
+    const user = await User.findOne({
+      where: {
+        passwordResetToken: token,
+        passwordResetTokenExpiresAt: { [Op.gt]: Date.now() }
+      }
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: 'Invalid or expired password reset token' });
+    }
+
+    
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ error: 'New password and confirm password do not match' });
+    }
+
+  
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+
+  
+    user.passwordResetToken = null;
+    user.passwordResetTokenExpiresAt = null;
+
+   
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Password reset successfully' });
+  } catch (error) {
+    console.error('Error resetting password:', error);
+    res.status(500).json({ error: 'An error occurred while resetting the password' });
   }
 };

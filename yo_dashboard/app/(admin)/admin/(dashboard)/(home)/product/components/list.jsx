@@ -217,7 +217,8 @@ console.log(apiResData,"bbbbbbbbbbbbbbbbbbbbbbbbbbbb");
       headerProps: { className: "text-center" },
       cell: ({ row }) => (
         <div className="flex space-x-3 rtl:space-x-reverse">
-          <Button
+        <Link href={`/admin/product/edit/${row?.original?.id}`}>
+        <Button
             size="icon"
             variant="outline"
             color="secondary"
@@ -225,6 +226,7 @@ console.log(apiResData,"bbbbbbbbbbbbbbbbbbbbbbbbbbbb");
           >
             <Icon icon="heroicons:pencil" className="h-4 w-4" />
           </Button>
+        </Link>
           <Button
           onClick={() => ViewConfirm(row.original.id)}
             size="icon"

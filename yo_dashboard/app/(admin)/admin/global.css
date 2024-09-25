@@ -21,3 +21,10 @@
     flex-grow: 0;
 }
 
+.opt-container {
+    justify-content: center;
+}
+.opt-container > input[type="tel"] {
+    border: 1px solid #333;
+    border-radius: 5px;
+}

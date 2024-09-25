@@ -13,6 +13,54 @@ const PasswordChange = () => {
 
 
 
+  // const [currentPassword, setcurrentPassword] = useState("");
+  // const [newPassword, setnewPassword] = useState("");
+  // const [confirmPassword, setconfirmPassword] = useState("");
+
+
+  
+   
+ 
+
+
+
+  // const handleChangeSubmit = async (e) => {
+  //   e.preventDefault();
+   
+  //   const apiData = {
+  //     currentPassword: currentPassword,
+  //     newPassword: newPassword,
+  //     confirmPassword: confirmPassword,
+  //   };
+
+  //   try {
+  //     const data = await postApiData(
+  //       `users/change-password`,
+  //       apiData,
+  //       "application/json"
+  //     );
+  //     if (data.success === true) {
+  //       toast.success(data.message, {
+  //         position: "bottom-center",
+  //         style: { borderRadius: "10px", background: "#333", color: "#fff" },
+  //       });
+  //      setconfirmPassword("")
+  //      setnewPassword("")
+  //      setcurrentPassword("")
+  //     } else {
+  //       toast.error(data.error, {
+  //         position: "bottom-center",
+  //         style: { borderRadius: "10px", background: "#333", color: "#fff" },
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log("error");
+      
+  //   }
+  // };
+
+
+
 
   return (
 

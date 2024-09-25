@@ -55,7 +55,7 @@ const EditUser = () => {
         setRole(apiResData?.user?.role);
       } else {
         toast.error("Failed to fetch user data");
-      }
+      } 
     } catch (error) {
       console.error("Error fetching:", error);
       toast.error("Error fetching user data");

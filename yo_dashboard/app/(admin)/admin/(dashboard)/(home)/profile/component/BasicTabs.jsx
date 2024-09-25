@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const BasicTabs = () => {
+const BasicTabs = ({data}) => {
   return (
     <Tabs defaultValue="account" className="md:w-[600px]">
       <TabsList className="grid w-full grid-cols-3">
@@ -24,19 +24,69 @@ const BasicTabs = () => {
         <Card>
           <CardHeader>
             <CardTitle>Personal Details</CardTitle>
-            <CardDescription>
-              Make changes to your account here. Click save when you're done.
-            </CardDescription>
+           
           </CardHeader>
           <CardContent className="space-y-2">
-            <div className="space-y-1">
+           <div className="flex justify-around mb-20">
+           <div className="space-y-1">
               <Label htmlFor="name">Name</Label>
-              <Input id="name" defaultValue="Pedro Duarte" />
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.role}
+          </div>
             </div>
             <div className="space-y-1">
-              <Label htmlFor="username">Username</Label>
-              <Input id="username" defaultValue="@peduarte" />
+              <Label htmlFor="name">Last Name</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.lastName}
+          </div>
             </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">Email Id</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.email}
+          </div>
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">Phone Number</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.phoneNumber ? data?.phoneNumber:"91 xxxxxxxx"}
+          </div>
+            </div>
+           
+           
+           </div>
+          
+        
+
+
+
+           <div className="flex justify-around mt-5">
+           <div className="space-y-1">
+              <Label htmlFor="name">Pan Number</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.pan_number?data?.pan_number:"Exam77hNNSN"}
+          </div>
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">Adhar Number</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.aadhar_number}
+          </div>
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">emailVerified</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.disabled}
+          </div>
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">Role</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.role}
+          </div>
+            </div>
+           
+           </div>
           </CardContent>
         
         </Card>
@@ -45,19 +95,69 @@ const BasicTabs = () => {
         <Card>
           <CardHeader>
             <CardTitle>Company Details</CardTitle>
-            <CardDescription>
-              Change your password here. After saving, you'll be logged out.
-            </CardDescription>
+            
           </CardHeader>
           <CardContent className="space-y-2">
-            <div className="space-y-1">
-              <Label htmlFor="current">Current password</Label>
-              <Input id="current" type="password" />
+           <div className="flex justify-around mb-20">
+           <div className="space-y-1">
+              <Label htmlFor="name">Name</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.role}
+          </div>
             </div>
             <div className="space-y-1">
-              <Label htmlFor="new">New password</Label>
-              <Input id="new" type="password" />
+              <Label htmlFor="name">Last Name</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.lastName}
+          </div>
             </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">Email Id</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.email}
+          </div>
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">Phone Number</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.phoneNumber ? data?.phoneNumber:"91 xxxxxxxx"}
+          </div>
+            </div>
+           
+           
+           </div>
+          
+        
+
+
+
+           <div className="flex justify-around mt-5">
+           <div className="space-y-1">
+              <Label htmlFor="name">Pan Number</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.pan_number?data?.pan_number:"Exam77hNNSN"}
+          </div>
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">Adhar Number</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.aadhar_number}
+          </div>
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">emailVerified</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.disabled}
+          </div>
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">Role</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.role}
+          </div>
+            </div>
+           
+           </div>
           </CardContent>
         
         </Card>
@@ -67,19 +167,69 @@ const BasicTabs = () => {
         <Card>
           <CardHeader>
             <CardTitle>manager Details</CardTitle>
-            <CardDescription>
-              Change your password here. After saving, you'll be logged out.
-            </CardDescription>
+           
           </CardHeader>
           <CardContent className="space-y-2">
-            <div className="space-y-1">
-              <Label htmlFor="current">Current password</Label>
-              <Input id="current" type="password" />
+           <div className="flex justify-around mb-20">
+           <div className="space-y-1">
+              <Label htmlFor="name">Name</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.role}
+          </div>
             </div>
             <div className="space-y-1">
-              <Label htmlFor="new">New password</Label>
-              <Input id="new" type="password" />
+              <Label htmlFor="name">Last Name</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.lastName}
+          </div>
             </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">Email Id</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.email}
+          </div>
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">Phone Number</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.phoneNumber ? data?.phoneNumber:"91 xxxxxxxx"}
+          </div>
+            </div>
+           
+           
+           </div>
+          
+        
+
+
+
+           <div className="flex justify-around mt-5">
+           <div className="space-y-1">
+              <Label htmlFor="name">Pan Number</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.pan_number?data?.pan_number:"Exam77hNNSN"}
+          </div>
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">Adhar Number</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.aadhar_number}
+          </div>
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">emailVerified</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.disabled}
+          </div>
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="name">Role</Label>
+              <div className="mt-1.5 text-sm font-medium text-default-500">
+           {data?.role}
+          </div>
+            </div>
+           
+           </div>
           </CardContent>
          
         </Card>
