@@ -16,12 +16,25 @@ import TopSell from "./components/top-sell";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import DashboardDropdown from "@/components/dashboard-dropdown";
 import DatePickerWithRange from "@/components/date-picker-with-range";
+import { useEffect, useState } from "react";
 const EcommercePage = () => {
+
+
+  const [data, setData] = useState("")
+  useEffect(() => {
+    const userData = typeof window !== 'undefined' ? localStorage.getItem("user") : null;
+    if (userData) {
+      setData(JSON.parse(userData));
+    }
+  }, []);
+    
+  console.log(data);
+
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap gap-4 mx-4 items-center justify-between">
-        <div className="text-2xl font-medium text-default-800">
-        Welcome, Jeevan!
+      <div className="flex flex-wrap gap-4 mx-4 items-center justify-center bg-primary text-white p-4 ">
+        <div className="text-2xl font-medium  text-center text-white">
+        Welcome, {data.firstName}
 
         </div>
       </div>

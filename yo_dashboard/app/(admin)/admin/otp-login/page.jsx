@@ -1,8 +1,8 @@
 "use client";
 import { BsFillShieldLockFill, BsTelephoneFill } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
-import OtpInput from "otp-input-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Input } from "@/components/ui/input";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { auth } from "../../../../firebase.config";
@@ -12,15 +12,18 @@ import { getApiData, postApiData } from "@/helper/common";
 import Image from "next/image";
 import background from "@/public/images/new/loginimg.png";
 
-const Page = () => {
-  const [otp, setOtp] = useState("");
+const page = () => {
   const [ph, setPh] = useState("");
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [user, setUser] = useState(null);
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
+  const totalOtpField = 6;
+  const [otp, setOtp] = useState(Array(totalOtpField).fill(""));
+  const inputRefs = useRef([]);
 
+  // Fetch user list from the API
   const FetchUserList = async () => {
     try {
       const apiResData = await getApiData(`users`);
@@ -38,13 +41,14 @@ const Page = () => {
     FetchUserList();
   }, []);
 
+  // Ensure the captcha is only initialized in the client
   const onCaptchVerify = () => {
     if (typeof window !== "undefined" && !window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
         "recaptcha-container",
         {
           size: "invisible",
-          callback: (response) => {
+          callback: () => {
             onSignup();
           },
           "expired-callback": () => {},
@@ -54,16 +58,8 @@ const Page = () => {
     }
   };
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      console.log("Firebase auth initialized:", auth);
-    }
-  }, []);
-
   const onSignup = () => {
     const userExists = data.some((user) => user.phoneNumber == ph);
-
-    console.log(userExists, "userexist", ph, "phone");
 
     if (!userExists) {
       setError("Invalid user: Phone number does not exist.");
@@ -96,14 +92,13 @@ const Page = () => {
     setLoading(true);
     if (typeof window !== "undefined" && window.confirmationResult) {
       window.confirmationResult
-        .confirm(otp)
+        .confirm(otp.join("")) // Join OTP array to a single string
         .then(async (res) => {
-          console.log(res);
           setUser(res.user);
           setLoading(false);
 
           const apiData = {
-            otp: otp,
+            otp: otp.join(""),
             phoneNumber: ph,
           };
 
@@ -116,7 +111,11 @@ const Page = () => {
             if (data.success === true) {
               toast.success(data.message, {
                 position: "bottom-center",
-                style: { borderRadius: "10px", background: "#333", color: "#fff" },
+                style: {
+                  borderRadius: "10px",
+                  background: "#333",
+                  color: "#fff",
+                },
               });
 
               if (typeof window !== "undefined") {
@@ -128,11 +127,15 @@ const Page = () => {
             } else {
               toast.error(data.error, {
                 position: "bottom-center",
-                style: { borderRadius: "10px", background: "#333", color: "#fff" },
+                style: {
+                  borderRadius: "10px",
+                  background: "#333",
+                  color: "#fff",
+                },
               });
             }
           } catch (error) {
-            console.log("error");
+            console.log("Error in OTP verification API call:", error);
           }
         })
         .catch((err) => {
@@ -140,6 +143,35 @@ const Page = () => {
           setLoading(false);
           setError("Invalid OTP. Please try again.");
         });
+    }
+  };
+
+  // Handle OTP input changes
+  const handleChange = (e, index) => {
+    const { value } = e.target;
+    if (!isNaN(value) && value.length <= 1) {
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+      if (value.length === 1 && index < totalOtpField - 1) {
+        inputRefs.current[index + 1].focus();
+      }
+    }
+  };
+
+  // Handle backspace and arrow navigation
+  const handleKeyDown = (index, event) => {
+    if (event.key === "Backspace" && otp[index] === "" && index > 0) {
+      setOtp((prevOtp) => {
+        const newOtp = [...prevOtp];
+        newOtp[index - 1] = "";
+        return newOtp;
+      });
+      inputRefs.current[index - 1].focus();
+    } else if (event.key === "ArrowLeft" && index > 0) {
+      inputRefs.current[index - 1].focus();
+    } else if (event.key === "ArrowRight" && index < totalOtpField - 1) {
+      inputRefs.current[index + 1].focus();
     }
   };
 
@@ -166,10 +198,13 @@ const Page = () => {
                     Welcome to Yo Digitals
                   </h1>
 
-                  <p style={{ textAlign: "center", fontSize: "17px" }}>
-                    Thank you for registering on our website! <br /> Here's your
-                    promotional code for your first purchase.
-                  </p>
+                  <div>
+                    <p style={{ textAlign: "center", fontSize: "17px" }}>
+                      To secure your account,
+                      <br /> please verify your phone number. We'll send you a{" "}
+                      <br /> One-Time Password (OTP) for secure access.
+                    </p>
+                  </div>
                   {showOTP ? (
                     <>
                       <div className="bg-white text-primary-500 w-fit mx-auto p-4 rounded-full">
@@ -181,19 +216,27 @@ const Page = () => {
                       >
                         Enter your OTP
                       </label>
-                      <OtpInput
-                        value={otp}
-                        onChange={setOtp}
-                        OTPLength={6}
-                        otpType="number"
-                        disabled={false}
-                        autoFocus
-                        inputStyle="border border-black rounded-md p-2 w-12 h-12 text-center"
-                        className="opt-container border-black"
-                      />
+
+                      <div className="flex flex-wrap gap-1 lg:gap-6">
+                        {Array.from({ length: totalOtpField }).map(
+                          (_, index) => (
+                            <Input
+                              key={`otp-code-${index}`}
+                              type="text"
+                              id={`otp${index}`}
+                              value={otp[index]}
+                              onChange={(e) => handleChange(e, index)}
+                              onKeyDown={(event) => handleKeyDown(index, event)}
+                              maxLength={1}
+                              className="w-8 h-8 sm:w-[60px] sm:h-12 rounded border-default-300 text-center text-2xl font-medium text-default-900"
+                              ref={(ref) => (inputRefs.current[index] = ref)}
+                            />
+                          )
+                        )}
+                      </div>
                       <button
                         onClick={onOTPVerify}
-                        className="bg-emerald-600 w-full flex gap-1 items-center justify-center py-2.5 text-black rounded"
+                        className="bg-black w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
                       >
                         {loading && (
                           <CgSpinner size={20} className="mt-1 animate-spin" />
@@ -206,19 +249,25 @@ const Page = () => {
                       <div className="bg-white text-black w-fit mx-auto p-4 rounded-full">
                         <BsTelephoneFill size={30} />
                       </div>
-                      <label
-                        htmlFor=""
-                        className="font-bold text-xl text-black text-center"
-                      >
-                        Verify your phone number
-                      </label>
-                      <PhoneInput
-                        className="mx-12"
-                        country={"in"}
-                        value={ph}
-                        onChange={setPh}
-                      />
-                      {error && <p className="text-red-500">{error}</p>}
+                      <div className="mx-auto  p-4">
+                        <div className="mb-5">
+                          <label
+                            htmlFor=""
+                            className="font-bold text-xl mx-5 text-black text-center"
+                          >
+                            Verify your phone number
+                          </label>
+
+                          <p style={{textAlign:"center", fontWeight:"bold", fontSize:"12px"}}>Once you submit your number, you’ll receive  an OTP <br /> via SMS to verify your login.</p>
+                        </div>
+                        <PhoneInput
+                          className="mx-auto"
+                          country={"in"}
+                          value={ph}
+                          onChange={setPh}
+                        />
+                        {error && <p className="text-red-500">{error}</p>}
+                      </div>
                       <button
                         onClick={onSignup}
                         className="bg-black w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
@@ -226,7 +275,7 @@ const Page = () => {
                         {loading && (
                           <CgSpinner size={20} className="mt-1 animate-spin" />
                         )}
-                        <span>Send code via SMS</span>
+                        <span>Send OTP</span>
                       </button>
                     </>
                   )}
@@ -240,4 +289,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default page;
