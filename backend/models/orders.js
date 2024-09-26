@@ -42,7 +42,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       discount_amount: {
         type: DataTypes.NUMERIC,
+        allowNull: true,
       },
+      
       tax_amount: {
         type: DataTypes.NUMERIC,
       },
