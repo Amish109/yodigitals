@@ -19,33 +19,33 @@ const Page = () => {
     const apiData = {
       email: email,
     };
-
+  
     try {
       const data = await postApiData(
         "users/forgot-password",
         apiData,
         "application/json"
       );
+  
+  
       if (data.success === true) {
         toast.success(data.message, {
           position: "bottom-center",
           style: { borderRadius: "10px", background: "#333", color: "#fff" },
         });
-        setEmail("")
-      
+        setEmail("");
       } else {
-        toast.error(data.error, {
+        toast.error(data.message || "Failed to send reset email", {
           position: "bottom-center",
           style: { borderRadius: "10px", background: "#333", color: "#fff" },
         });
       }
     } catch (error) {
-      toast.error(errorData.error, {
-        position: "bottom-center",
-        style: { borderRadius: "10px", background: "#333", color: "#fff" },
-      });
+      console.error("Error in API call:", error);
+  
     }
   };
+  
 
 
 
@@ -67,7 +67,9 @@ const Page = () => {
               <div className="2xl:mt-8 mt-6 text-2xl font-bold text-default-900 text-center">
               Forgot Password
               </div>
-
+              <p style={{fontWeight:"bold"}} className="mb-6 mt-5  text-center text-gray-600 ">
+    Enter your registered email address, and we'll send you instructions to reset your password.
+  </p>
              
                 <form onSubmit={handleForgotSubmit} className="mt-5">
                   <div>

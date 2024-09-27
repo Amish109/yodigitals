@@ -131,7 +131,7 @@ console.log(apiResData,"bbbbbbbbbbbbbbbbbbbbbbbbbbbb");
       toast.error("Error fetching user data");
     }
   };
-
+  const baseUrl = process.env.NEXT_PUBLIC_APIBASEURL || '';
 
 
   const columns = [
@@ -178,7 +178,8 @@ console.log(apiResData,"bbbbbbbbbbbbbbbbbbbbbbbbbbbb");
       header: "Image",
       cell: ({ row }) => (
         <img
-          src={row.original.images && row.original.images[0]}
+          // src={row.original.images && row.original.images[0]}
+          src={ row?.original?.images?.[0] ? `${baseUrl}/${row?.original?.images[0]}` : '/placeholder.jpg'} 
           alt="Product"
           className="h-8 w-8 object-contain"
         />
@@ -421,6 +422,8 @@ console.log(apiResData,"bbbbbbbbbbbbbbbbbbbbbbbbbbbb");
       <DialogContent size="3xl">
         <DialogHeader>
           <DialogTitle className="text-base font-medium text-default-700 ">
+
+            <img style={{height:"100px", width:"100px" , margin:"auto"}}  src={ view?.images?.[1] ? `${baseUrl}/${view.images[1]}` : '/placeholder.jpg'}     alt="" />
             Porduct Details
           </DialogTitle>
         </DialogHeader>

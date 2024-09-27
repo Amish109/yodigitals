@@ -121,7 +121,7 @@ const LoginPage = () => {
                             Prantik Chakraborty <br />
                             <span className="text-base font-medium text-default-700">
                               {" "}
-                              UI/UX Designer at Codeshaper
+                              UI/UX Designer atyo-digitals
                             </span>
                           </div>
                           <div className="text-lg  text-default-800 mt-4">
@@ -137,7 +137,7 @@ const LoginPage = () => {
                             Prantik Chakraborty <br />
                             <span className="text-base font-medium text-default-700">
                               {" "}
-                              UI/UX Designer at Codeshaper
+                              UI/UX Designer atyo-digitals
                             </span>
                           </div>
                           <div className="text-lg  text-default-800 mt-4">
@@ -153,7 +153,7 @@ const LoginPage = () => {
                             Prantik Chakraborty <br />
                             <span className="text-base font-medium text-default-700">
                               {" "}
-                              UI/UX Designer at Codeshaper
+                              UI/UX Designer atyo-digitals
                             </span>
                           </div>
                           <div className="text-lg  text-default-800 mt-4">
@@ -301,7 +301,7 @@ export default LoginPage;
 //                             Prantik Chakraborty <br />
 //                             <span className="text-base font-medium text-default-700">
 //                               {" "}
-//                               UI/UX Designer at Codeshaper
+//                               UI/UX Designer atyo-digitals
 //                             </span>
 //                           </div>
 //                           <div className="text-lg  text-default-800 mt-4">
@@ -317,7 +317,7 @@ export default LoginPage;
 //                             Prantik Chakraborty <br />
 //                             <span className="text-base font-medium text-default-700">
 //                               {" "}
-//                               UI/UX Designer at Codeshaper
+//                               UI/UX Designer atyo-digitals
 //                             </span>
 //                           </div>
 //                           <div className="text-lg  text-default-800 mt-4">
@@ -333,7 +333,7 @@ export default LoginPage;
 //                             Prantik Chakraborty <br />
 //                             <span className="text-base font-medium text-default-700">
 //                               {" "}
-//                               UI/UX Designer at Codeshaper
+//                               UI/UX Designer atyo-digitals
 //                             </span>
 //                           </div>
 //                           <div className="text-lg  text-default-800 mt-4">

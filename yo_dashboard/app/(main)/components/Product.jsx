@@ -4,17 +4,20 @@ import React, { useEffect, useState } from "react";
 import { deleteApiData, getApiData, postApiData } from "@/helper/common";
 import RoleBase from './RoleBase'
 import ProductItems from './ProductItem'
+import Loader from '../components/Loader';
 const Product = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const fetchProductList = async () => {
     try {
       const apiResData = await getApiData(`product/list`);
       if (apiResData.success === true) {
         setData(apiResData?.products);
+        setLoading(false)
       } else {
-        setData([]);
+        setData([]);setLoading(true)
         setError(apiResData.message || "Failed to fetch data");
       }
     } catch (error) {
@@ -27,7 +30,12 @@ const Product = () => {
     fetchProductList();
   }, []);
 
-  console.log(data, "data");
+ 
+  
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <>

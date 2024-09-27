@@ -68,9 +68,7 @@ const Footer = () => {
             <Button asChild variant="outline" className="rounded text-primary-foreground border-primary">
               <Link href="/docs/introduction">View Documentation</Link>
             </Button>
-            <Button asChild variant="outline" className="rounded text-primary-foreground border-primary">
-              <Link href="/">Buy Now</Link>
-            </Button>
+            
           </div>
           <div className="mt-8 flex items-center justify-center flex-wrap gap-5">
             {
@@ -92,7 +90,7 @@ const Footer = () => {
           <p className="text-primary-foreground flex-1 text-base xl:text-lg font-medium">COPYRIGHT &copy; 2024 yodigitals All rights Reserved</p>
           <p className="text-primary-foreground flex-none text-base font-medium">
             Hand-crafted & Made by {" "}
-            <Link href="/" className="text-primary hover:underline">Codeshaper</Link></p>
+            <Link href="/" className="text-primary hover:underline"></Link></p>
         </div>
       </div>
     </footer>

@@ -22,7 +22,7 @@ const MainLayout = ({ children }) => {
   const mounted = useMounted();
   if (!mounted) {
     return <LayoutLoader />;
-  }
+  }  
   if (layout === "semibox") {
     return (
       <>

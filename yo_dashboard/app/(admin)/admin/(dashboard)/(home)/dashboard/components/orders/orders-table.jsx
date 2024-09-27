@@ -27,7 +27,10 @@ const columns = [
   {
     accessorKey: "amount",
     header: "Amount",
-    cell: ({ row }) => <span>₹ {row.getValue("amount").toLocaleString()}</span>,
+    cell: ({ row }) => {
+      const amount = row.getValue("amount");
+      return amount !== null ? <span>₹ {amount.toLocaleString()}</span> : null;
+    },
   },
   
   {

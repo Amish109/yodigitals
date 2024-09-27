@@ -4,13 +4,15 @@ const { Announcement } = require('../models');
 exports.createAnnouncement = async (req, res) => {
   try {
     const { title, description } = req.body;
-    const imagePaths = req.files.map(file => file.path);
-
+    const imagePaths = req.files.map(file => `uploads/${file.filename}`); 
     const announcement = await Announcement.create({
       title,
       description,
       images: imagePaths,
-    });
+    });  
+
+    console.log(imagePaths);
+    
 
     return res.status(201).json({
       success: true,

@@ -4,8 +4,18 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
+
+
 const Page = () => {
+
+
+
+
+
+
+
   const params = useParams();
+  const baseUrl = process.env.NEXT_PUBLIC_APIBASEURL || '';
 
   const [view, setView] = useState("");
   const [brand, setBrand] = useState("");
@@ -65,7 +75,8 @@ const Page = () => {
                 <div className="col-md-6">
                   <div className="tf-product-media-wrap sticky-top">
                     <img
-                      src="https://media-ik.croma.com/prod/https://media.croma.com/image/upload/v1708674453/Croma%20Assets/Communication/Mobiles/Images/300792_0_luu1mj.png"
+                    src={ view?.images?.[0] ? `${baseUrl}/${view.images[0]}` : '/placeholder.jpg'}    
+
                       alt=""
                     />
                   </div>

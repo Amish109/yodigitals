@@ -11,13 +11,13 @@ module.exports = (sequelize, DataTypes) => {
         title: {
           type: DataTypes.STRING,
           allowNull: true,
-          unique: true,
+         
         },
 
         description: {
             type: DataTypes.STRING,
             allowNull: true,
-            unique: true,
+           
           },
           images: {  
             type: DataTypes.JSONB, 

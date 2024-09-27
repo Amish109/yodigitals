@@ -3,11 +3,14 @@ import React, { useEffect, useState } from "react";
 import { deleteApiData, getApiData, postApiData } from "@/helper/common";
 import ProductItem from "../components/ProductItem";
 import Link from "next/link";
+import Loader from "../components/Loader";
 
 const page = () => {
   const [data, setData] = useState([]);
   const [catdata, setCatData] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
 
   const fetchProductList = async (status = "", categorySlug = "") => {
     try {
@@ -17,11 +20,12 @@ const page = () => {
       if (categorySlug) query.append("categorySlug", categorySlug);
 
       const apiResData = await getApiData(`product/list?${query.toString()}`);
-
+      setLoading(false)
       if (apiResData.success === true) {
         setData(apiResData?.products);
       } else {
         setData([]);
+        setLoading(false)
         setError(apiResData.message || "Failed to fetch data");
       }
     } catch (error) {
@@ -60,6 +64,14 @@ const page = () => {
   useEffect(() => {
     fetchCategoriesList();
   }, []);
+
+
+
+  if (loading) {
+    return <Loader />;
+  }
+
+
 
   return (
     <>

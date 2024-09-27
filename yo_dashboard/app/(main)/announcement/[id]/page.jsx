@@ -30,6 +30,7 @@ const [view, setView] = useState("")
       useEffect(() => {
         getProductDetails();
       }, []);
+  const baseUrl = process.env.NEXT_PUBLIC_APIBASEURL || '';
     
   return (
     <>
@@ -53,8 +54,8 @@ const [view, setView] = useState("")
               <div className="image">
                 <img
                   className="lazyload"
-                  data-src="https://i.ytimg.com/vi/QqbdI8ocsZU/maxresdefault.jpg"
-                  src="https://i.ytimg.com/vi/QqbdI8ocsZU/maxresdefault.jpg"
+                  data-src={view?.images?.[0] ? `${baseUrl}/${view.images[0]}` : '/placeholder.jpg'}
+                  src={view?.images?.[0] ? `${baseUrl}/${view.images[0]}` : '/placeholder.jpg'}
                   alt=""
                 />
               </div>
@@ -71,21 +72,21 @@ const [view, setView] = useState("")
               <div>
                 <img
                   className="lazyload"
-                  data-src="https://i.ytimg.com/vi/QqbdI8ocsZU/maxresdefault.jpg"
-                  src="https://i.ytimg.com/vi/QqbdI8ocsZU/maxresdefault.jpg"
+                  data-src={view?.images?.[0] ? `${baseUrl}/${view.images[0]}` : '/placeholder.jpg'}
+                  src={view?.images?.[0] ? `${baseUrl}/${view.images[0]}` : '/placeholder.jpg'}
                   alt=""
                 />
               </div>
               <div>
                 <img
                   className="lazyload"
-                  data-src="https://i.ytimg.com/vi/QqbdI8ocsZU/maxresdefault.jpg"
-                  src="https://i.ytimg.com/vi/QqbdI8ocsZU/maxresdefault.jpg"
+                  data-src={view?.images?.[0] ? `${baseUrl}/${view.images[0]}` : '/placeholder.jpg'}
+                  src={view?.images?.[0] ? `${baseUrl}/${view.images[0]}` : '/placeholder.jpg'}
                   alt=""
                 />
               </div>
             </div>
-           
+            
         
           
           </div>

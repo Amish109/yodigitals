@@ -40,7 +40,8 @@ import { deleteApiData, getApiData, postApiData } from "@/helper/common";
 import Link from "next/link";
 
 export function BasicDataTable() {
-
+  const baseUrl = process.env.NEXT_PUBLIC_APIBASEURL || '';
+ 
   const [id, setId] = React.useState(null);
   const [isOpen, setIsOpen] = React.useState(false);
   const [sorting, setSorting] = React.useState([]);
@@ -164,8 +165,8 @@ export function BasicDataTable() {
       header: "Image",
       cell: ({ row }) => (
         <img
-          src={row.original.images && row.original.images[0]}
-          alt="Announcement"
+          src={row?.original?.images?.[0] ? `${baseUrl}/${row?.original?.images[0]}` : '/placeholder.jpg'}
+           alt="Announcement"
           className="h-8 w-8 object-contain"
         />
       ),

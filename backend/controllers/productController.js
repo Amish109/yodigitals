@@ -7,12 +7,7 @@ exports.createProduct = async (req, res) => {
     const { title, price, discount, description, rating, identityNumber, categoryId, status, brandId, createdById, distributor_price, stock } = req.body;
 
     
-     const imagePaths = Array.isArray(req.files)
-     ? req.files.map(file => file.path.replace(/\\/g, '/')) 
-     : req.files
-     ? [req.files.path.replace(/\\/g, '/')] 
-     : []; 
-
+    const imagePaths = req.files.map(file => `uploads/${file.filename}`); 
     const product = await Products.create({
       title,
       price,

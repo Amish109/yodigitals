@@ -92,7 +92,7 @@ const page = () => {
     setLoading(true);
     if (typeof window !== "undefined" && window.confirmationResult) {
       window.confirmationResult
-        .confirm(otp.join("")) // Join OTP array to a single string
+        .confirm(otp.join(""))
         .then(async (res) => {
           setUser(res.user);
           setLoading(false);
@@ -258,7 +258,7 @@ const page = () => {
                             Verify your phone number
                           </label>
 
-                          <p style={{textAlign:"center", fontWeight:"bold", fontSize:"12px"}}>Once you submit your number, you’ll receive  an OTP <br /> via SMS to verify your login.</p>
+                          <p className="text-center" style={{textAlign:"center", fontWeight:"bold", fontSize:"12px"}}>Once you submit your number, you’ll receive  an OTP <br /> via SMS to verify your login.</p>
                         </div>
                         <PhoneInput
                           className="mx-auto"
@@ -277,6 +277,14 @@ const page = () => {
                         )}
                         <span>Send OTP</span>
                       </button>
+
+                      <div className="mt-5 2xl:mt-8 text-center text-base text-default-600">
+                    Already Registered?{" "}
+                    <a className="text-primary" href="/admin">
+                      {" "}
+                      Sign In{" "}
+                    </a>
+                  </div>
                     </>
                   )}
                 </div>

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 
 const page = () => {
 
-
+  const baseUrl = process.env.NEXT_PUBLIC_APIBASEURL || ''; 
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
 
@@ -29,7 +29,6 @@ const page = () => {
   }, []);
 
   console.log(data, "data");
-
 
   return (
     <>
@@ -71,8 +70,8 @@ const page = () => {
                 <Link href={`/announcement/${item.id}`}>
                   <img
                     className="lazyload"
-                    data-src="https://i.ytimg.com/vi/QqbdI8ocsZU/maxresdefault.jpg"
-                    src="https://i.ytimg.com/vi/QqbdI8ocsZU/maxresdefault.jpg"
+                    data-src={item?.images?.[0] ? `${baseUrl}/${item.images[0]}` : '/placeholder.jpg'}
+                    src={item?.images?.[0] ? `${baseUrl}/${item.images[0]}` : '/placeholder.jpg'}  
                     alt="img-blog"
                   />
                 </Link>

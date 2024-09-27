@@ -94,7 +94,7 @@ exports.loginPhone = async (req, res) => {
       return res.status(400).json({ error: 'Phone number and OTP are required' });
     }
     const user = await User.findOne({ where: { phoneNumber } });
-    console.log('User fetched from DB:', user);
+  
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }

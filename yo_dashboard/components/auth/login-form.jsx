@@ -59,13 +59,13 @@ const LogInForm = () => {
         document.cookie = `token=${data.token}`;
          location.href = "/admin/dashboard";
       } else {
-        toast.error(data.message, {
+        toast.error(data.error, {
           position: "bottom-center",
           style: { borderRadius: "10px", background: "#333", color: "#fff" },
         });
       }
     } catch (errorData) {
-      toast.error(errorData.message, {
+      toast.error(errorData.error, {
         position: "bottom-center",
         style: { borderRadius: "10px", background: "#333", color: "#fff" },
       });

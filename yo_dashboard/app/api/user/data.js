@@ -5,7 +5,7 @@ export const user = [
     name: "yodigitals",
     image: avatar3,
     password: "password",
-    email: "yodigitals@codeshaper.net",
+    email: "yodigitals@yo-digitals",
     resetToken: null,
     resetTokenExpiry: null,
     profile: null,

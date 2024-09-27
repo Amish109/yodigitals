@@ -1,68 +1,135 @@
 "use client";
-import React, { useEffect } from "react";
+import * as React from "react";
 import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  getSortedRowModel,
+  getSortedRowModel, 
   useReactTable,
-} from "@tanstack/react-table";
+} from "@tanstack/react-table"; 
 import { Button } from "@/components/ui/button";
 import {
   Table,
-  TableBody,
+  TableBody, 
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import toast, { Toaster } from "react-hot-toast";
 import { Badge } from "@/components/ui/badge";
-// import { cn } from "@/lib/utils";
-import { Icon } from "@iconify/react";
-
-
-import { useState } from "react";
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-
-export function TransactionTable({ type }) {
-  const [data, setData] = React.useState([]);
-
-  useEffect(() => {
-    fetchNewsList();
-  }, []);
+import { Icon } from "@iconify/react";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 
-//     try {
-//       const response = await getApiData(
-//         "api/transactions",
-       
-//       );
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { deleteApiData, getApiData, postApiData } from "@/helper/common";
+import Link from "next/link";
 
-      
+export function BasicDataTable() {
 
-//       const data = await response.json();
-//       setData(data);
-//       console.log(data);
-//     } catch (error) {
-//       console.error("Fetch error:", error);
-//     }
-//   };
-const fetchNewsList = async () => {
+  const [id, setId] = React.useState(null);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [sorting, setSorting] = React.useState([]);
+  const [columnFilters, setColumnFilters] = React.useState([]);
+  const [columnVisibility, setColumnVisibility] = React.useState({});
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+
+
+  const [isOpen1, setIsOpen1] = React.useState(false);
+  const [view, setView] = useState("")
+
+
+  const handleClose1 = () => {
+    setIsOpen1(false);
+  }; 
+  const ViewConfirm = async (id) => {
+   
+    setIsOpen1(true);
+
     try {
-      const apiResData = await getApiData(`api/transactions`);
-      console.log(apiResData);
-      if (apiResData) {
-        setData(apiResData);
+      const apiResData = await getApiData(`categories/${id}`);
+      if (apiResData.success) {
+        setView(apiResData?.category);
+        
+        // setTopCategory(apiResData?.category?.top_category ? "true" : "false");
       } else {
-        setData([]);
+        toast.error("Failed to fetch category data");
       }
     } catch (error) {
       console.error("Error fetching:", error);
+      toast.error("Error fetching category data");
     }
   };
-  const [status, setStatus] = useState("");
+
+
+  const fetchTransactions = async () => {
+    try {
+      const response = await fetch(`https://b2b.yodigitals.com/api/transactions`);
+      
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+  
+      const apiResData = await response.json();
+      console.log(apiResData,"apiResData");
+      
+      if (apiResData) {
+        setData(apiResData); // Assuming 'transactions' is the key where data is returned
+      } else {
+        setData([]);
+        setError(apiResData.message || "No transactions available");
+      }
+    } catch (error) {
+      console.error("Error fetching:", error);
+      setError("Error fetching data");
+    }
+  };
+  
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+  
+  const categoriesDelete = async () => {
+    toast.dismiss();
+    try {
+      const response = await deleteApiData(`categories/${id}`);
+      if (response.success == true) {
+        toast.success(response.message, {
+          position: "bottom-center",
+          style: { borderRadius: "10px", background: "#333", color: "#fff" },
+        });
+        await fetchTransactions(); 
+        setIsOpen(false); 
+      }
+    } catch (error) {
+      toast.error("Error deleting product");
+    }
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const DeleteConfirm = (id) => {
+    setId(id);
+    setIsOpen(true);
+  };
 
   const columns = [
     {
@@ -190,11 +257,6 @@ const fetchNewsList = async () => {
       ),
     },
   ];
-  const [sorting, setSorting] = React.useState([]);
-  const [columnFilters, setColumnFilters] = React.useState([]);
-  const [columnVisibility, setColumnVisibility] = React.useState({});
-  const [rowSelection, setRowSelection] = React.useState({});
-
   const table = useReactTable({
     data,
     columns,
@@ -217,19 +279,7 @@ const fetchNewsList = async () => {
   return (
     <>
       <div>
-      <div className="flex items-center flex-wrap gap-2  px-4">
-        <Input
-          placeholder="Filter..."
-          // value={table.getColumn("email")?.getFilterValue() || ""}
-          // onChange={(event) =>
-          //   table.getColumn("email")?.setFilterValue(event.target.value)
-          // }
-          className="max-w-sm min-w-[200px] h-10"
-        />
-      
-      </div>
-      
-        <Table>
+      <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -282,7 +332,7 @@ const fetchNewsList = async () => {
       <div className="flex items-center flex-wrap gap-4 px-4 py-4">
         <div className="flex-1 text-sm text-muted-foreground whitespace-nowrap">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} {"row selected"}
+          {table.getFilteredRowModel().rows.length} {("rows selected")}
         </div>
 
         <div className="flex gap-2  items-center">
@@ -300,11 +350,11 @@ const fetchNewsList = async () => {
             <Button
               key={`basic-data-table-${pageIdx}`}
               onClick={() => table.setPageIndex(pageIdx)}
-              variant={`${
-                pageIdx === table.getState().pagination.pageIndex
+              variant={`${pageIdx === table.getState().pagination.pageIndex
                   ? ""
                   : "outline"
-              }`}
+                }`}
+              className={cn("w-8 h-8")}
             >
               {page + 1}
             </Button>
@@ -321,8 +371,154 @@ const fetchNewsList = async () => {
           </Button>
         </div>
       </div>
+
+      <div>
+        <Dialog open={isOpen} onOpenChange={handleClose}>
+          {" "}
+          <DialogTrigger asChild></DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="text-base font-medium ">
+                <p
+                  style={{
+                    textAlign: "center",
+                    fontWeight: "bolder",
+                    fontSize: "18px",
+                  }}
+                >
+                  {" "}
+                  Categories Delete Confirm
+                </p>
+              </DialogTitle>
+            </DialogHeader>
+
+            <div className="flex flex-col items-center text-center">
+              <span className="text-sm text-default-500  mt-1 block"></span>
+              <p
+                style={{
+                  fontSize: "16px",
+                  textAlign: "justify",
+                   lineHeight: "30px",
+                  width: "100%",
+                }}
+                width={"100%;"}
+               >
+             Are you sure you want to delete this categories?
+              </p>
+            </div>
+            <DialogFooter className="mt-8 gap-2">
+              <DialogClose asChild>
+                <Button onClick={handleClose} type="button" variant="outline">
+                  {("Cencel")}
+                </Button>
+              </DialogClose>
+              {/* <Link href="/admin/kyc-update" > */}
+              <Button onClick={() => categoriesDelete()} type="button">
+              Delete Confirm
+              </Button>
+              {/* </Link> */}
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+
+{/* view model */}
+
+<div className="flex flex-wrap  gap-x-5 gap-y-4 ">
+    <Dialog open={isOpen1} onOpenChange={handleClose1}>
+      <DialogTrigger asChild></DialogTrigger>
+      <DialogContent size="2xl">
+        <DialogHeader>
+          <DialogTitle className="text-base font-medium text-default-700 ">
+            Categories Details
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="text-sm text-default-500  space-y-4">
+          <form>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Categories Name</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.name}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Categories Slug</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.slug}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>  
+
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Categories Top Category</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.top_category}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+               <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Created Date</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.createdAt ? new Date(view.createdAt).toLocaleDateString() : ''}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName">Created Time</Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  size="lg"
+                  value={view?.createdAt ? new Date(view.createdAt).toLocaleTimeString() : ''}
+                  disabled="true"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+
+
+
+            </div>
+          </form>
+        </div>
+        <DialogFooter className="mt-8">
+          <DialogClose asChild>
+            <Button type="submit" variant="outline">
+              Cencel
+            </Button>
+          </DialogClose>
+        
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  </div>
     </>
   );
 }
 
-export default TransactionTable;
+export default BasicDataTable;
