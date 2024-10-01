@@ -29,14 +29,30 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
         },
 
+        trending: {
+          type: DataTypes.BOOLEAN,
+          defaultValue: false, // Default to false
+          allowNull: false,
+        },
+        new: {
+          type: DataTypes.BOOLEAN,
+          defaultValue: false, 
+          allowNull: false,
+        },
+        bestSelling: {
+          type: DataTypes.BOOLEAN,
+          defaultValue: false, 
+          allowNull: false,
+        },
+
         identityNumber: {
             type: DataTypes.STRING,
-            allowNull: true, // HSN, IMEI, etc.
+            allowNull: true, 
           },
           brandId: {
             type: DataTypes.UUID,
             references: {
-              model: 'brands',  // Ensure this matches the actual table name
+              model: 'brands',  
               key: 'id',
             },
             onUpdate: 'CASCADE',
