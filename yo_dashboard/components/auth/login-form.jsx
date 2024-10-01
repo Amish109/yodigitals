@@ -1,27 +1,18 @@
 "use client";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
-import { signIn } from "next-auth/react";
+
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import Image from "next/image";
-// import  bgimg  from "@/public/images/Login _ Ecommerce_files";
 import { Icon } from "@iconify/react";
-import { Checkbox } from "@/components/ui/checkbox";
 
-
-const schema = z.object({
-  email: z.string().email({ message: "Your email is invalid." }),
-  password: z.string().min(4),
-});
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { postApiData } from "@/helper/common";
 
 const LogInForm = () => {
   const [isPending, startTransition] = React.useTransition();
@@ -35,69 +26,81 @@ const LogInForm = () => {
       setPasswordType("text");
     }
   };
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
-    mode: "all",
-    defaultValues: {
-      email: "yodigitals@codeshaper.net",
-      password: "password",
-    },
-  });
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState("");
+  const [loading, setLoading] = useState(true);
+
   const [isVisible, setIsVisible] = React.useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const onSubmit = (data) => {
-    startTransition(async () => {
-      let response = await signIn("credentials", {
-        email: data.email,
-        password: data.password,
-        redirect: false,
-      });
-      if (response?.ok) {
-        toast.success("Login Successful");
-        window.location.assign("/dashboard");
-        reset();
-      } else if (response?.error) {
-        toast.error(response?.error);
+  const handlerLogin = async (event) => {
+    event.preventDefault();
+    const apiData = { email, password };
+    toast.dismiss();
+
+    try {
+      setLoading(true);
+
+      const data = await postApiData("users/login", apiData);
+
+      if (data.success == true) {
+        toast.success(data.message, {
+          position: "bottom-center",
+          style: { borderRadius: "10px", background: "#333", color: "#fff" },
+        });
+      
+        if (typeof window !== "undefined") {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user)); 
+        }
+        document.cookie = `token=${data.token}`;
+         location.href = "/admin/dashboard";
+      } else {
+        toast.error(data.error, {
+          position: "bottom-center",
+          style: { borderRadius: "10px", background: "#333", color: "#fff" },
+        });
       }
-    });
+    } catch (errorData) {
+      toast.error(errorData.error, {
+        position: "bottom-center",
+        style: { borderRadius: "10px", background: "#333", color: "#fff" },
+      });
+    }
   };
+
   return (
     <div className="w-full ">
-      {/* <Link href="/dashboard" className="inline-block">
-        <SiteLogo className="h-10 w-10 2xl:w-14 2xl:h-14 text-primary" />
-      </Link> */}
       <div className="2xl:mt-2 mt-6 2xl:text-3xl text-2xl font-bold text-default-900 text-center">
-       WELCOME
+        WELCOME
       </div>
       <div className="2xl:text-lg text-base text-default-600 2xl:mt-2 leading-6 text-center">
-      Thank you for registering on our website! Here's your promotional code for your first purchase.
+        Thank you for registering on our website! Here's your promotional code
+        for your first purchase.
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-5 2xl:mt-7">
+      <form onSubmit={handlerLogin} className="mt-5 2xl:mt-7">
         <div>
-          <Label htmlFor="email" className="mb-2 font-medium text-default-600">
-          Username or Email{" "}
+          <Label
+            htmlFor="unique_id"
+            className="mb-2 font-medium text-default-600"
+          >
+            Enter User Email{" "}
           </Label>
           <Input
-            disabled={isPending}
-            {...register("email")}
-            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="text"
             id="email"
+            placeholder="Enter Email Id"
             className={cn("", {
               "border-destructive": errors.email,
             })}
             size={!isDesktop2xl ? "xl" : "lg"}
           />
         </div>
-        {errors.email && (
-          <div className=" text-destructive mt-2">{errors.email.message}</div>
-        )}
 
         <div className="mt-3.5">
           <Label
@@ -108,20 +111,20 @@ const LogInForm = () => {
           </Label>
           <div className="relative">
             <Input
-              disabled={isPending}
-              {...register("password")}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               type={passwordType}
               id="password"
               className="peer "
               size={!isDesktop2xl ? "xl" : "lg"}
-              placeholder=" "
+              placeholder="Enter Password"
             />
 
             <div
               className="absolute top-1/2 -translate-y-1/2 right-4 cursor-pointer"
               onClick={togglePasswordType}
             >
-              {passwordType === "password" ? (
+              {passwordType === "text" ? (
                 <Icon
                   icon="heroicons:eye"
                   className="w-5 h-5 text-default-400"
@@ -135,11 +138,6 @@ const LogInForm = () => {
             </div>
           </div>
         </div>
-        {errors.password && (
-          <div className=" text-destructive mt-2">
-            {errors.password.message}
-          </div>
-        )}
 
         <div className="mt-5  mb-8 flex flex-wrap gap-2">
           <div className="flex-1 flex  items-center gap-1.5 ">
@@ -151,7 +149,7 @@ const LogInForm = () => {
               {/* Remember me */}
             </Label>
           </div>
-          <Link href="/auth/forgot" className="flex-none text-sm text-primary">
+          <Link href="/admin/forgot" className="flex-none text-sm text-primary">
             Forget Password?
           </Link>
         </div>
@@ -168,6 +166,7 @@ const LogInForm = () => {
         </div>
    
        <div className="w-1/2">
+       <Link  href="/admin/otp-login">
        <Button
         className="w-full"
         
@@ -177,18 +176,12 @@ const LogInForm = () => {
           {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {isPending ? "Loading..." : "OTP"}
         </Button>
+       </Link>
        </div>
        </div>
       </form>
-    
-    
-      {/* <div className="mt-5 2xl:mt-8 text-center text-base text-default-600">
-        Don't have an account?{" "}
-        <Link href="/auth/register" className="text-primary">
-          {" "}
-          Sign Up{" "}
-        </Link>
-      </div> */}
+
+     
     </div>
   );
 };

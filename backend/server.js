@@ -4,12 +4,14 @@ const express = require("express");
 const cors = require("cors");
 const db = require('./models');
 app.use(express.json());
+const multerMiddleware = require("./middleware/multer");
 
-db.sequelize.sync({ alter: true }).then(() => {
-  console.log('Database synced successfully');
-}).catch((error) => {
-  console.error('Error syncing database:', error);
-});
+
+// db.sequelize.sync({ alter: true }).then(() => {
+//   console.log('Database synced successfully');
+// }).catch((error) => {
+//   console.error('Error syncing database:', error);
+// });
 
 
 

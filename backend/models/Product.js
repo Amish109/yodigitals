@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         title: {
           type: DataTypes.TEXT,
-          allowNull: false,
+          allowNull: false, 
         },
         price: {
           type: DataTypes.DECIMAL,
@@ -32,7 +32,6 @@ module.exports = (sequelize, DataTypes) => {
         identityNumber: {
             type: DataTypes.STRING,
             allowNull: true, // HSN, IMEI, etc.
-            // comment: 'HSN for laptops, IMEI for smartphones, etc.', // Optional field comment for clarity
           },
           brandId: {
             type: DataTypes.UUID,
@@ -48,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
           categoryId: {
             type: DataTypes.UUID,
             references: {
-              model: 'categoriess',  // Correct table name
+              model: 'categories',
               key: 'id',
             },
             onUpdate: 'CASCADE',
@@ -80,6 +79,12 @@ module.exports = (sequelize, DataTypes) => {
         stock: {
           type: DataTypes.INTEGER,
         },
+
+        images: {  
+          type: DataTypes.ARRAY(DataTypes.STRING),
+          allowNull: true,
+        },
+      
       },
       {
         tableName: 'products',
@@ -101,6 +106,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'updatedById',
         as: 'updatedBy',
       });
+
+      Products.belongsTo(models.Category, {
+        foreignKey: 'categoryId',
+        as: 'category',
+      });
+
+      
     };
   
     return Products;

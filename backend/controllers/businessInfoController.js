@@ -13,7 +13,10 @@ exports.createBusinessInfo = async (req, res) => {
       due_date,
       turnover,
     });
-    res.status(201).json(newBusinessInfo);
+    res.status(201).json({
+      success:true,
+      newBusinessInfo
+    });
   } catch (error) {
     console.error('Error creating business info:', error);
     res.status(500).json({ error: 'An error occurred while creating business info' });
@@ -23,12 +26,11 @@ exports.createBusinessInfo = async (req, res) => {
 // Get all business info records
 exports.getAllBusinessInfos = async (req, res) => {
     try {
-      const businessInfos = await BusinessInfo.findAll({
-        where: {
-          deletedAt: null
-        }
+      const businessInfos = await BusinessInfo.findAll();
+      res.status(200).json({
+        success:true,
+        businessInfos:businessInfos
       });
-      res.status(200).json(businessInfos);
     } catch (error) {
       console.error('Error fetching business infos:', error);
       res.status(500).json({ error: 'An error occurred while fetching business infos' });
@@ -40,13 +42,13 @@ exports.getAllBusinessInfos = async (req, res) => {
     try {
       const { id } = req.params;
       const businessInfo = await BusinessInfo.findOne({
-        where: {
-          id,
-          deletedAt: null
-        }
+        
       });
       if (businessInfo) {
-        res.status(200).json(businessInfo);
+        res.status(200).json({
+          success:true,
+          businessInfo
+        });
       } else {
         res.status(404).json({ message: 'Business info not found or has been deleted' });
       }
@@ -69,7 +71,10 @@ exports.getAllBusinessInfos = async (req, res) => {
   
       if (updated[0]) {
         const updatedBusinessInfo = await BusinessInfo.findByPk(id);
-        res.status(200).json(updatedBusinessInfo);
+        res.status(200).json({
+          success:true,
+          updatedBusinessInfo
+        });
       } else {
         res.status(404).json({ message: 'Business info not found or has been deleted' });
       }
@@ -80,21 +85,43 @@ exports.getAllBusinessInfos = async (req, res) => {
   };
   
   // Soft delete a business info record by ID
-  exports.deleteBusinessInfo = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const [updated] = await BusinessInfo.update(
-        { deletedAt: new Date() },
-        { where: { id } }
-      );
+  // exports.deleteBusinessInfo = async (req, res) => {
+  //   try {
+  //     const { id } = req.params;
+  //     const updated = await BusinessInfo.update(id
+       
+       
+  //     ); 
   
-      if (updated[0]) {
-        res.status(204).json();
-      } else {
-        res.status(404).json({ message: 'Business info not found' });
-      }
-    } catch (error) {
-      console.error('Error deleting business info:', error);
-      res.status(500).json({ error: 'An error occurred while deleting business info' });
+  //     if (updated) {
+  //       res.status(204).json({
+  //         success:true,
+  //         message:"Business Info delete successfully"
+  //       });
+  //     } else {
+  //       res.status(404).json({ message: 'Business info not found' });
+  //     }
+  //   } catch (error) {
+  //     console.error('Error deleting business info:', error);
+  //     res.status(500).json({ error: 'An error occurred while deleting business info' });
+  //   }
+  // };
+
+
+  // Delete a business
+exports.deleteBusinessInfo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updated = await BusinessInfo.findByPk(id);
+
+    if (!updated) {
+      return res.status(404).json({ error: 'Business info not found' });
     }
-  };
+
+    await updated.destroy();
+
+    return res.status(200).json({success:true, message: 'Business info deleted successfully' });
+  } catch (error) {
+    return res.status(500).json({ error: 'Failed to delete Business info' });
+  }
+};

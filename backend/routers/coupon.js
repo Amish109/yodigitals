@@ -1,6 +1,6 @@
 
 const express = require('express');
-const { addcoupon, getAllcoupon, getSinglecoupon, addCoupon, getAllCoupons, getSingleCoupon, deleteCoupon } = require('../db/api/coupon');
+const { addcoupon, getAllcoupon, getSinglecoupon, addCoupon, getAllCoupons, getSingleCoupon, deleteCoupon } = require('../controllers/coupon');
 const router = express.Router();
 
 

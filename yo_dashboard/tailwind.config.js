@@ -3,7 +3,7 @@ module.exports = {
   important: true,
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{js,jsx,css,,md,mdx}",
+    "./pages/**/*.{js,jsx,css,md,mdx}",
     "./components/**/*.{js,jsx,md,mdx}",
     "./app/**/*.{js,jsx,css,md,mdx}",
     "./src/**/*.{js,jsx,md,mdx}",
@@ -48,19 +48,19 @@ module.exports = {
         background: "hsl(var(--background) / <alpha-value>)",
         foreground: "hsl(var(--foreground) / <alpha-value>)",
         primary: {
-          50: "hsl(var(--primary-50) / <alpha-value>)",
-          100: "hsl(var(--primary-100) / <alpha-value>)",
-          200: "hsl(var(--primary-200) / <alpha-value>)",
-          300: "hsl(var(--primary-300) / <alpha-value>)",
-          400: "hsl(var(--primary-400) / <alpha-value>)",
-          500: "hsl(var(--primary-500) / <alpha-value>)",
-          600: "hsl(var(--primary-600) / <alpha-value>)",
-          700: "hsl(var(--primary-700) / <alpha-value>)",
-          800: "hsl(var(--primary-800) / <alpha-value>)",
-          900: "hsl(var(--primary-900) / <alpha-value>)",
-          950: "hsl(var(--primary-950) / <alpha-value>)",
-          DEFAULT: "hsl(var(--primary) / <alpha-value>)",
-          foreground: "hsl(var(--primary-foreground) / <alpha-value>)",
+          50: "#000000", // Black
+          100: "#000000", // Black
+          200: "#000000", // Black
+          300: "#000000", // Black
+          400: "#000000", // Black
+          500: "#000000", // Black
+          600: "#000000", // Black
+          700: "#000000", // Black
+          800: "#000000", // Black
+          900: "#000000", // Black
+          950: "#000000", // Black
+          DEFAULT: "#000000", // Black
+          foreground: "#ffffff", // Optional: white text for contrast
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary) / <alpha-value>)",

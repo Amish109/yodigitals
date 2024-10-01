@@ -57,12 +57,12 @@ export const menusConfig = {
       child: [
         {
           title: "Analytics",
-          href: "/dashboard",
+          href: "/admin/dashboard",
           icon: Graph,
         },
         {
           title: "Ecommerce",
-          href: "/ecommerce",
+          href: "/admin/ecommerce",
           icon: Cart,
         },
         {
@@ -904,7 +904,7 @@ export const menusConfig = {
         child: [
           {
             title: "Dashboard",
-            href: "/dashboard",
+            href: "/admin/dashboard",
             icon: DashBoard,
           },
           
@@ -932,50 +932,6 @@ export const menusConfig = {
         ],
        
       },
-
-
-      {
-        title: "Order",
-        icon: Application,
-        child: [
-          {
-            title: "Add Order",
-            href: "/admin/order/add",
-            icon: Application,
-          },
-          {
-            title: "Order List",
-            href: "/admin/order/list",
-            icon: Application,
-          },
-         
-
-
-          // {
-          //   title: "New Order Add",
-          //   href: "/admin/new-order/add",
-          //   icon: DashBoard,
-          // },
-          
-         
-        ],
-       
-      },
-      // {
-      //   title: "Order",
-      //   icon: Components,
-      //   // href: "/admin/order/list",
-      //   child: [
-      //     {
-      //       title: "Order",
-      //       icon: Flag,
-      //       href: "/admin/order/list",
-           
-      //     },
-        
-      //   ],
-      // },
-
       {
         title: "Products",
         icon: Files,
@@ -1022,6 +978,101 @@ export const menusConfig = {
       },
 
       {
+        title: "Enquiries",
+        icon: CallToActionOutlinedIcon,
+        child: [
+
+          // {
+          //   title: "Add Enquiries",
+          //   icon: CallToActionOutlinedIcon,
+          //   href: "/admin/enquiries/add",
+          // },
+        
+
+          { 
+            title: "Enquiries List",
+            icon: CallToActionOutlinedIcon,
+            href: "/admin/enquiries/list",
+          },
+
+
+         
+        
+        
+        ],
+      },
+
+      {
+        title: "Business Info",
+        icon: CallToActionOutlinedIcon,
+        child: [
+
+          {
+            title: "Add Business Info",
+            icon: CallToActionOutlinedIcon,
+            href: "/admin/businessinfo/add",
+          },
+        
+
+          {
+            title: "Business Info List",
+            icon: CallToActionOutlinedIcon,
+            href: "/admin/businessinfo/list",
+          },
+
+
+         
+        
+        
+        ],
+      },
+
+
+      {
+        title: "Order",
+        icon: Application,
+        child: [
+          {
+            title: "Add Order",
+            href: "/admin/order/add",
+            icon: Application,
+          },
+          {
+            title: "Order List",
+            href: "/admin/order/list",
+            icon: Application,
+          },
+         
+
+
+          // {
+          //   title: "New Order Add",
+          //   href: "/admin/new-order/add",
+          //   icon: DashBoard,
+          // },
+          
+         
+        ],
+       
+      },
+      // {
+      //   title: "Order",
+      //   icon: Components,
+      //   // href: "/admin/order/list",
+      //   child: [
+      //     {
+      //       title: "Order",
+      //       icon: Flag,
+      //       href: "/admin/order/list",
+           
+      //     },
+        
+      //   ],
+      // },
+
+    
+
+      {
         title: "Ledger",
         icon: Files,
         child: [
@@ -1044,30 +1095,7 @@ export const menusConfig = {
         ],
       },
 
-      {
-        title: "Enquiries",
-        icon: CallToActionOutlinedIcon,
-        child: [
-
-          {
-            title: "Add Enquiries",
-            icon: CallToActionOutlinedIcon,
-            href: "/admin/enquiries/add",
-          },
-        
-
-          {
-            title: "Enquiries List",
-            icon: CallToActionOutlinedIcon,
-            href: "/admin/enquiries/list",
-          },
-
-
-         
-        
-        
-        ],
-      },
+   
      
       {
         title: "Invoices",
@@ -1121,13 +1149,19 @@ export const menusConfig = {
       //   ],
       // },
       {
-        title: "Profile",
+        title: "Announcement",
         icon: Person2OutlinedIcon,
         child: [
           {
-            title: "Profile",
+            title: "Add Announcement",
             icon: Person2OutlinedIcon,
-            href: "/maps-google",
+            href: "/admin/announcement/add",
+          },
+
+          {
+            title: "List Announcement",
+            icon: ChartBar,
+            href: "/admin/announcement/list",
           },
          
         

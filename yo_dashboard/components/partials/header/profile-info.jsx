@@ -18,36 +18,45 @@ import Image from "next/image";
 import Link from "next/link";
 
 const ProfileInfo = () => {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
+
+  const logout = () => {
+    localStorage.removeItem("token");
+  
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; 
+  
+    window.location.href = "/";
+  };
+  
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className=" cursor-pointer">
         <div className=" flex items-center  ">
-          {session?.user?.image && (
-            <Image
-              src={session?.user?.image}
-              alt={session?.user?.name ?? ""}
+          {/* {session?.user?.image && ( */}
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtuphMb4mq-EcVWhMVT8FCkv5dqZGgvn_QiA&s"
+              alt="ghfgh"
               width={36}
               height={36}
               className="rounded-full"
             />
-          )}
+          {/* )} */}
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 p-0" align="end">
         <DropdownMenuLabel className="flex gap-2 items-center mb-1 p-3">
-          {session?.user?.image && (
-            <Image
-              src={session?.user?.image}
-              alt={session?.user?.name ?? ""}
+          {/* {session?.user?.image && ( */}
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtuphMb4mq-EcVWhMVT8FCkv5dqZGgvn_QiA&s"
+              alt="kjkjkj"
               width={36}
               height={36}
               className="rounded-full"
             />
-          )}
+          {/* )} */}
           <div>
             <div className="text-sm font-medium text-default-800 capitalize ">
-              {session?.user?.name ?? "Mcc Callem"}
+              {/* {session?.user?.name ?? "Mcc Callem"} */}
             </div>
             <Link
               href="/dashboard"
@@ -86,7 +95,7 @@ const ProfileInfo = () => {
         </DropdownMenuGroup>
         <DropdownMenuSeparator className="mb-0 dark:bg-background" />
         <DropdownMenuItem
-          onSelect={() => signOut()}
+          onClick={logout}
           className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize my-1 px-3 dark:hover:bg-background cursor-pointer"
         >
           <Icon icon="heroicons:power" className="w-4 h-4" />

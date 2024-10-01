@@ -5,31 +5,31 @@ const baseUrl = process.env.APIBASEURL;
 
 export async function postApiData(url, data) {
   if (typeof window !== "undefined") {
+    const apiUrl = `${baseUrl}/${url}`;
 
+    try {
+      const result = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-  }
-  const apiUrl = `${baseUrl}/${url}`;
-
-  try {
-    const result = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: data,
-    });
-
-    if (result.ok) {
-      const data = await result.json();
-      return data;
-    } else {
-      const error = await result.json();
-      return error;
+      if (result.ok) {
+        const responseData = await result.json();
+        return responseData;
+      } else {
+        const error = await result.json();
+        return error;
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
     }
-  } catch (error) {
-    console.error("Error:", error.message);
   }
 }
+
+
 
 // post with token api call
 export async function postWithToken(url, data) {
@@ -175,5 +175,65 @@ export async function postApiFormData(url, data) {
     }
   } catch (error) {
     console.error("Error:", error.message);
+  }
+}
+
+
+
+export async function deleteApiData(url) {
+  if (typeof window === "undefined") {
+    // Handle server-side (Node.js) logic if needed
+  }
+
+  const apiUrl = `${baseUrl}/${url}`;
+
+  try {
+    const result = await fetch(apiUrl, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (result.ok) {
+      const data = await result.json();
+      return data;
+    } else {
+      const error = await result.json();
+      return error;
+    }
+  } catch (error) {
+    console.error("Error:", error.message);
+  
+  }
+}
+
+
+export async function updateApiData(url, payload) {
+  if (typeof window === "undefined") {
+    // Handle server-side (Node.js) logic if needed
+  }
+
+  const apiUrl = `${baseUrl}/${url}`;
+
+  try {
+    const result = await fetch(apiUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload), 
+    });
+
+    if (result.ok) {
+      const data = await result.json();
+      return data;
+    } else {
+      const error = await result.json();
+      return error;
+    }
+  } catch (error) {
+    console.error("Error:", error.message);
+    throw error;
   }
 }

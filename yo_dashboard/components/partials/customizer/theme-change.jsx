@@ -43,11 +43,7 @@ const ThemeChange = () => {
           "gray",
           "neutral",
           "red",
-          "rose",
-          "orange",
-          "blue",
-          "yellow",
-          "violet",
+          
         ].map((value) => {
           const themeObj = themes.find((theme) => theme.name === value);
           const isActive = theme === value; // Compare theme.name with value

@@ -91,9 +91,9 @@ const FooterContent = () => {
         <a
           className="text-primary"
           target="__blank"
-          href="https://codeshaper.net"
+          href="https://yo-digitals"
         >
-          Codeshaper
+         yo-digitals
         </a>
       </p>
     </div>
