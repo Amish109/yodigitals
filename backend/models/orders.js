@@ -66,6 +66,23 @@ module.exports = (sequelize, DataTypes) => {
       order_source: {
         type: DataTypes.STRING,
       },
+      balance: {
+        type: DataTypes.NUMERIC,
+
+      },
+      paid_amount: {
+        type : DataTypes.NUMERIC,
+
+      },
+      userId: {
+        type: DataTypes.UUID,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+      },
+
       createdById: {
         type: DataTypes.UUID,
         references: {
