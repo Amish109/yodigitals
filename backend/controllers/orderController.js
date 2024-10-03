@@ -1,9 +1,6 @@
 const { Orders, OrderDetails, Products, coupon, User } = require('../models');
 const { Op } = require('sequelize');
 
-<<<<<<< HEAD
-// Create a new order
-=======
 
 
 exports.calculateUserBalance = async (req, res) => {
@@ -49,7 +46,6 @@ exports.calculateUserBalance = async (req, res) => {
 };
 
 
->>>>>>> a5c6efb6d43f7c2a0bf1dc3905096518c60508f7
 exports.createOrder = async (req, res) => {
   const {
     order_date,
@@ -65,8 +61,6 @@ exports.createOrder = async (req, res) => {
     currency,
     discount_amount,
     tax_amount,
-<<<<<<< HEAD
-=======
     userId,
     shipping_address,
     billing_address,
@@ -256,70 +250,12 @@ exports.updateOrder = async (req, res) => {
     currency,
     discount_amount,
     tax_amount,
->>>>>>> a5c6efb6d43f7c2a0bf1dc3905096518c60508f7
     shipping_address,
     billing_address,
     order_type,
     delivery_date,
     tracking_number,
     order_source,
-<<<<<<< HEAD
-    products,
-    paid_amount,
-    balance
-  } = req.body;
-
-  if (!products || products.length === 0) {
-    return res.status(400).json({ message: 'Products array cannot be empty' });
-  }
-
-  try {
-    // Calculate total product price and discount
-    let totalProductPrice = 0;
-    let totalDiscountAmount = 0;
-
-    for (const product of products) {
-      const { product_id, quantity } = product;
-      const productExists = await Products.findByPk(product_id);
-
-      if (!productExists) {
-        return res.status(404).json({ message: `Product with id ${product_id} not found` });
-      }
-
-      const productTotalPrice = productExists.price * quantity;
-      const productDiscount = (productExists.discount || 0) * productTotalPrice / 100;
-
-      totalProductPrice += productTotalPrice;
-      totalDiscountAmount += productDiscount;
-    }
-
-    // Apply coupon code if provided and valid
-    if (coupon_code) {
-      const validCoupon = await coupon.findOne({
-        where: {
-          code: coupon_code,
-          active: { [Op.lte]: new Date() }, 
-          expired: { [Op.gte]: new Date() } 
-        }
-      });
-
-      if (validCoupon) {
-        totalDiscountAmount += validCoupon.amount;
-      } else {
-        return res.status(400).json({ message: 'Invalid or expired coupon code.' });
-      }
-    }
-
-    const finalAmount = totalProductPrice - totalDiscountAmount;
-
-    // Calculate balance amount
-    const balance = finalAmount - (paid_amount || 0); 
-
-    // Create the order
-    const newOrder = await Orders.create({
-      order_date,
-      amount: finalAmount,
-=======
     paid_amount,
   } = req.body;
 
@@ -337,7 +273,6 @@ exports.updateOrder = async (req, res) => {
     await order.update({
       order_date,
       amount,
->>>>>>> a5c6efb6d43f7c2a0bf1dc3905096518c60508f7
       status,
       order_no,
       payment_status,
@@ -347,11 +282,7 @@ exports.updateOrder = async (req, res) => {
       payment_method,
       customer_note,
       currency,
-<<<<<<< HEAD
-      discount_amount: totalDiscountAmount,
-=======
       discount_amount,
->>>>>>> a5c6efb6d43f7c2a0bf1dc3905096518c60508f7
       tax_amount,
       shipping_address,
       billing_address,
@@ -359,32 +290,6 @@ exports.updateOrder = async (req, res) => {
       delivery_date,
       tracking_number,
       order_source,
-<<<<<<< HEAD
-      paid_amount,  
-      balance       
-    });
-
-    // Add each product to the order details
-    for (const product of products) {
-      const { product_id, quantity } = product;
-      await OrderDetails.create({
-        order_id: newOrder.id,
-        product_id,
-        quantity
-      });
-    }
-
-    // Respond with the created order and its details
-    res.status(201).json({
-      success: true,
-      message: 'Order created successfully',
-      order: {
-        ...newOrder.toJSON(),
-        paid_amount,   
-        balance        
-      },
-      products
-=======
       paid_amount,
       balance: newBalance,
     });
@@ -393,7 +298,6 @@ exports.updateOrder = async (req, res) => {
       success: true,
       message: 'Order updated successfully',
       order,
->>>>>>> a5c6efb6d43f7c2a0bf1dc3905096518c60508f7
     });
   } catch (error) {
     console.error(error);
@@ -401,9 +305,6 @@ exports.updateOrder = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-// Get Order with details
-=======
 // Soft delete an order
 exports.softDeleteOrder = async (req, res) => {
   const { id } = req.params;
@@ -547,7 +448,6 @@ exports.softDeleteOrder = async (req, res) => {
 // };
 
 // Get Order with Details
->>>>>>> a5c6efb6d43f7c2a0bf1dc3905096518c60508f7
 exports.getOrderWithDetails = async (req, res) => {
   const { id } = req.params;
 
