@@ -19,7 +19,7 @@ const multerMiddleware = require("./middleware/multer");
 dotenv.config({ path: "config/config.env" });
 
 app.get("/", (req, res) => {
-  res.send("NodeJs Server is running port 5000");
+  res.send("NodeJs Server is running port 5001");
 });
 
 app.listen(process.env.PORT, () => {
