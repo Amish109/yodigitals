@@ -1,122 +1,117 @@
-const db = require('../models'); // Assuming your models are in the 'models' folder
-const { Transaction, User, Order } = db;
+const { Transaction, User, Orders } = require('../models'); // Ensure models are imported correctly
 
-// Create Transaction
-exports.createTransaction = async (req, res) => {
-  const { user_id, order_id, amount, transaction_type, description } = req.body;
-
-  // Validate request payload
-  if (!user_id || !amount || !transaction_type) {
-    return res.status(400).json({ message: 'User ID, amount, and transaction type are required' });
-  }
+// Create a new transaction
+const createTransaction = async (req, res) => {
+  const { user_id, orderId, amount, transactionType, description } = req.body;
 
   try {
-    // Check if user exists
+    // Find user by ID
     const user = await User.findByPk(user_id);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // If an order_id is provided, check if the order exists
-    let order;
-    if (order_id) {
-      order = await Order.findByPk(order_id);
+    let updatedCredit = user.credit;
+    let updatedOrderBalance = null;
+
+    // If an orderId is provided, find the order
+    if (orderId) {
+      const order = await Orders.findOne({ where: { id: orderId, user_id } });
       if (!order) {
-        return res.status(404).json({ message: 'Order not found' });
+        return res.status(404).json({ message: 'Order not found or does not belong to the user' });
       }
+
+      updatedOrderBalance = order.balance;
+
+      // Update order balance based on transaction type
+      if (transactionType === 'credit') {
+        updatedOrderBalance -= amount;
+      } else if (transactionType === 'debit') {
+        updatedOrderBalance += amount;
+      }
+
+      // Save updated order
+      await order.update({ balance: updatedOrderBalance });
     }
 
-    // Calculate the new balance for the user
-    const currentBalance = parseFloat(user.balance) || 0;
-    let updatedBalance;
-
-    if (transaction_type === 'credit') {
-      updatedBalance = currentBalance + parseFloat(amount);
-    } else if (transaction_type === 'debit') {
-      if (currentBalance < amount) {
-        return res.status(400).json({ message: 'Insufficient balance' });
+    // Update user's credit if no order is found
+    if (!orderId) {
+      if (transactionType === 'credit') {
+        updatedCredit -= amount;
+      } else if (transactionType === 'debit') {
+        updatedCredit += amount;
       }
-      updatedBalance = currentBalance - parseFloat(amount);
-    } else {
-      return res.status(400).json({ message: 'Invalid transaction type' });
+
+      // Save updated user credit
+      await user.update({ credit: updatedCredit });
     }
 
-    // Create the transaction
+    // Create the transaction entry
     const newTransaction = await Transaction.create({
       user_id,
-      order_id: order_id || null,
+      order_id: orderId || null,
       amount,
-      transaction_type,
+      transaction_type: transactionType,
       description,
-      opening_balance: currentBalance,
-      closing_balance: updatedBalance
     });
-
-    // Update user's balance
-    await User.update({ balance: updatedBalance }, { where: { id: user_id } });
 
     res.status(201).json({
       message: 'Transaction created successfully',
-      transaction: newTransaction
+      transaction: newTransaction,
+      updatedCredit,
+      updatedOrderBalance,
     });
   } catch (error) {
-    console.error('Error creating transaction:', error.message);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error('Error creating transaction:', error);
+    res.status(500).json({ message: 'Internal server error', error });
   }
 };
 
-// Get All Transactions
-exports.getAllTransactions = async (req, res) => {
+// Get all transactions
+const getTransactions = async (req, res) => {
   try {
-    const transactions = await Transaction.findAll({
-      include: [
-        {
-          model: User,
-          as: 'user',
-          attributes: ['id', 'name', 'email'] // Include user details in the response
-        },
-        {
-          model: Order,
-          as: 'order',
-          attributes: ['id', 'order_no'] // Include order details if provided
-        }
-      ]
-    });
-
+    const transactions = await Transaction.findAll();
     res.status(200).json(transactions);
   } catch (error) {
-    console.error('Error fetching transactions:', error.message);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error('Error fetching transactions:', error);
+    res.status(500).json({ message: 'Internal server error', error });
   }
 };
 
-// Get Transaction by ID
-exports.getTransactionById = async (req, res) => {
-  const { id } = req.params;
-
+// Get transactions by user ID
+const getTransactionsByUserId = async (req, res) => {
+  const { user_id } = req.params;
   try {
-    const transaction = await Transaction.findByPk(id, {
-      include: [
-        {
-          model: User,
-          as: 'user',
-          attributes: ['id', 'name', 'email']
-        },
-        {
-          model: Order,
-          as: 'order',
-          attributes: ['id', 'order_no']
-        }
-      ]
-    });
-
-    if (!transaction) {
-      return res.status(404).json({ message: 'Transaction not found' });
+    const transactions = await Transaction.findAll({ where: { user_id } });
+    if (!transactions.length) {
+      return res.status(404).json({ message: 'No transactions found for this user' });
     }
-
-    res.status(200).json(transaction);
+    res.status(200).json(transactions);
   } catch (error) {
-    console.error('Error fetching transaction:', error.message);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error('Error fetching transactions by user ID:', error);
+    res.status(500).json({ message: 'Internal server error', error });
   }
+};
+
+// Get user's current balance
+const getUserBalance = async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const user = await User.findByPk(user_id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({ balance: user.credit });
+  } catch (error) {
+    console.error('Error fetching user balance:', error);
+    res.status(500).json({ message: 'Internal server error', error });
+  }
+};
+
+// Export the controller functions
+module.exports = {
+  createTransaction,
+  getTransactions,
+  getTransactionsByUserId,
+  getUserBalance,
 };

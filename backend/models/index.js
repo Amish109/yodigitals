@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const dotenv = require("dotenv").config();
 
-const sequelize = new Sequelize("yo", "postgres", "postgres", {
+const sequelize = new Sequelize("yo", "postgres", "password", {
   host: process.env.DB_HOST,
   dialect: "postgres",
   logging: false,
@@ -36,6 +36,7 @@ db.Orders = require("./orders")(sequelize, DataTypes);
 db.OrderDetails = require("./order_details")(sequelize, DataTypes); 
 db.Invoice = require("./invoice")(sequelize, DataTypes);
 db.Announcement = require("./Announcement")(sequelize, DataTypes);
+db.Transaction = require("./transactions")(sequelize, DataTypes);
 db.sequelize.sync({ force: false, logging: false });
 
 Object.keys(db).forEach((modelName) => {

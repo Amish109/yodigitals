@@ -15,9 +15,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     order_id: {
       type: DataTypes.UUID,
-      allowNull: true, //Order ID can be null if not linked to an order
+      allowNull: true, // Order ID can be null if not linked to an order
       references: {
-        model: 'orders', 
+        model: 'orders',
         key: 'id',
       },
       onDelete: 'SET NULL',
@@ -37,6 +37,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    previous_transactions: {
+      type: DataTypes.JSONB, // To store references to previous transactions
+      allowNull: true,
+    },
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
@@ -52,14 +56,13 @@ module.exports = (sequelize, DataTypes) => {
   },
   {
     timestamps: true,
-    paranoid: true, // Enables soft delete functionality by using 'deletedAt'
+    paranoid: true, 
     tableName: 'transactions',
   });
 
-  // Associations (Optional, if necessary)
   Transaction.associate = function(models) {
     Transaction.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
-    Transaction.belongsTo(models.Order, { foreignKey: 'order_id', as: 'order' });
+    Transaction.belongsTo(models.Orders, { foreignKey: 'order_id', as: 'order' });
   };
 
   return Transaction;

@@ -112,6 +112,11 @@ module.exports = (sequelize, DataTypes) => {
   Orders.associate = function (models) {
     //Orders with Users
     Orders.belongsTo(models.User, {
+      foreignKey: 'userId',
+      as: 'user',
+    });
+
+    Orders.belongsTo(models.User, {
       foreignKey: 'createdById',
       as: 'createdBy',
     });
