@@ -1,24 +1,17 @@
-const { Products, Brand, User , Category} = require('../models'); // Assuming these models are already defined
-// const { Op } = require('sequelize');
-const slugify = require("slugify");
+const { Products, Brand, User , Category} = require('../models');
+
 
 exports.createProduct = async (req, res) => {
   try {
-    const { title, price, discount, description,shortDescription, rating, identityNumber, categoryId, status, brandId, createdById, distributor_price, stock } = req.body;
+    const { title, price, discount, description, rating, identityNumber, categoryId, status, brandId, createdById, distributor_price, stock } = req.body;
 
-    const slug = slugify(title, { lower: true });
-    const imagePaths = Array.isArray(req.files)
-    ? req.files.map(file => `uploads/${file.filename}`) // Save relative path
-    : req.files
-    ? [`uploads/${req.files.filename}`] 
-    : [];
-
+    
+    const imagePaths = req.files.map(file => `uploads/${file.filename}`); 
     const product = await Products.create({
       title,
       price,
       discount,
       description,
-      shortDescription,
       rating,
       status,
       brandId,
@@ -27,7 +20,6 @@ exports.createProduct = async (req, res) => {
       categoryId,
       identityNumber,
       stock,
-      slug,
       images: imagePaths 
     });
 
@@ -65,7 +57,6 @@ exports.getAllProducts = async (req, res) => {
           model: Category,
           as: 'category', 
           where: categorySlug ? { slug: categorySlug } : {},
-          required: false,
         }
       ]
     });
@@ -107,42 +98,6 @@ exports.getProductById = async (req, res) => {
     res.status(500).json({ message: 'Error fetching product', error: error.message });
   }
 };
- 
-
-exports.getProductBySlug = async (req, res) => {
-  try {
-    const { slug } = req.params; 
-
-  
-    if (!slug) {
-      return res.status(400).json({ message: 'Slug is required' });
-    }
-
-   
-    const product = await Products.findOne({
-      where: { slug }, 
-      
-    });
-
-   
-    if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
-    }
-
-   
-    res.status(200).json({
-      success:true,
-      product
-    });
-
-  } catch (error) {
-    // Catch and return any error that occurred during the process
-    res.status(500).json({ message: 'Error fetching product', error: error.message });
-  }
-};
-
-
-
 
 
 

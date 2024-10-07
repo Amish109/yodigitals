@@ -14,6 +14,6 @@ router.get('/list', productsController.getAllProducts);
 router.get('/:id', productsController.getProductById);
 router.put('/:id', upload.array('images', 10), productsController.updateProduct);
 router.delete('/:id', productsController.deleteProduct);
-router.get('/list/:slug', productsController.getProductBySlug);
+// router.get('/list/:slug', productsController.getProductBySlug);
 
 module.exports = router;

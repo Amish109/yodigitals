@@ -16,7 +16,7 @@ exports.calculateUserBalance = async (req, res) => {
       return res.status(404).json({ message: 'No orders found for this user' });
     }
 
-     const totalBalance = orders.reduce((total, order) => {
+const totalBalance = orders.reduce((total, order) => {
       return total + order.balance;
     }, 0);
 
@@ -149,6 +149,12 @@ exports.createOrder = async (req, res) => {
       });
     }
 
+
+
+
+        // Recalculate and update user credit based on balance
+        const userOrders = await Orders.findAll({ where: { userId }, attributes: ['balance'] });
+        const totalBalance = userOrders.reduce((total, order) => total + order.balance, 0);
 
     const updatedUser = await User.findByPk(userId);
 
