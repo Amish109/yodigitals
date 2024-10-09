@@ -63,7 +63,7 @@ export function BasicDataTable() {
     setIsOpen1(true);
 
     try {
-      const apiResData = await getApiData(`categories/${id}`);
+      const apiResData = await getApiData(`transaction/${id}`);
       if (apiResData.success) {
         setView(apiResData?.category);
         
@@ -80,7 +80,7 @@ export function BasicDataTable() {
 
   const fetchTransactions = async () => {
     try {
-      const response = await fetch(`transaction`);
+      const response = await fetch("transaction/");
       
       if (!response.ok) {
         throw new Error("Failed to fetch data");
