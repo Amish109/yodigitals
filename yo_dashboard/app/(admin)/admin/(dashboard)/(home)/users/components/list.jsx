@@ -61,7 +61,9 @@ export function BasicDataTable() {
     try {
       const apiResData = await getApiData(`users`);
       if (apiResData.success === true) {
+      
         setData(apiResData?.users);
+        console.log(apiResData);
       } else {
         setData([]);
         setError(apiResData.message || "Failed to fetch data");

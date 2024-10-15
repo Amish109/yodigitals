@@ -12,7 +12,7 @@ router.get('/', getTransactions);
 router.get('/user/:user_id', getTransactionsByUserId);
 
 
-router.get('/payment/:id', getTransactionsById);
+router.get('/:id', getTransactionsById);
 // Get user balance
 router.get('/balance/:user_id', getUserBalance);
 
