@@ -37,6 +37,7 @@ db.OrderDetails = require("./order_details")(sequelize, DataTypes);
 db.Invoice = require("./invoice")(sequelize, DataTypes);
 db.Announcement = require("./Announcement")(sequelize, DataTypes);
 db.Transaction = require("./transactions")(sequelize, DataTypes);
+db.address= require("./address")(sequelize, DataTypes);
 db.sequelize.sync({ force: false, logging: false });
 
 Object.keys(db).forEach((modelName) => {

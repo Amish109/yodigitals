@@ -213,14 +213,71 @@ exports.getOrderWithDetails = async (req, res) => {
 // Get All Orders with Details
 exports.getAllOrdersWithDetails = async (req, res) => {
   try {
-    const orders = await Orders.findAll({
+    // Destructure filter criteria from query parameters
+    const {
+      status,
+      payment_status,
+      userId,
+      order_date,
+      tracking_number,
+      amount_min,
+      amount_max,
+      delivery_date,
+    } = req.query;
+
+
+    const filter = {};
+
+    if (status) {
+      filter.status = status;
+    }
+
+    if (payment_status) {
+      filter.payment_status = payment_status; 
+    }
+
+    if (userId) {
+      filter.userId = userId; 
+    }
+
+    if (order_date) {
+      filter.order_date = {
+        [Op.eq]: new Date(order_date), 
+      };
+    }
+
+    if (tracking_number) {
+      filter.tracking_number = {
+        [Op.iLike]: `%${tracking_number}%`, 
+      };
+    }
+
+    if (amount_min || amount_max) {
+      filter.amount = {};
+      if (amount_min) {
+        filter.amount[Op.gte] = amount_min; // Greater than or equal to min amount
+      }
+      if (amount_max) {
+        filter.amount[Op.lte] = amount_max; // Less than or equal to max amount
+      }
+    }
+
+    if (delivery_date) {
+      filter.delivery_date = {
+        [Op.eq]: new Date(delivery_date), // Exact match for delivery date
+      };
+    }
+
+    // Fetch orders with the constructed filter
+    const orders = await db.Orders.findAll({
+      where: filter,
       include: [
         {
-          model: OrderDetails,
+          model: db.OrderDetails,
           as: 'orderDetails',
           include: [
             {
-              model: Products,
+              model: db.Products,
               as: 'product',
               attributes: ['title', 'price', 'identityNumber'],
             },
@@ -235,11 +292,12 @@ exports.getAllOrdersWithDetails = async (req, res) => {
 
     res.status(200).json({ success: true, orders });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ message: 'Failed to fetch orders' });
   }
 };
 
-// Update Order
+
 exports.updateOrder = async (req, res) => {
   const { id } = req.params;
   const {

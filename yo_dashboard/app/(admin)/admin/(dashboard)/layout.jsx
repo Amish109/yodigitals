@@ -4,7 +4,11 @@ import MainLayout from "./main-layout";
 import { useEffect } from "react";
 
 
+
 const Layout = ({ children }) => {
+
+
+  
   // const router = useRouter();
 
   // useEffect(() => {

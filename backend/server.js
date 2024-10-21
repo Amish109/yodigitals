@@ -15,7 +15,6 @@ const multerMiddleware = require("./middleware/multer");
 
 
 
-// for env file import
 dotenv.config({ path: "config/config.env" });
 
 app.get("/", (req, res) => {

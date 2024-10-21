@@ -26,6 +26,7 @@ const orders = require("./routers/orders");
 const invoice = require("./routers/invoice");
 const transactions = require("./routers/transactions");
 const announcement = require("./routers/announcement");
+const address = require("./routers/address");
 
 
 
@@ -42,6 +43,7 @@ app.use("/orders", orders);
 app.use("/invoice", invoice);
 app.use("/transaction", transactions);
 app.use("/announcement", announcement);
+app.use("/api/address", address);
 
 
 module.exports = app;

@@ -1,5 +1,7 @@
 const Joi = require("joi");
 const db = require("../models");
+const { Op } = require('sequelize');
+
 
 // @DES ADD NEW brand:
 // POST API
@@ -55,25 +57,65 @@ exports.addNewbrand = async (req, res) => {
 
 // @ DES LIST brand LIST
 // GET API
+// exports.BrandList = async (req, res) => {
+//   try {
+//     const brand = await db.Brand.findAll();
+
+//     if (brand && brand.length > 0) {
+//       res.status(200).json({
+//         success: true,
+//         brand: brand,
+//       });
+//     } else {
+//       res.status(404).json({
+//         success: false,
+//         message: "Data not found",
+//       });
+//     }
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: "server error",
+//     });
+//   }
+// };
+
+
 exports.BrandList = async (req, res) => {
   try {
-    const brand = await db.Brand.findAll();
+    const { name, brand_id } = req.query; 
 
-    if (brand && brand.length > 0) {
+
+    const filter = {};
+    if (name) {
+      filter.name = {
+        [Op.iLike]: `%${name}%`, 
+      };
+    }
+    if (brand_id) {
+      filter.brand_id = brand_id;
+    }
+
+    const brands = await db.Brand.findAll({
+      where: filter, 
+    });
+
+    if (brands && brands.length > 0) {
       res.status(200).json({
         success: true,
-        brand: brand,
+        brands, 
       });
     } else {
       res.status(404).json({
         success: false,
-        message: "Data not found",
+        message: "No brands found",
       });
     }
   } catch (error) {
+    console.error('Error fetching brands:', error); 
     res.status(500).json({
       success: false,
-      message: "server error",
+      message: "Server error",
     });
   }
 };

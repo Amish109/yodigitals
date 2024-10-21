@@ -123,27 +123,66 @@ exports.loginPhone = async (req, res) => {
 
 
 exports.getAllUsers = async (req, res) => {
+  const { firstName, lastName, phoneNumber, email, role, disabled } = req.query; // Get filter parameters from query
+
+  const whereConditions = { deletedAt: null }; 
+  if (firstName) {
+    whereConditions.firstName = {
+      [Op.iLike]: `%${firstName}%`, 
+    };
+  }
+
+  if (lastName) {
+    whereConditions.lastName = {
+      [Op.iLike]: `%${lastName}%`, // Case-insensitive search
+    };
+  }
+
+  if (phoneNumber) {
+    whereConditions.phoneNumber = {
+      [Op.iLike]: `%${phoneNumber}%`, 
+    };
+  }
+
+  if (email) {
+    whereConditions.email = {
+      [Op.iLike]: `%${email}%`, 
+    };
+  }
+
+  if (role) {
+    whereConditions.role = role; 
+  }
+
+  if (disabled !== undefined) {
+    whereConditions.disabled = disabled === 'true'; 
+  }
+
   try {
     const users = await User.findAll({
-      where: { deletedAt: null },
+      where: whereConditions,
       include: [
         {
           model: BusinessInfo,
-          as: 'businessInfo'
+          as: 'businessInfo',
         }
       ]
     });
-    res.status(200).json({
-      success:true,
-     users: users
+
+    return res.status(200).json({
+      success: true,
+      users,
     });
   } catch (error) {
     console.error('Error fetching users:', error);
-    res.status(500).json({ error: 'An error occurred while fetching users' });
+    return res.status(500).json({ error: 'An error occurred while fetching users' });
   }
 };
 
-// Get user by ID with associated BusinessInfo
+
+
+
+
 exports.getUserById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -171,7 +210,9 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-// Update a user by ID
+
+
+
 exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -185,7 +226,7 @@ exports.updateUser = async (req, res) => {
     }
 
     const [updated] = await User.update(updateData, {
-      where: { id, deletedAt: null }, // Exclude soft-deleted users
+      where: { id, deletedAt: null }, 
       returning: true
     });
 
@@ -281,7 +322,7 @@ exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
 
   try {
-    // Find user by email
+  
     const user = await User.findOne({ where: { email } });
   
     if (!user) {
@@ -295,7 +336,7 @@ exports.forgotPassword = async (req, res) => {
     user.passwordResetToken = resetToken;
     user.passwordResetTokenExpiresAt = resetTokenExpires;
 
-    await user.save(); // Save the changes
+    await user.save(); 
 
     const resetURL = `
   <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto;">
