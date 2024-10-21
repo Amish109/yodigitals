@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 const { Products, Brand, User , Category} = require('../models'); // Assuming these models are already defined
 // const { Op } = require('sequelize');
+=======
+const { Products, Brand, User , Category} = require('../models');
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
 
 
 exports.createProduct = async (req, res) => {

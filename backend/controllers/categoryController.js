@@ -1,6 +1,12 @@
 const { Category } = require('../models');
+<<<<<<< HEAD
 
 // Create a new category
+=======
+const { Op } = require('sequelize');
+
+
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
 // Create a new category
 exports.createCategory = async (req, res) => {
   try {
@@ -31,6 +37,7 @@ exports.createCategory = async (req, res) => {
 // Get all categories
 exports.getAllCategories = async (req, res) => {
   try {
+<<<<<<< HEAD
     const categories = await Category.findAll();
     return res.status(200).json({
       success:true,
@@ -38,6 +45,49 @@ exports.getAllCategories = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({ error: 'Failed to fetch categories' });
+=======
+
+    const { name, slug, top_category } = req.query;
+    const filter = {};
+
+    if (name) {
+      filter.name = {
+        [Op.iLike]: `%${name}%`, 
+      };
+    }
+
+    if (slug) {
+      filter.slug = {
+        [Op.iLike]: `%${slug}%`,
+      };
+    }
+
+    if (top_category !== undefined) { 
+      filter.top_category = top_category === 'true';
+    }
+
+    const categories = await Category.findAll({
+      where: filter,
+    });
+
+    if (categories && categories.length > 0) {
+      return res.status(200).json({
+        success: true,
+        categories,
+      });
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: "No categories found",
+      });
+    }
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return res.status(500).json({ 
+      success: false,
+      message: 'Failed to fetch categories',
+    });
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
   }
 };
 

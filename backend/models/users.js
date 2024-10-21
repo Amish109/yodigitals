@@ -63,7 +63,13 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
 
-      
+      credit: {
+        type:  DataTypes.NUMERIC,
+        default: 0,
+      },
+      credit_period: {
+        type:  DataTypes.NUMERIC,
+      },
       provider: {
         type: DataTypes.STRING,
         allowNull: true,

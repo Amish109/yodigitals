@@ -1,7 +1,11 @@
 "use client";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+<<<<<<< HEAD
 import { useState } from "react";
+=======
+import { useState, useEffect } from "react";
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
 import toast, { Toaster } from "react-hot-toast";
 import { FileUploader } from "react-drag-drop-files";
 import { Input } from "@/components/ui/input";
@@ -18,7 +22,13 @@ const TransactionAdd = () => {
   const [amount, setAmount] = useState("");
   const [transRef, setTransRef] = useState("");
   const [comment, setComment] = useState("");
+<<<<<<< HEAD
 
+=======
+  const [dealers, setDealers] = useState([]); // All users for dealers dropdown
+  const [orders, setOrders] = useState([]); // Orders for the selected dealer
+  const [selectedDealer, setSelectedDealer] = useState(null);
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
   const [screenShotImg, setscreenShotImg] = useState(null);
   const [errors, setErrors] = useState({
     amount: "",
@@ -27,27 +37,87 @@ const TransactionAdd = () => {
     screenShotImg: "",
   });
 
+<<<<<<< HEAD
  
+=======
+  useEffect(() => {
+    const fetchDealers = async () => {
+      try {
+        const response = await fetch("users"); // Replace with your actual endpoint
+        const data = await response.json();
+        setDealers(data.users); 
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+    fetchDealers();
+  }, []);
+
+
+  useEffect(() => {
+    if (selectedDealer) {
+      const fetchOrders = async () => {
+        try {
+          const response = await fetch(`/orders?userId=${selectedDealer}`); // Replace with your actual endpoint
+          const data = await response.json();
+          setOrders(data.orders); // Assuming 'orders' is an array in the API response
+        } catch (error) {
+          console.error("Error fetching orders:", error);
+        }
+      };
+      fetchOrders();
+    } else {
+      setOrders([]);
+    }
+  }, [selectedDealer]);
+
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
   const handleImageChange = (setImage, image) => {
     setImage(image);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
   
+<<<<<<< HEAD
       const apiData = new FormData();
       apiData.append("amount", amount);
       apiData.append("transRef", transRef);
       apiData.append("comment", comment);
       try {
         const data = await postApiFormDataToken("", apiData);
+=======
+      // const apiData = new FormData();
+      // apiData.append("amount", amount);
+      // apiData.append("transRef", transRef);
+      // apiData.append("comment", comment);
+      try {
+
+
+        const apiData = {
+          user_id: selectedDealer,
+          transactionType,
+          amount,
+          description: comment,
+          // orderId is optional, so it's omitted if no order is selected
+        };
+        const data = await postApiFormDataToken("transaction", apiData, "application/json");
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
         if (data.error === false) {
           toast.success(data.message, {
             position: "bottom-center",
             style: { borderRadius: "10px", background: "#333", color: "#fff" },
           });
+<<<<<<< HEAD
           setComment(null);
           setAmount(null);
           setTransRef(null);
+=======
+          setAmount("");
+        setComment("");
+        setSelectedDealer(null);
+        setTransactionType("");
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
         } else {
           toast.error(data.message, {
             position: "bottom-center",
@@ -72,6 +142,7 @@ const TransactionAdd = () => {
              Select Dealer
               <span style={{ color: "tomato" }}>*</span>
             </Label>
+<<<<<<< HEAD
             <Select>
       <SelectTrigger>
         <SelectValue placeholder="Select a dealer" />
@@ -84,6 +155,20 @@ const TransactionAdd = () => {
         <SelectItem value="biology">Biology</SelectItem>
       </SelectContent>
     </Select>
+=======
+            <Select onValueChange={(value) => setSelectedDealer(value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a dealer" />
+              </SelectTrigger>
+              <SelectContent>
+                {dealers.map((dealer) => (
+                  <SelectItem key={dealer.id} value={dealer.id}>
+                    {dealer.firstName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
           </div>
 
           <div className="flex flex-col gap-2">
@@ -92,6 +177,7 @@ const TransactionAdd = () => {
               <span style={{ color: "tomato" }}>*</span>
             </Label>
             <Select>
+<<<<<<< HEAD
       <SelectTrigger>
         <SelectValue placeholder="Select a Orders" />
       </SelectTrigger>
@@ -103,6 +189,19 @@ const TransactionAdd = () => {
         <SelectItem value="biology">Biology</SelectItem>
       </SelectContent>
     </Select>
+=======
+              <SelectTrigger>
+                <SelectValue placeholder="Select an order (optional)" />
+              </SelectTrigger>
+              <SelectContent>
+                {orders.map((order) => (
+                  <SelectItem key={order.id} value={order.id}>
+                    {order.orderNumber}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
           
           </div>
 

@@ -13,6 +13,7 @@ exports.authenticate = async (req, res, next) => {
   try {
     const actualToken = token.startsWith('Bearer ') ? token.split(' ')[1] : token;
     const decodedToken = jwt.verify(actualToken, process.env.SECRET_KEY);
+    
     req.user = { userId: decodedToken.userId }; 
     next();
   } catch (err) {

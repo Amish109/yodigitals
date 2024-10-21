@@ -1,5 +1,10 @@
 const Joi = require("joi");
 const db = require("../models");
+<<<<<<< HEAD
+=======
+const { Op } = require('sequelize');
+
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
 
 // @DES ADD NEW brand:
 // POST API
@@ -55,6 +60,7 @@ exports.addNewbrand = async (req, res) => {
 
 // @ DES LIST brand LIST
 // GET API
+<<<<<<< HEAD
 exports.BrandList = async (req, res) => {
   try {
     const brand = await db.Brand.findAll();
@@ -63,10 +69,60 @@ exports.BrandList = async (req, res) => {
       res.status(200).json({
         success: true,
         brand: brand,
+=======
+// exports.BrandList = async (req, res) => {
+//   try {
+//     const brand = await db.Brand.findAll();
+
+//     if (brand && brand.length > 0) {
+//       res.status(200).json({
+//         success: true,
+//         brand: brand,
+//       });
+//     } else {
+//       res.status(404).json({
+//         success: false,
+//         message: "Data not found",
+//       });
+//     }
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: "server error",
+//     });
+//   }
+// };
+
+
+exports.BrandList = async (req, res) => {
+  try {
+    const { name, brand_id } = req.query; 
+
+
+    const filter = {};
+    if (name) {
+      filter.name = {
+        [Op.iLike]: `%${name}%`, 
+      };
+    }
+    if (brand_id) {
+      filter.brand_id = brand_id;
+    }
+
+    const brands = await db.Brand.findAll({
+      where: filter, 
+    });
+
+    if (brands && brands.length > 0) {
+      res.status(200).json({
+        success: true,
+        brands, 
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
       });
     } else {
       res.status(404).json({
         success: false,
+<<<<<<< HEAD
         message: "Data not found",
       });
     }
@@ -74,6 +130,16 @@ exports.BrandList = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "server error",
+=======
+        message: "No brands found",
+      });
+    }
+  } catch (error) {
+    console.error('Error fetching brands:', error); 
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
     });
   }
 };

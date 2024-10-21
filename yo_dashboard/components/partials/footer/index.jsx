@@ -86,16 +86,16 @@ const FooterContent = () => {
       <p className="sm:mb-0 text-xs md:text-sm">
         COPYRIGHT © {new Date().getFullYear()} yodigitals All rights Reserved
       </p>
-      <p className="mb-0 text-xs md:text-sm">
+      {/* <p className="mb-0 text-xs md:text-sm">
         Hand-crafted & Made by{" "}
         <a
           className="text-primary"
           target="__blank"
-          href="https://yo-digitals"
-        >
+          href="https://yodigitals.com"
+        > 
          yo-digitals
         </a>
-      </p>
+      </p> */}
     </div>
   );
 };

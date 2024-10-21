@@ -123,6 +123,7 @@ exports.loginPhone = async (req, res) => {
 
 
 exports.getAllUsers = async (req, res) => {
+<<<<<<< HEAD
   try {
     const users = await User.findAll({
       where: { deletedAt: null },
@@ -144,6 +145,68 @@ exports.getAllUsers = async (req, res) => {
 };
 
 // Get user by ID with associated BusinessInfo
+=======
+  const { firstName, lastName, phoneNumber, email, role, disabled } = req.query; // Get filter parameters from query
+
+  const whereConditions = { deletedAt: null }; 
+  if (firstName) {
+    whereConditions.firstName = {
+      [Op.iLike]: `%${firstName}%`, 
+    };
+  }
+
+  if (lastName) {
+    whereConditions.lastName = {
+      [Op.iLike]: `%${lastName}%`, // Case-insensitive search
+    };
+  }
+
+  if (phoneNumber) {
+    whereConditions.phoneNumber = {
+      [Op.iLike]: `%${phoneNumber}%`, 
+    };
+  }
+
+  if (email) {
+    whereConditions.email = {
+      [Op.iLike]: `%${email}%`, 
+    };
+  }
+
+  if (role) {
+    whereConditions.role = role; 
+  }
+
+  if (disabled !== undefined) {
+    whereConditions.disabled = disabled === 'true'; 
+  }
+
+  try {
+    const users = await User.findAll({
+      where: whereConditions,
+      include: [
+        {
+          model: BusinessInfo,
+          as: 'businessInfo',
+        }
+      ]
+    });
+
+    return res.status(200).json({
+      success: true,
+      users,
+    });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return res.status(500).json({ error: 'An error occurred while fetching users' });
+  }
+};
+
+
+
+
+
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
 exports.getUserById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -171,7 +234,13 @@ exports.getUserById = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 // Update a user by ID
+=======
+
+
+
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
 exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -185,7 +254,11 @@ exports.updateUser = async (req, res) => {
     }
 
     const [updated] = await User.update(updateData, {
+<<<<<<< HEAD
       where: { id, deletedAt: null }, // Exclude soft-deleted users
+=======
+      where: { id, deletedAt: null }, 
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
       returning: true
     });
 
@@ -281,7 +354,11 @@ exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
 
   try {
+<<<<<<< HEAD
     // Find user by email
+=======
+  
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
     const user = await User.findOne({ where: { email } });
   
     if (!user) {
@@ -295,7 +372,11 @@ exports.forgotPassword = async (req, res) => {
     user.passwordResetToken = resetToken;
     user.passwordResetTokenExpiresAt = resetTokenExpires;
 
+<<<<<<< HEAD
     await user.save(); // Save the changes
+=======
+    await user.save(); 
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
 
     const resetURL = `
   <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto;">

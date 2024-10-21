@@ -63,7 +63,11 @@ export function BasicDataTable() {
     setIsOpen1(true);
 
     try {
+<<<<<<< HEAD
       const apiResData = await getApiData(`categories/${id}`);
+=======
+      const apiResData = await getApiData(`transaction/${id}`);
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
       if (apiResData.success) {
         setView(apiResData?.category);
         
@@ -80,7 +84,11 @@ export function BasicDataTable() {
 
   const fetchTransactions = async () => {
     try {
+<<<<<<< HEAD
       const response = await fetch(`https://b2b.yodigitals.com/api/transactions`);
+=======
+      const response = await fetch("transaction/");
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
       
       if (!response.ok) {
         throw new Error("Failed to fetch data");
@@ -387,7 +395,11 @@ export function BasicDataTable() {
                   }}
                 >
                   {" "}
+<<<<<<< HEAD
                   Categories Delete Confirm
+=======
+                  Transaction Delete Confirm
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
                 </p>
               </DialogTitle>
             </DialogHeader>
@@ -403,7 +415,11 @@ export function BasicDataTable() {
                 }}
                 width={"100%;"}
                >
+<<<<<<< HEAD
              Are you sure you want to delete this categories?
+=======
+             Are you sure you want to delete this transactioon?
+>>>>>>> 32146da7f3d03a1af460fdecd3e1c24fe9dac0f9
               </p>
             </div>
             <DialogFooter className="mt-8 gap-2">
